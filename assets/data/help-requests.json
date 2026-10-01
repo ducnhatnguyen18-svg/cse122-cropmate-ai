@@ -1,0 +1,5 @@
+[
+  { "id": 1, "seasonId": 1, "farmerId": 1, "title": "Lúa vàng lá bất thường", "description": "Lá ngả vàng từ chóp, lan dần xuống gốc sau mưa lớn.", "category": "Dinh dưỡng", "status": "pending", "createdAt": "2025-11-26", "archived": false },
+  { "id": 2, "seasonId": 2, "farmerId": 2, "title": "Xoài rụng hoa hàng loạt", "description": "Hoa khô và rụng sau 3 ngày nắng gắt.", "category": "Sinh lý", "status": "in_review", "createdAt": "2025-12-06", "archived": false },
+  { "id": 3, "seasonId": 1, "farmerId": 1, "title": "Rầy nâu tăng mật độ", "description": "Rầy nâu xuất hiện dày ở gốc, lá cháy nhẹ.", "category": "Sâu bệnh", "status": "resolved", "createdAt": "2025-11-28", "archived": false }
+]

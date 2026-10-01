@@ -1,0 +1,5 @@
+[
+  { "id": 1, "seasonId": 1, "date": "2025-11-10", "type": "Bón phân", "note": "Bón lót NPK 20kg/ha", "images": [], "archived": false },
+  { "id": 2, "seasonId": 1, "date": "2025-11-25", "type": "Sâu bệnh", "note": "Xuất hiện rầy nâu mật độ thấp", "images": [], "archived": false },
+  { "id": 3, "seasonId": 2, "date": "2025-12-05", "type": "Tưới tiêu", "note": "Tưới nhỏ giọt 2 lần/tuần", "images": [], "archived": false }
+]

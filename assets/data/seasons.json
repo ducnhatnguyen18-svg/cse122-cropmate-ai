@@ -1,0 +1,5 @@
+[
+  { "id": 1, "fieldId": 1, "name": "Vụ Đông Xuân 2025-2026", "stage": "Đẻ nhánh", "startDate": "2025-11-01", "endDate": "2026-03-15", "status": "active", "archived": false },
+  { "id": 2, "fieldId": 3, "name": "Vụ xoài 2025", "stage": "Ra hoa", "startDate": "2025-12-01", "endDate": "2026-04-30", "status": "active", "archived": false },
+  { "id": 3, "fieldId": 4, "name": "Rau ngắn ngày T10", "stage": "Thu hoạch", "startDate": "2025-09-01", "endDate": "2025-10-20", "status": "done", "archived": false }
+]

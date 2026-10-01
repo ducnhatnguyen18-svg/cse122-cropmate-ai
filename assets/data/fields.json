@@ -1,0 +1,6 @@
+[
+  { "id": 1, "farmId": 1, "name": "Ruộng A", "crop": "Lúa", "areaHa": 1.5, "archived": false },
+  { "id": 2, "farmId": 1, "name": "Ruộng B", "crop": "Lúa", "areaHa": 1.0, "archived": false },
+  { "id": 3, "farmId": 2, "name": "Vườn xoài", "crop": "Xoài", "areaHa": 1.2, "archived": false },
+  { "id": 4, "farmId": 3, "name": "Nhà kính rau", "crop": "Rau ăn lá", "areaHa": 0.8, "archived": false }
+]

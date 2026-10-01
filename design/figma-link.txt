@@ -1,0 +1,9 @@
+Dán link Figma/Canva của nhóm tại đây.
+
+Sơ đồ trang (sitemap):
+Luồng người dùng (user flow):
+Bản mockup desktop:
+Bản responsive chính:
+Hướng dẫn thành phần (design token):
+Mockup trạng thái loading/rỗng/lỗi:
+Mockup tương tác AI:

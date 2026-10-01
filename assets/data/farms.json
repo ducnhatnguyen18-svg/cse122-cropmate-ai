@@ -1,0 +1,5 @@
+[
+  { "id": 1, "name": "Nông hộ Ba Lúa", "ownerId": 1, "areaHa": 2.5, "location": "An Giang", "archived": false },
+  { "id": 2, "name": "Vườn cây Cô Chín", "ownerId": 2, "areaHa": 1.2, "location": "Đồng Tháp", "archived": false },
+  { "id": 3, "name": "Trang trại HTX Xanh", "ownerId": 3, "areaHa": 8.0, "location": "Lâm Đồng", "archived": false }
+]
