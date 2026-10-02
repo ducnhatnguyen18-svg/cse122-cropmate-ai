@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng nhập — CropMate AI</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <main class="auth-page">
+    <div class="auth-card card">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">🌿</span>
+        <span class="brand-name">CropMate <strong>AI</strong></span>
+      </div>
+      <h1 class="auth-title">Đăng nhập</h1>
+      <p class="muted">Nguyên mẫu Frontend — chọn vai trò để vào bản demo tương ứng.</p>
+
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label for="role">Vai trò</label>
+          <select id="role" name="role" class="input">
+            <option value="farmer">🌾 Nông dân</option>
+            <option value="expert">🔎 Chuyên gia nông nghiệp</option>
+            <option value="coordinator">🗺️ Điều phối HTX</option>
+            <option value="admin">👥 Quản trị viên</option>
+          </select>
+          <div class="field-error" data-error-for="role"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" class="input" placeholder="ban@cropmate.vn" autocomplete="username" />
+          <div class="field-error" data-error-for="email"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mật khẩu</label>
+          <input id="password" name="password" type="password" class="input" placeholder="••••••" autocomplete="current-password" />
+          <div class="field-error" data-error-for="password"></div>
+        </div>
+
+        <button type="submit" class="btn btn--block">Đăng nhập</button>
+        <button type="button" class="btn btn--ghost btn--block" id="use-demo">Dùng tài khoản demo</button>
+        <p class="field-error" id="demo-hint" role="status"></p>
+      </form>
+
+      <p class="auth-links"><a href="index.html">← Về trang chủ</a></p>
+    </div>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/modules/auth.js"></script>
+</body>
+</html>

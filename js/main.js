@@ -5,14 +5,19 @@
   const App = {};
 
   // ---- Shared UI state (role, current user) ----
+  // role === null nghĩa là CHƯA đăng nhập; nav.js sẽ chặn trang theo role.
   App.state = {
-    role: localStorage.getItem("cm_role") || "farmer",
+    role: localStorage.getItem("cm_role") || null,
     user: JSON.parse(localStorage.getItem("cm_user") || "null"),
   };
 
-  App.setRole = function (role) {
+  App.setRole = function (role, user) {
     App.state.role = role;
     localStorage.setItem("cm_role", role);
+    if (user) {
+      App.state.user = user;
+      localStorage.setItem("cm_user", JSON.stringify(user));
+    }
   };
 
   // ---- Toast (success / error / info) ----
