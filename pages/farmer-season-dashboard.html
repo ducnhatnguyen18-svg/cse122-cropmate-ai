@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Season Dashboard — Nông dân | CropMate AI</title>
+  <meta name="description" content="Tổng quan mùa vụ của nông hộ: tiến độ theo giai đoạn, nhật ký gần đây, yêu cầu hỗ trợ và trợ lý AI gợi ý checklist." />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="content">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="main" id="main">
+        <!-- Thông báo lỗi toàn trang -->
+        <div id="page-error" class="alert alert--danger hidden" role="alert"></div>
+
+        <!-- ============ THẺ THỐNG KÊ ============ -->
+        <section class="stat-grid" aria-label="Thống kê nhanh">
+          <article class="card stat">
+            <span class="stat-value" id="stat-seasons">–</span>
+            <span class="stat-label">Mùa vụ đang hoạt động</span>
+          </article>
+          <article class="card stat">
+            <span class="stat-value" id="stat-logs">–</span>
+            <span class="stat-label">Nhật ký đã ghi</span>
+          </article>
+          <article class="card stat">
+            <span class="stat-value" id="stat-pending">–</span>
+            <span class="stat-label">Yêu cầu đang chờ</span>
+          </article>
+          <article class="card stat">
+            <span class="stat-value" id="stat-resolved">–</span>
+            <span class="stat-label">Yêu cầu đã xử lý</span>
+          </article>
+        </section>
+
+        <!-- ============ DANH SÁCH MÙA VỤ ============ -->
+        <section class="panel" aria-labelledby="seasons-title">
+          <div class="panel-head">
+            <h2 id="seasons-title">Mùa vụ của tôi</h2>
+            <div class="panel-tools">
+              <label for="season-filter" class="sr-only">Lọc theo trạng thái</label>
+              <select id="season-filter" class="input input--sm">
+                <option value="all">Tất cả</option>
+                <option value="active">Đang diễn ra</option>
+                <option value="done">Đã thu hoạch</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Khung xương khi đang tải -->
+          <div id="seasons-loading" class="season-list">
+            <div class="card skeleton skeleton--season"></div>
+            <div class="card skeleton skeleton--season"></div>
+          </div>
+
+          <!-- Trạng thái rỗng -->
+          <div id="seasons-empty" class="state hidden">
+            <p>🌱 Bạn chưa có mùa vụ nào. Hãy tạo mùa vụ mới ở trang Field Log.</p>
+            <a class="btn" href="farmer-field-log.html">Tới Field Log</a>
+          </div>
+
+          <!-- Danh sách mùa vụ (render bằng JS) -->
+          <div id="season-list" class="season-list hidden"></div>
+        </section>
+
+        <!-- ============ AI-2: SEASON CHECKLIST GENERATOR ============ -->
+        <section class="panel panel--ai" aria-labelledby="ai-title">
+          <div class="panel-head">
+            <h2 id="ai-title">🤖 Trợ lý AI — Gợi ý checklist mùa vụ</h2>
+            <span class="badge badge--info">AI-2</span>
+          </div>
+          <p class="muted">Chọn mùa vụ, AI sẽ đề xuất danh sách công việc theo cây trồng và giai đoạn hiện tại.</p>
+
+          <!-- BƯỚC 1: NHẬP -->
+          <form id="ai-form" class="ai-input" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="ai-season">Mùa vụ</label>
+                <select id="ai-season" name="season" class="input">
+                  <option value="">— Chọn mùa vụ —</option>
+                </select>
+                <div class="field-error" data-error-for="season"></div>
+              </div>
+              <div class="form-group">
+                <label for="ai-stage">Giai đoạn (tuỳ chọn ghi đè)</label>
+                <input id="ai-stage" name="stage" class="input" placeholder="VD: Đẻ nhánh, Ra hoa…" />
+              </div>
+            </div>
+            <button type="submit" class="btn" id="ai-generate">Tạo checklist</button>
+          </form>
+
+          <!-- BƯỚC 2: ĐANG XỬ LÝ -->
+          <div id="ai-loading" class="ai-loading hidden" role="status">
+            <div class="spinner" aria-hidden="true"></div>
+            <span>AI đang phân tích cây trồng và giai đoạn…</span>
+          </div>
+
+          <!-- BƯỚC 3+4: KẾT QUẢ + GIẢI THÍCH -->
+          <div id="ai-result" class="ai-result hidden">
+            <div class="ai-result-head">
+              <span id="ai-confidence" class="badge"></span>
+              <span id="ai-status-text" class="muted"></span>
+            </div>
+            <p id="ai-explanation" class="ai-explanation"></p>
+            <ul id="ai-items" class="checklist"></ul>
+
+            <!-- BƯỚC 5: NGƯỜI DÙNG KIỂM SOÁT -->
+            <div class="ai-actions">
+              <button type="button" class="btn" id="ai-accept">✓ Chấp nhận &amp; Lưu</button>
+              <button type="button" class="btn btn--ghost" id="ai-edit">✎ Sửa</button>
+              <button type="button" class="btn btn--ghost" id="ai-regenerate">↻ Tạo lại</button>
+              <button type="button" class="btn btn--ghost" id="ai-reject">✕ Từ chối</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/nav.js"></script>
+  <script src="../js/modules/ai.js"></script>
+  <script src="../js/modules/farmer-dashboard.js"></script>
+</body>
+</html>
