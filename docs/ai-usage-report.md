@@ -4,7 +4,7 @@
 
 ## Công cụ AI đã dùng
 | Công cụ | Mục đích |
-|---|---|
+|abc|---|
 | (ví dụ) ChatGPT/Copilot/Qoder | Gợi ý cấu trúc, sinh mã, review |
 
 ## Prompt chính đã dùng
