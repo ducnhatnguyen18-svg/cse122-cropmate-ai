@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartAgri — Chi tiết yêu cầu &amp; Tư vấn</title>
+  <meta name="description" content="Trang chi tiết yêu cầu hỗ trợ và soạn lời khuyên cho chuyên gia nông nghiệp trong hệ thống SmartAgri.">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ===== ICON SPRITE ===== -->
+  <svg hidden aria-hidden="true">
+    <symbol id="i-logo" viewBox="0 0 24 24"><path d="M12 21V9m0 0c0-3 2-5 5-5 0 3-2 5-5 5Zm0 0c0-3-2-5-5-5 0 3 2 5 5 5Zm0 4c0-2.5 1.8-4 4-4 0 2.5-1.8 4-4 4Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20H4v-9.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M12 20v-8m0 0c0-3.3-2.7-6-6-6 0 3.3 2.7 6 6 6Zm0 0c0-3.3 2.7-6 6-6 0 3.3-2.7 6-6 6Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-ai" viewBox="0 0 24 24"><rect x="3.5" y="6" width="17" height="13" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="9" cy="12.5" r="1.3" fill="currentColor"/><circle cx="15" cy="12.5" r="1.3" fill="currentColor"/><path d="M12 6V3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4V5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 6.2A3 3 0 0 1 16 12m1 8c0-2-.6-3.4-1.6-4.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H5V4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M19 4h-6v14h6V4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20h16M7 20v-6m5 6V7m5 13v-9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M7 10a5 5 0 0 1 10 0c0 4 1.5 5.5 1.5 5.5h-13S7 14 7 10Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10.2 18.5a2 2 0 0 0 3.6 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8v4.5l3 1.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m5 17 4.5-5 3 3.2L15.5 13l3.5 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="9" cy="9.5" r="1.4" fill="currentColor"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M4.5 12 20 4.5 15 20l-3.4-5.6L4.5 12Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9.5 18h5M10 21h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M12 3a6 6 0 0 0-3.5 10.8V16h7v-2.2A6 6 0 0 0 12 3Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3.5c3.5 4 6 6.8 6 10a6 6 0 0 1-12 0c0-3.2 2.5-6 6-10Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19C5 10 11 5 20 4.5 19.5 13 14 19 5 19Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M5 19c3-4 6.5-6.5 10-8.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M10 3h4M11 3v6L5.5 19a1.5 1.5 0 0 0 1.3 2.2h10.4A1.5 1.5 0 0 0 18.5 19L13 9V3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-rain" viewBox="0 0 24 24"><path d="M7 15a4 4 0 0 1 .6-7.9 5 5 0 0 1 9.3 1.4A3.5 3.5 0 0 1 17 15H7Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 18.5 8 21m5-2.5L12 21m5-2.5L16 21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <div class="layout" id="layout">
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar" aria-label="Menu chính">
+      <a class="brand" href="#" aria-label="SmartAgri trang chủ">
+        <span class="brand__mark"><svg class="icon"><use href="#i-logo"></use></svg></span>
+        <span class="brand__name">SmartAgri</span>
+      </a>
+
+      <nav class="nav" aria-label="Điều hướng chính">
+        <ul class="nav__list">
+          <li><a class="nav__item" href="#"><svg class="icon"><use href="#i-home"></use></svg><span>Tổng quan</span></a></li>
+          <li><a class="nav__item" href="#"><svg class="icon"><use href="#i-sprout"></use></svg><span>Nhật ký canh đồng</span></a></li>
+          <li><a class="nav__item" href="#"><svg class="icon"><use href="#i-ai"></use></svg><span>AI Cảnh báo &amp; Dự báo</span></a></li>
+          <li><a class="nav__item nav__item--active" href="#" aria-current="page"><svg class="icon"><use href="#i-chat"></use></svg><span>Yêu cầu hỗ trợ</span></a></li>
+          <li><a class="nav__item" href="#"><svg class="icon"><use href="#i-users"></use></svg><span>Nông hộ &amp; HTX</span></a></li>
+          <li><a class="nav__item" href="#"><svg class="icon"><use href="#i-book"></use></svg><span>Thư viện tài nguyên</span></a></li>
+          <li><a class="nav__item" href="#"><svg class="icon"><use href="#i-user"></use></svg><span>Quản lý chuyên gia</span></a></li>
+          <li><a class="nav__item" href="#"><svg class="icon"><use href="#i-chart"></use></svg><span>Báo cáo &amp; Thống kê</span></a></li>
+          <li><a class="nav__item" href="#"><svg class="icon"><use href="#i-gear"></use></svg><span>Cài đặt hệ thống</span></a></li>
+        </ul>
+      </nav>
+
+      <button class="assistant" type="button" id="btnAssistant">
+        <span class="assistant__badge">AI</span>
+        <span>Trợ lý AI AgrBrain</span>
+      </button>
+
+      <svg class="sidebar__plants" viewBox="0 0 200 120" aria-hidden="true">
+        <path d="M20 120C18 84 34 62 62 52c-6 34-22 56-42 68Z" fill="#cfe6c4"/>
+        <path d="M46 120C52 92 70 76 96 70c-8 28-26 46-50 50Z" fill="#a9d59a"/>
+        <path d="M150 120c6-38 26-58 44-64-2 34-18 56-44 64Z" fill="#8cc47c"/>
+        <path d="M112 120c2-26 14-42 34-50-4 26-16 42-34 50Z" fill="#cfe6c4"/>
+        <path d="M0 120h200" stroke="#8cc47c" stroke-width="3"/>
+      </svg>
+    </aside>
+
+    <div class="scrim" id="scrim" hidden></div>
+
+    <!-- ================= CONTENT ================= -->
+    <div class="content">
+      <header class="topbar">
+        <button class="icon-btn" id="btnMenu" type="button" aria-label="Mở hoặc đóng menu">
+          <svg class="icon"><use href="#i-menu"></use></svg>
+        </button>
+
+        <div class="topbar__titles">
+          <h1>Chi tiết yêu cầu &amp; Tư vấn</h1>
+          <nav class="crumbs" aria-label="Đường dẫn">
+            <a href="#">Hỗ trợ</a>
+            <span aria-hidden="true">&gt;</span>
+            <span aria-current="page">Chi tiết yêu cầu &amp; Tư vấn</span>
+          </nav>
+        </div>
+
+        <div class="topbar__actions">
+          <div class="notif">
+            <button class="icon-btn" id="btnBell" type="button" aria-label="Thông báo" aria-expanded="false">
+              <svg class="icon"><use href="#i-bell"></use></svg>
+              <span class="notif__count" id="notifCount">1</span>
+            </button>
+            <section class="notif__panel" id="notifPanel" hidden aria-label="Danh sách thông báo">
+              <h2 class="notif__title">Thông báo</h2>
+              <ul class="notif__list" id="notifList"></ul>
+            </section>
+          </div>
+
+          <div class="account">
+            <span class="avatar" aria-hidden="true">NN</span>
+            <span class="account__text">
+              <strong>Nguyễn Văn Nam</strong>
+              <small>Chuyên gia nông nghiệp</small>
+            </span>
+            <svg class="icon account__chevron"><use href="#i-chevron"></use></svg>
+          </div>
+        </div>
+      </header>
+
+      <main class="board">
+        <!-- ============ CỘT TRÁI ============ -->
+        <div class="board__col">
+          <!-- 1. Bối cảnh -->
+          <section class="block" aria-labelledby="h-context">
+            <h2 class="block__title" id="h-context">
+              <span class="chip-icon"><svg class="icon"><use href="#i-user"></use></svg></span>
+              1. Bối cảnh &amp; Dữ liệu nông hộ
+            </h2>
+
+            <div class="context">
+              <figure class="photo">
+                <img src="assets/ruong-lua-hien-truong.png" alt="Ảnh ruộng lúa có dấu hiệu vàng lá tại Lô A1" width="640" height="480">
+                <figcaption class="photo__label">Ảnh hiện trường</figcaption>
+              </figure>
+
+              <div class="context__info">
+                <p class="status" id="statusBadge" data-status="new">
+                  <svg class="icon"><use href="#i-clock"></use></svg>
+                  <span id="statusText">Trạng thái: Mới</span>
+                </p>
+                <h3 class="context__label"><svg class="icon"><use href="#i-user"></use></svg> Mô tả từ nông dân:</h3>
+                <p class="context__desc">Lúa có dấu hiệu vàng lá, sinh trưởng chậm ở khu vực Lô A1.</p>
+                <dl class="meta">
+                  <div><dt>Nông hộ</dt><dd>Trần Văn Bình</dd></div>
+                  <div><dt>Vị trí</dt><dd>Lô A1 – HTX An Phú</dd></div>
+                  <div><dt>Loại cây</dt><dd>Lúa ST25</dd></div>
+                </dl>
+              </div>
+            </div>
+
+            <!-- AI summarizer -->
+            <article class="ai">
+              <h3 class="ai__heading"><span class="ai__tag">AI-3</span> AI-3 Farm Log Summarizer</h3>
+              <div class="ai__grid">
+                <div class="ai__skeleton" id="aiSkeleton" aria-hidden="true">
+                  <span class="bar" style="width:85%"></span>
+                  <span class="bar" style="width:70%"></span>
+                  <span class="bar" style="width:90%"></span>
+                  <span class="bar" style="width:55%"></span>
+                  <span class="spinner"></span>
+                </div>
+                <div class="ai__result" id="aiResult" hidden>
+                  <p class="ai__result-title"><svg class="icon"><use href="#i-check"></use></svg> Kết quả tóm tắt (7-14 ngày gần nhất)</p>
+                  <p id="aiResultText"></p>
+                </div>
+              </div>
+              <div class="ai__why">
+                <h4><svg class="icon"><use href="#i-bulb"></use></svg> Vì sao AI đưa ra tóm tắt này?</h4>
+                <p>AI tổng hợp dữ liệu từ nhật ký nông hộ, thời tiết, độ ẩm đất và vật tư nông nghiệp đã sử dụng trong 7-14 ngày gần nhất để nhận diện các yếu tố liên quan.</p>
+              </div>
+            </article>
+          </section>
+
+          <!-- 2. Dòng thời gian -->
+          <section class="block" aria-labelledby="h-timeline">
+            <h2 class="block__title" id="h-timeline">
+              <span class="chip-icon"><svg class="icon"><use href="#i-book"></use></svg></span>
+              2. Dòng thời gian nhật ký
+            </h2>
+            <ol class="timeline" id="timeline"></ol>
+            <p class="empty" id="timelineEmpty" hidden>Chưa có bản ghi nào.</p>
+          </section>
+        </div>
+
+        <!-- ============ CỘT PHẢI ============ -->
+        <div class="board__col">
+          <section class="block" aria-labelledby="h-advice">
+            <h2 class="block__title" id="h-advice">
+              <span class="chip-icon"><svg class="icon"><use href="#i-ai"></use></svg></span>
+              3. Soạn lời khuyên / Giải pháp
+            </h2>
+
+            <form class="editor" id="adviceForm" novalidate>
+              <div class="editor__box">
+                <div class="editor__toolbar" role="toolbar" aria-label="Định dạng văn bản">
+                  <label class="sr-only" for="blockType">Kiểu đoạn</label>
+                  <select id="blockType">
+                    <option value="p">Đoạn</option>
+                    <option value="h3">Đầu đề</option>
+                    <option value="ul">Danh sách</option>
+                  </select>
+                  <span class="editor__sep" aria-hidden="true"></span>
+                  <button class="tool" type="button" data-cmd="bold" aria-label="Chữ đậm"><b>B</b></button>
+                  <button class="tool" type="button" data-cmd="title" aria-label="Chữ to">T</button>
+                  <button class="tool" type="button" data-cmd="clear" aria-label="Xóa định dạng">X</button>
+                </div>
+
+                <div class="editor__area" id="editor" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Nội dung tư vấn" data-placeholder="Nhập nội dung tư vấn cho nông dân..."></div>
+              </div>
+
+              <p class="field-error" id="adviceError" hidden></p>
+              <p class="counter"><span id="charCount">0</span> / 20 ký tự tối thiểu</p>
+
+              <!-- Dropzone -->
+              <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Chọn ảnh hiện trường để đính kèm">
+                <svg class="icon dropzone__icon"><use href="#i-image"></use></svg>
+                <p class="dropzone__main">Kéo thả ảnh vào đây<br><span>hoặc nhấp để chọn tệp</span></p>
+                <p class="dropzone__hint">PNG, JPG, WEBP (tối đa 5MB)</p>
+                <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" multiple hidden>
+              </div>
+              <p class="field-error" id="fileError" hidden></p>
+              <ul class="attachments" id="attachments"></ul>
+
+              <button class="btn btn--ghost-blue" type="button" id="btnLibrary">
+                <svg class="icon"><use href="#i-plus"></use></svg> Chèn tài nguyên từ Thư viện
+              </button>
+
+              <div class="editor__footer">
+                <button class="btn btn--primary" type="submit" id="btnSend">
+                  <svg class="icon"><use href="#i-send"></use></svg> Gửi tư vấn
+                </button>
+                <button class="btn btn--outline" type="button" id="btnRequestMore">
+                  <svg class="icon"><use href="#i-chat"></use></svg>
+                  <span>Yêu cầu bổ sung<br>thêm ảnh/thông tin</span>
+                </button>
+                <button class="btn btn--muted" type="button" id="btnTransfer">
+                  <svg class="icon"><use href="#i-users"></use></svg>
+                  <span>Chuyển tiếp cho<br>chuyên gia khác</span>
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p>SmartAgri — Nền tảng hỗ trợ nông hộ và HTX · Học phần CSE122</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ================= MODAL CHUNG ================= -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <section class="modal__box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header class="modal__head">
+        <h2 id="modalTitle">Tiêu đề</h2>
+        <button class="icon-btn" type="button" id="modalClose" aria-label="Đóng hộp thoại">
+          <svg class="icon"><use href="#i-close"></use></svg>
+        </button>
+      </header>
+      <div class="modal__body" id="modalBody"></div>
+      <footer class="modal__foot" id="modalFoot"></footer>
+    </section>
+  </div>
+
+  <p class="toast" id="toast" role="status" aria-live="polite"></p>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
