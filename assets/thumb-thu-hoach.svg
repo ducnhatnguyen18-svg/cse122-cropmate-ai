@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90" role="img" aria-label="Thu hoạch lúa">
+  <defs>
+    <linearGradient id="bgHarvest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fdf3d6"/>
+      <stop offset="1" stop-color="#f0dca4"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="90" fill="url(#bgHarvest)"/>
+  <circle cx="94" cy="22" r="13" fill="#f6c95c"/>
+  <path d="M0 68h120v22H0z" fill="#d9b463"/>
+  <g stroke="#c79a3c" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M18 68V30c0-8 5-14 12-16-2 8-5 12-12 16"/>
+    <path d="M34 68V26c0-9 5-15 13-17-2 9-6 13-13 17"/>
+    <path d="M52 68V34c0-8 5-13 12-15-2 8-5 11-12 15"/>
+    <path d="M70 68V30c0-8 5-14 12-16-2 8-5 12-12 16"/>
+  </g>
+  <g fill="#e0b252">
+    <ellipse cx="24" cy="20" rx="4" ry="6.6" transform="rotate(18 24 20)"/>
+    <ellipse cx="38" cy="16" rx="4" ry="6.6" transform="rotate(18 38 16)"/>
+    <ellipse cx="56" cy="24" rx="4" ry="6.6" transform="rotate(18 56 24)"/>
+    <ellipse cx="74" cy="20" rx="4" ry="6.6" transform="rotate(18 74 20)"/>
+  </g>
+  <path d="M92 80h20v6H92z" fill="#a8813c" opacity=".6"/>
+</svg>

@@ -1,0 +1,301 @@
+/* =========================================================
+   SmartAgri — login.css
+   Trang: Đăng nhập cho chuyên gia
+   ========================================================= */
+
+:root {
+  --cream: #f6f1e6;
+  --card: #fdfdfa;
+  --green-900: #14532d;
+  --green-700: #1d6b41;
+  --green-600: #2e7d4f;
+  --green-soft: #8cc47c;
+  --line: #e6e1d2;
+  --ink: #2b3a30;
+  --muted: #6f7d70;
+  --danger: #c0392b;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body.login {
+  margin: 0;
+  font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.login-wrap {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ---------- Nửa trái: ảnh ---------- */
+.login-hero {
+  position: relative;
+  width: 44%;
+  min-width: 380px;
+  background: url("../assets/login-hero.png") center 32% / cover no-repeat;
+}
+
+.hero-curve {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ---------- Nửa phải: form ---------- */
+.login-main {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 24px 190px;
+}
+
+.login-title {
+  margin: 0;
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 700;
+  color: var(--green-900);
+  text-align: center;
+  letter-spacing: -0.3px;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 26px;
+  color: var(--green-600);
+}
+
+.login-divider span {
+  width: 84px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--green-600);
+  opacity: 0.75;
+}
+
+.login-divider svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ---------- Card form ---------- */
+.login-card {
+  width: min(430px, 100%);
+  background: var(--card);
+  border: 1px solid #efe9da;
+  border-radius: 16px;
+  padding: 30px 30px 26px;
+  box-shadow: 0 14px 40px rgba(20, 60, 35, 0.09);
+}
+
+.login-card.is-shake { animation: shake 0.42s ease; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(4px); }
+}
+
+.field { margin-bottom: 18px; }
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.control { position: relative; }
+
+.control__icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--green-600);
+  pointer-events: none;
+}
+
+.control input {
+  width: 100%;
+  padding: 13px 46px 13px 42px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: #fbfbf7;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.control input::placeholder { color: #a9b0a4; }
+
+.control input:focus {
+  border-color: var(--green-600);
+  box-shadow: 0 0 0 3px rgba(46, 125, 79, 0.14);
+}
+
+.control input.is-invalid {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+}
+
+.control__eye {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  color: var(--green-600);
+  cursor: pointer;
+}
+
+.control__eye:hover { background: rgba(46, 125, 79, 0.1); }
+
+.control__eye svg { width: 20px; height: 20px; }
+
+.control__eye svg[hidden] { display: none; }
+
+.field-error {
+  margin: 7px 2px 0;
+  font-size: 12.5px;
+  color: var(--danger);
+}
+
+.login-form-error {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--danger);
+  background: rgba(192, 57, 43, 0.08);
+  border: 1px solid rgba(192, 57, 43, 0.25);
+  border-radius: 9px;
+}
+
+.login-submit {
+  width: 100%;
+  margin-top: 4px;
+  padding: 14px;
+  font: inherit;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--green-700);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.08s ease;
+}
+
+.login-submit:hover { background: #175a36; }
+.login-submit:active { transform: translateY(1px); }
+.login-submit:disabled { opacity: 0.7; cursor: default; }
+
+.login-hint {
+  margin: 14px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.login-hint code {
+  padding: 1px 6px;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 12px;
+  color: var(--green-700);
+  background: rgba(46, 125, 79, 0.1);
+  border-radius: 5px;
+}
+
+.login-back {
+  margin-top: 22px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--green-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.login-back:hover { color: var(--green-900); }
+
+/* ---------- Trang trí góc phải ---------- */
+.login-decor {
+  position: absolute;
+  right: 44px;
+  bottom: 96px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.decor-tablet { width: 118px; height: auto; }
+
+.login-decor__avatar {
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--green-700);
+  background: #f2ebd8;
+  box-shadow: 0 6px 18px rgba(20, 60, 35, 0.14);
+}
+
+.login-decor__avatar svg { width: 34px; height: 34px; }
+
+/* ---------- Sóng xanh đáy ---------- */
+.login-wave {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 170px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.login-hero { z-index: 1; }
+
+.login-main { z-index: 3; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .login-hero { display: none; }
+  .login-main { padding: 48px 20px 170px; }
+  .login-decor { display: none; }
+}
+
+@media (max-width: 480px) {
+  .login-card { padding: 24px 20px 22px; }
+  .login-divider span { width: 56px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

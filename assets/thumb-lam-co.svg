@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90" role="img" aria-label="Làm cỏ trên ruộng lúa">
+  <defs>
+    <linearGradient id="bgWeed" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2f7e6"/>
+      <stop offset="1" stop-color="#cfe4bb"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="90" fill="url(#bgWeed)"/>
+  <path d="M0 62h120v28H0z" fill="#9c8355"/>
+  <g stroke="#2f7d46" stroke-width="3.4" stroke-linecap="round" fill="none">
+    <path d="M24 62V26M24 40c-7-3-11-9-11-17 7 0 11 6 11 12M24 46c6-3 10-8 10-15-6 0-10 5-10 11"/>
+    <path d="M60 62V20M60 36c-7-3-11-9-11-17 7 0 11 6 11 12M60 42c6-3 10-8 10-15-6 0-10 5-10 11"/>
+    <path d="M96 62V30M96 44c-7-3-11-9-11-17 7 0 11 6 11 12"/>
+  </g>
+  <path d="M84 78 104 40" stroke="#7c5a34" stroke-width="5" stroke-linecap="round"/>
+  <path d="M100 34 116 26l-4 16-12 4Z" fill="#8e9aa3" stroke="#6d7883" stroke-width="1.6"/>
+  <g stroke="#6f8f5c" stroke-width="2" stroke-linecap="round" opacity=".8">
+    <path d="M8 74c4-6 9-8 14-8M14 82c5-5 11-6 16-5"/>
+  </g>
+</svg>

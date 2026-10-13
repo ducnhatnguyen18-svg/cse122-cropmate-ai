@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartAgri — Cài đặt hệ thống</title>
+  <meta name="description" content="Cấu hình hồ sơ hệ thống, danh mục canh tác, cảnh báo mặc định, tích hợp AI và phân quyền tài khoản.">
+  <script>
+    if (sessionStorage.getItem('smartagri_auth') !== '1') { location.replace('login.html'); }
+  </script>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/parts.css">
+</head>
+<body data-page="settings" data-title="Cài đặt hệ thống" data-sub="Cấu hình danh mục canh tác, cảnh báo, mô hình AI và phân quyền người dùng">
+  <main class="board">
+    <!-- ============ CỘT TRÁI ============ -->
+    <div class="board__col">
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-gear"></use></svg> Hồ sơ hệ thống</h2><p>Thông tin hiển thị trong báo cáo và email gửi nông hộ</p></div>
+        </div>
+        <form id="profileForm" class="form">
+          <div class="field">
+            <label for="setName">Tên nền tảng / đơn vị quản lý</label>
+            <input type="text" id="setName" value="SmartAgri — Trung tâm Khuyến nông">
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="setEmail">Email liên hệ</label>
+              <input type="email" id="setEmail" value="hotro@smartagri.vn">
+            </div>
+            <div class="field">
+              <label for="setPhone">Đường dây nóng</label>
+              <input type="tel" id="setPhone" value="1900 8026">
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="setRegion">Địa bàn phụ trách</label>
+              <select id="setRegion">
+                <option>An Giang — Chợ Mới</option>
+                <option>Đồng Tháp — Tháp Mười</option>
+                <option>Kiên Giang — Hòn Đất</option>
+                <option>Long Khánh — Đồng Nai</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="setLang">Ngôn ngữ giao diện</label>
+              <select id="setLang">
+                <option>Tiếng Việt</option>
+                <option>Tiếng Việt + Anh</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="setUnit">Đơn vị diện tích</label>
+            <select id="setUnit"><option>Hécta (ha)</option><option>Sào Bắc Bộ (360 m²)</option><option>Công (1.000 m²)</option></select>
+          </div>
+          <button class="btn btn--primary" type="submit"><svg class="icon"><use href="#i-check"></use></svg> Lưu hồ sơ hệ thống</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-sprout"></use></svg> Danh mục loại hoạt động</h2><p>Dùng cho form nhật ký canh đồng và báo cáo</p></div>
+        </div>
+        <div class="tags" id="jobTags"></div>
+        <div class="toolbar" style="margin-top:14px">
+          <input type="text" id="jobInput" placeholder="Thêm loại hoạt động, ví dụ: Cấy lúa" aria-label="Tên loại hoạt động mới" style="flex:1;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:14px">
+          <button class="btn btn--sm btn--outline-green" type="button" id="btnAddJob"><svg class="icon"><use href="#i-plus"></use></svg> Thêm</button>
+        </div>
+        <p class="field-error" id="jobError" hidden></p>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-leaf"></use></svg> Cây trồng theo dõi</h2><p>Quyết định bộ quy trình và ngưỡng cảnh báo áp dụng</p></div>
+        </div>
+        <div class="tags" id="cropTags"></div>
+      </section>
+    </div>
+
+    <!-- ============ CỘT PHẢI ============ -->
+    <div class="board__col">
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-bell"></use></svg> Cảnh báo mặc định</h2><p>Áp dụng cho tất cả nông hộ thuộc phạm vi quản lý</p></div>
+        </div>
+        <div id="switchBox">
+          <label class="switch"><input type="checkbox" data-set="sick" checked><span class="switch__track"></span>
+            <span class="switch__text"><strong>Cảnh báo sâu bệnh từ AI</strong><small>Gửi khi mô hình phát hiện nguy cơ từ ảnh hiện trường</small></span></label>
+          <label class="switch"><input type="checkbox" data-set="weather" checked><span class="switch__track"></span>
+            <span class="switch__text"><strong>Cảnh báo thời tiết cực đoan</strong><small>Mưa lớn, ngập úng, nắng nóng, hạn mặn</small></span></label>
+          <label class="switch"><input type="checkbox" data-set="digest" checked><span class="switch__track"></span>
+            <span class="switch__text"><strong>Tóm tắt nhật ký hằng tuần</strong><small>Gửi email tổng hợp hoạt động sáng thứ Hai</small></span></label>
+          <label class="switch"><input type="checkbox" data-set="sla"><span class="switch__track"></span>
+            <span class="switch__text"><strong>Nhắc quá hạn phản hồi</strong><small>Báo khi yêu cầu tư vấn còn 6 giờ nữa hết hạn</small></span></label>
+          <label class="switch"><input type="checkbox" data-set="offline" checked><span class="switch__track"></span>
+            <span class="switch__text"><strong>Cho phép ghi nhật ký ngoại tuyến</strong><small>Đồng bộ khi có kết nối trở lại</small></span></label>
+        </div>
+        <div class="note" style="margin-top:14px"><svg class="icon"><use href="#i-check"></use></svg><span id="switchSummary">Đã lưu cấu hình cảnh báo.</span></div>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-ai"></use></svg> Tích hợp mô hình AI</h2><p>Field Issue Classifier &amp; dự báo nguy cơ</p></div>
+        </div>
+        <form id="aiForm" class="form">
+          <div class="field">
+            <label for="aiModel">Mô hình sử dụng</label>
+            <select id="aiModel">
+              <option>AI-3 · nhận diện sâu bệnh lúa (2026.05)</option>
+              <option>AI-2 · nhận diện sâu bệnh tổng hợp</option>
+              <option>AI-1 · phân loại ảnh cơ bản</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="aiKey">Khóa API</label>
+            <input type="password" id="aiKey" value="demo-key-smartagri-cse122">
+          </div>
+          <div class="field">
+            <label for="aiThreshold">Ngưỡng tin cậy tối thiểu: <b id="aiThresholdOut">75%</b></label>
+            <input type="range" id="aiThreshold" min="50" max="95" step="5" value="75">
+          </div>
+          <div class="field">
+            <label for="aiRetention">Giữ ảnh hiện trường</label>
+            <select id="aiRetention"><option>90 ngày</option><option>30 ngày</option><option>180 ngày</option><option>Vô thời hạn</option></select>
+          </div>
+          <button class="btn btn--primary" type="submit"><svg class="icon"><use href="#i-check"></use></svg> Lưu cấu hình AI</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-users"></use></svg> Tài khoản &amp; phân quyền</h2></div>
+          <div class="card__acts"><button class="btn btn--sm btn--ghost" type="button" id="btnAddUser"><svg class="icon"><use href="#i-plus"></use></svg> Thêm tài khoản</button></div>
+        </div>
+        <div class="table__wrap">
+          <table class="table">
+            <thead><tr><th>Tài khoản</th><th>Vai trò</th><th>Phạm vi</th><th></th></tr></thead>
+            <tbody id="userBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-trash"></use></svg> Vùng dữ liệu nhạy cảm</h2></div>
+        </div>
+        <div class="note note--bad"><svg class="icon"><use href="#i-alert"></use></svg><span>Xóa dữ liệu demo sẽ đưa toàn bộ nhật ký, cảnh báo và hồ sơ về trạng thái ban đầu. Hành động này không thể hoàn tác.</span></div>
+        <button class="btn btn--sm btn--danger" type="button" id="btnResetData" style="margin-top:14px"><svg class="icon"><use href="#i-trash"></use></svg> Đặt lại dữ liệu demo</button>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/shell.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>

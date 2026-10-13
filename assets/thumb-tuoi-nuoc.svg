@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90" role="img" aria-label="Tưới nước cho ruộng lúa">
+  <defs>
+    <linearGradient id="bgWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e7f2f8"/>
+      <stop offset="1" stop-color="#c3e0ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="90" fill="url(#bgWater)"/>
+  <rect y="46" width="120" height="44" fill="#8fc4dd"/>
+  <path d="M0 56h120M0 68h120M0 80h120" stroke="#cfe8f3" stroke-width="2.4" opacity=".75"/>
+  <g stroke="#2f7d46" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M22 46V24M22 34c-5-2-8-6-8-11 5 0 8 3 8 8M22 38c4-2 7-5 7-10-4 0-7 3-7 7"/>
+    <path d="M46 46V20M46 30c-5-2-8-6-8-11 5 0 8 3 8 8M46 34c4-2 7-5 7-10-4 0-7 3-7 7"/>
+    <path d="M70 46V26M70 36c-5-2-8-6-8-11 5 0 8 3 8 8"/>
+  </g>
+  <g fill="#3d8fc0">
+    <path d="M96 8c5 8 8 12 8 16a8 8 0 0 1-16 0c0-4 3-8 8-16Z"/>
+    <path d="M100 40c3 5 5 7 5 10a5 5 0 0 1-10 0c0-3 2-5 5-10Z" opacity=".7"/>
+  </g>
+</svg>

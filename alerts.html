@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartAgri — AI Cảnh báo &amp; Dự báo</title>
+  <meta name="description" content="Tổng hợp cảnh báo sâu bệnh, nguy cơ theo khu vực, dự báo thời tiết 7 ngày và cấu hình nhận cảnh báo.">
+  <script>
+    if (sessionStorage.getItem('smartagri_auth') !== '1') { location.replace('login.html'); }
+  </script>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/parts.css">
+</head>
+<body data-page="alerts" data-title="AI Cảnh báo &amp; Dự báo" data-sub="Phát hiện sớm rủi ro sâu bệnh và thời tiết cho từng lô ruộng">
+  <main class="board">
+    <div class="stats">
+      <article class="stat">
+        <span class="stat__icon stat__icon--red"><svg class="icon"><use href="#i-alert"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">07</span><span class="stat__label">Cảnh báo đang mở</span><span class="stat__delta is-down">+2 so với tuần trước</span></span>
+      </article>
+      <article class="stat">
+        <span class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-flask"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">02</span><span class="stat__label">Nguy cơ cao / khẩn cấp</span><span class="stat__delta">Cần xử lý trong 48 giờ</span></span>
+      </article>
+      <article class="stat">
+        <span class="stat__icon"><svg class="icon"><use href="#i-check"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">38</span><span class="stat__label">Đã ghi nhận &amp; xử lý</span><span class="stat__delta">+11 trong 7 ngày</span></span>
+      </article>
+      <article class="stat">
+        <span class="stat__icon stat__icon--blue"><svg class="icon"><use href="#i-ai"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">91%</span><span class="stat__label">Độ chính xác mô hình</span><span class="stat__delta">AI-3 · cập nhật 12/10</span></span>
+      </article>
+    </div>
+
+    <!-- ============ CỘT TRÁI ============ -->
+    <div class="board__col">
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2><svg class="icon"><use href="#i-alert"></use></svg> Cảnh báo đang hoạt động</h2>
+            <p id="alertSummary">Đang tải danh sách cảnh báo…</p>
+          </div>
+          <div class="card__acts">
+            <button class="btn btn--sm btn--outline-green" type="button" id="btnAckAll"><svg class="icon"><use href="#i-check"></use></svg> Ghi nhận tất cả</button>
+          </div>
+        </div>
+
+        <div class="pills" id="alertFilters" role="group" aria-label="Lọc theo mức độ">
+          <button class="pill is-on" type="button" data-sev="">Tất cả</button>
+          <button class="pill" type="button" data-sev="urgent">Khẩn cấp</button>
+          <button class="pill" type="button" data-sev="high">Cao</button>
+          <button class="pill" type="button" data-sev="mid">Trung bình</button>
+          <button class="pill" type="button" data-sev="low">Theo dõi</button>
+        </div>
+
+        <div class="rows rows--divided" id="alertList"></div>
+        <p class="empty" id="alertEmpty" hidden>Không còn cảnh báo nào ở mức độ này.</p>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2><svg class="icon"><use href="#i-shield"></use></svg> Nguy cơ dịch bệnh theo khu vực</h2>
+            <p>Tính từ nhật ký canh đồng và ảnh hiện trường 14 ngày gần nhất</p>
+          </div>
+        </div>
+        <div class="meters" id="riskMeters"></div>
+      </section>
+    </div>
+
+    <!-- ============ CỘT PHẢI ============ -->
+    <div class="board__col">
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2><svg class="icon"><use href="#i-rain"></use></svg> Dự báo lượng mưa 7 ngày tới</h2>
+            <p>Nguồn: mô-đun thời tiết nông nghiệp · khu vực Chợ Mới, An Giang</p>
+          </div>
+        </div>
+        <div class="bars" id="forecastBars"></div>
+        <div class="note note--warn"><svg class="icon"><use href="#i-alert"></use></svg><span id="forecastNote">Đang tính toán…</span></div>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2><svg class="icon"><use href="#i-bell"></use></svg> Đăng ký nhận cảnh báo</h2>
+            <p>Chọn khu vực, loại rủi ro và ngưỡng kích hoạt phù hợp</p>
+          </div>
+        </div>
+        <form id="subForm" class="form">
+          <div class="field">
+            <label for="subRegion">Khu vực / Lô ruộng</label>
+            <select id="subRegion">
+              <option>Toàn bộ trang trại (3 lô)</option>
+              <option>Lô A1 — 1.2 ha</option>
+              <option>Lô B2 — 0.8 ha</option>
+              <option>Lô C3 — 1.4 ha</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Loại cảnh báo</label>
+            <div>
+              <label class="switch"><input type="checkbox" id="subSick" checked><span class="switch__track"></span>
+                <span class="switch__text"><strong>Sâu bệnh</strong><small>Đạo ôn, đốm nâu, rầy nâu, sâu cuốn lá</small></span></label>
+              <label class="switch"><input type="checkbox" id="subWeather" checked><span class="switch__track"></span>
+                <span class="switch__text"><strong>Thời tiết cực đoan</strong><small>Mưa lớn, ngập úng, nắng nóng kéo dài</small></span></label>
+              <label class="switch"><input type="checkbox" id="subWater"><span class="switch__track"></span>
+                <span class="switch__text"><strong>Thủy văn &amp; tưới tiêu</strong><small>Mực nước, độ ẩm đất, hạn mặn</small></span></label>
+              <label class="switch"><input type="checkbox" id="subPrice"><span class="switch__track"></span>
+                <span class="switch__text"><strong>Giá cả &amp; vật tư</strong><small>Biến động giá lúa, phân thuốc</small></span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="subChannel">Kênh nhận</label>
+            <select id="subChannel">
+              <option>Trong ứng dụng + Email</option>
+              <option>Chỉ trong ứng dụng</option>
+              <option>Trong ứng dụng + Tin nhắn (SMS)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="subThreshold">Ngưỡng kích hoạt: <b id="subThresholdOut">70%</b></label>
+            <input type="range" id="subThreshold" min="40" max="95" step="5" value="70">
+          </div>
+          <button class="btn btn--primary" type="submit"><svg class="icon"><use href="#i-check"></use></svg> Lưu cấu hình cảnh báo</button>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-clock"></use></svg> Lịch sử xử lý cảnh báo</h2></div>
+        </div>
+        <div class="table__wrap">
+          <table class="table">
+            <thead><tr><th>Ngày</th><th>Cảnh báo</th><th>Người xử lý</th><th>Kết quả</th></tr></thead>
+            <tbody id="historyBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/shell.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>

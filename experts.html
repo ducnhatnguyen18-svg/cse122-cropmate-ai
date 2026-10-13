@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartAgri — Quản lý chuyên gia</title>
+  <meta name="description" content="Danh bạ chuyên gia nông nghiệp, duyệt đơn đăng ký, phân công trực và theo dõi hiệu quả tư vấn.">
+  <script>
+    if (sessionStorage.getItem('smartagri_auth') !== '1') { location.replace('login.html'); }
+  </script>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/parts.css">
+</head>
+<body data-page="experts" data-title="Quản lý chuyên gia" data-sub="Hồ sơ chuyên gia nông nghiệp, đơn đăng ký và lịch trực tư vấn">
+  <main class="board">
+    <div class="stats">
+      <article class="stat">
+        <span class="stat__icon"><svg class="icon"><use href="#i-user"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">24</span><span class="stat__label">Chuyên gia trong mạng lưới</span><span class="stat__delta">+2 tháng này</span></span>
+      </article>
+      <article class="stat">
+        <span class="stat__icon stat__icon--blue"><svg class="icon"><use href="#i-clock"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">06</span><span class="stat__label">Đang trực tư vấn</span><span class="stat__delta">Khung giờ 7:00 – 19:00</span></span>
+      </article>
+      <article class="stat">
+        <span class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-star"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">4.8</span><span class="stat__label">Điểm đánh giá trung bình</span><span class="stat__delta">Từ 1.204 lượt phản hồi</span></span>
+      </article>
+      <article class="stat">
+        <span class="stat__icon stat__icon--red"><svg class="icon"><use href="#i-alert"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">05</span><span class="stat__label">Đơn chờ duyệt</span><span class="stat__delta is-down">2 đơn quá 3 ngày</span></span>
+      </article>
+    </div>
+
+    <!-- ============ CỘT TRÁI ============ -->
+    <div class="board__col">
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2><svg class="icon"><use href="#i-user"></use></svg> Đội ngũ chuyên gia</h2>
+            <p id="exSummary">Đang tải hồ sơ chuyên gia…</p>
+          </div>
+          <div class="card__acts">
+            <button class="btn btn--sm btn--primary" type="button" id="btnAddExpert"><svg class="icon"><use href="#i-plus"></use></svg> Thêm chuyên gia</button>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="search">
+            <svg class="icon"><use href="#i-search"></use></svg>
+            <input type="search" id="exSearch" placeholder="Tìm theo tên, chuyên môn…" aria-label="Tìm chuyên gia">
+          </div>
+          <select id="exField" aria-label="Lọc theo chuyên môn">
+            <option value="">Mọi chuyên môn</option>
+            <option>Bảo vệ thực vật</option>
+            <option>Thổ nhưỡng &amp; phân bón</option>
+            <option>Thủy nông</option>
+            <option>Cây ăn trái</option>
+          </select>
+          <select id="exDuty" aria-label="Lọc theo ca trực">
+            <option value="">Mọi trạng thái</option>
+            <option value="on">Đang trực</option>
+            <option value="off">Ngoài giờ</option>
+          </select>
+        </div>
+
+        <div class="rows rows--divided" id="exList"></div>
+        <p class="empty" id="exEmpty" hidden>Không có chuyên gia nào khớp bộ lọc.</p>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-chart"></use></svg> Hiệu quả tư vấn</h2><p>Thống kê 30 ngày gần nhất</p></div>
+        </div>
+        <div class="meters" id="exMeters"></div>
+      </section>
+    </div>
+
+    <!-- ============ CỘT PHẢI ============ -->
+    <div class="board__col">
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-alert"></use></svg> Đơn đăng ký chờ duyệt</h2></div>
+          <div class="card__acts"><button class="btn btn--sm btn--outline-green" type="button" id="btnApproveAll"><svg class="icon"><use href="#i-check"></use></svg> Duyệt tất cả</button></div>
+        </div>
+        <div class="rows rows--divided" id="exPending"></div>
+        <p class="empty" id="exPendingEmpty" hidden>Không còn đơn nào chờ duyệt.</p>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-calendar"></use></svg> Phân công trực tuần này</h2></div>
+        </div>
+        <div class="table__wrap">
+          <table class="table">
+            <thead><tr><th>Ngày</th><th>Ca sáng</th><th>Ca chiều</th><th>Trực khẩn</th></tr></thead>
+            <tbody id="dutyBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-shield"></use></svg> Tiêu chí đánh giá chuyên gia</h2></div>
+        </div>
+        <div class="note"><svg class="icon"><use href="#i-check"></use></svg><span>Hồ sơ được duyệt khi có bằng cấp chuyên môn phù hợp, tối thiểu 3 năm kinh nghiệm thực địa và hoàn thành khóa tập huấn sử dụng nền tảng SmartAgri.</span></div>
+        <div class="meters" id="criteriaMeters" style="margin-top:14px"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/shell.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>

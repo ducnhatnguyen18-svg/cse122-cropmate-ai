@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartAgri — Nông hộ &amp; HTX</title>
+  <meta name="description" content="Danh bạ nông hộ, hợp tác xã, yêu cầu hỗ trợ chờ duyệt và thống kê diện tích canh tác.">
+  <script>
+    if (sessionStorage.getItem('smartagri_auth') !== '1') { location.replace('login.html'); }
+  </script>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/parts.css">
+</head>
+<body data-page="households" data-title="Nông hộ &amp; HTX" data-sub="Quản lý hồ sơ nông hộ, hợp tác xã và các yêu cầu hỗ trợ trên địa bàn">
+  <main class="board">
+    <div class="stats">
+      <article class="stat">
+        <span class="stat__icon"><svg class="icon"><use href="#i-users"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">128</span><span class="stat__label">Nông hộ đã đăng ký</span><span class="stat__delta">+6 tháng này</span></span>
+      </article>
+      <article class="stat">
+        <span class="stat__icon stat__icon--blue"><svg class="icon"><use href="#i-shield"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">14</span><span class="stat__label">Hợp tác xã đang hoạt động</span><span class="stat__delta">4 HTX điểm</span></span>
+      </article>
+      <article class="stat">
+        <span class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-sprout"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">342 ha</span><span class="stat__label">Tổng diện tích canh tác</span><span class="stat__delta">Lúa 78%, cây ăn trái 22%</span></span>
+      </article>
+      <article class="stat">
+        <span class="stat__icon stat__icon--red"><svg class="icon"><use href="#i-clock"></use></svg></span>
+        <span class="stat__text"><span class="stat__value">09</span><span class="stat__label">Yêu cầu chờ duyệt hồ sơ</span><span class="stat__delta is-down">3 yêu cầu quá 48 giờ</span></span>
+      </article>
+    </div>
+
+    <!-- ============ CỘT TRÁI ============ -->
+    <div class="board__col">
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2><svg class="icon"><use href="#i-users"></use></svg> Danh bạ nông hộ</h2>
+            <p id="hhSummary">Đang tải danh sách…</p>
+          </div>
+          <div class="card__acts">
+            <button class="btn btn--sm btn--primary" type="button" id="btnAddHousehold"><svg class="icon"><use href="#i-plus"></use></svg> Thêm nông hộ</button>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="search">
+            <svg class="icon"><use href="#i-search"></use></svg>
+            <input type="search" id="hhSearch" placeholder="Tìm theo tên, địa chỉ, SĐT…" aria-label="Tìm nông hộ">
+          </div>
+          <select id="hhCrop" aria-label="Lọc theo cây trồng">
+            <option value="">Mọi cây trồng</option>
+            <option>Lúa</option>
+            <option>Xoài</option>
+            <option>Sầu riêng</option>
+            <option>Rau màu</option>
+          </select>
+          <select id="hhStatus" aria-label="Lọc theo trạng thái">
+            <option value="">Mọi trạng thái</option>
+            <option>Đã xác thực</option>
+            <option>Chờ xác thực</option>
+            <option>Tạm ngưng</option>
+          </select>
+        </div>
+
+        <div class="rows rows--divided" id="hhList"></div>
+        <p class="empty" id="hhEmpty" hidden>Không tìm thấy nông hộ nào khớp bộ lọc.</p>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2><svg class="icon"><use href="#i-chart"></use></svg> Diện tích theo cây trồng</h2>
+            <p>Toàn bộ địa bàn được quản lý trên SmartAgri</p>
+          </div>
+        </div>
+        <div class="donut">
+          <div class="donut__pie"><span class="donut__center"><b>342 ha</b><small>tổng diện tích</small></span></div>
+          <ul class="legend">
+            <li><i style="background:#2e7d4f"></i> Lúa <b>267 ha</b></li>
+            <li><i style="background:#58a86b"></i> Cây ăn trái <b>45 ha</b></li>
+            <li><i style="background:#3d7fb5"></i> Rau màu <b>18 ha</b></li>
+            <li><i style="background:#e0b455"></i> Cây công nghiệp <b>12 ha</b></li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ CỘT PHẢI ============ -->
+    <div class="board__col">
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-shield"></use></svg> Hợp tác xã hoạt động</h2></div>
+        </div>
+        <div class="rows rows--divided" id="coopList"></div>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2><svg class="icon"><use href="#i-clock"></use></svg> Yêu cầu hỗ trợ chờ duyệt</h2>
+            <p>Xét duyệt nông hộ mới và đề nghị hỗ trợ kỹ thuật</p>
+          </div>
+        </div>
+        <div class="rows rows--divided" id="pendingList"></div>
+        <p class="empty" id="pendingEmpty" hidden>Toàn bộ yêu cầu đã được xử lý.</p>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-chat"></use></svg> Tư vấn theo nông hộ</h2></div>
+          <div class="card__acts"><a class="btn btn--sm btn--outline-green" href="index.html"><svg class="icon"><use href="#i-send"></use></svg> Mở trang tư vấn</a></div>
+        </div>
+        <div class="table__wrap">
+          <table class="table">
+            <thead><tr><th>Nông hộ</th><th>Chuyên đề</th><th class="num">Đánh giá</th></tr></thead>
+            <tbody id="supportBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/shell.js"></script>
+  <script src="js/pages.js"></script>
+</body>
+</html>

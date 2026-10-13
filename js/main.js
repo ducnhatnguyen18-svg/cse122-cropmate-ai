@@ -57,6 +57,13 @@ $('#btnMenu').addEventListener('click', () => {
 });
 scrim.addEventListener('click', () => setNav(false));
 
+/* ---------- 1b. Đăng xuất ---------- */
+$('#btnLogout').addEventListener('click', () => {
+  sessionStorage.removeItem('smartagri_auth');
+  sessionStorage.removeItem('smartagri_user');
+  location.replace('login.html');
+});
+
 /* ---------- 2. Thông báo ---------- */
 const notifList = $('#notifList');
 const notifCount = $('#notifCount');

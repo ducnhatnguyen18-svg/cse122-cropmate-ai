@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartAgri — Đăng nhập cho chuyên gia</title>
+  <meta name="description" content="Cổng đăng nhập dành cho chuyên gia nông nghiệp trong hệ thống SmartAgri.">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body class="login">
+  <div class="login-wrap">
+    <!-- ============ NỬA TRÁI: ẢNH ============ -->
+    <div class="login-hero" aria-hidden="true">
+      <svg class="hero-curve" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path d="M56 0 C80 14 40 34 60 52 C76 66 46 82 58 100 L103 100 L103 0 Z" fill="#f6f1e6"></path>
+      </svg>
+    </div>
+
+    <!-- ============ NỬA PHẢI: FORM ============ -->
+    <main class="login-main">
+      <h1 class="login-title">Đăng nhập cho chuyên gia</h1>
+
+      <div class="login-divider" aria-hidden="true">
+        <span></span>
+        <svg viewBox="0 0 24 24"><path d="M5 19C5 10 11 5 20 4.5 19.5 13 14 19 5 19Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 19c3-4 6.5-6.5 10-8.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span></span>
+      </div>
+
+      <form class="login-card" id="loginForm" novalidate>
+        <div class="field">
+          <label for="username">Tên đăng nhập</label>
+          <div class="control">
+            <svg class="control__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6" fill="currentColor"/><path d="M4.5 20c0-4 3.4-6.4 7.5-6.4s7.5 2.4 7.5 6.4Z" fill="currentColor"/></svg>
+            <input id="username" name="username" type="text" autocomplete="username" placeholder="Nhập tên đăng nhập">
+          </div>
+          <p class="field-error" id="usernameError" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="password">Mật khẩu</label>
+          <div class="control">
+            <svg class="control__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2.5" fill="currentColor"/><path d="M8 10V8a4 4 0 0 1 8 0v2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu">
+            <button class="control__eye" type="button" id="btnEye" aria-label="Hiện mật khẩu" aria-pressed="false">
+              <svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12Z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+              <svg class="eye-closed" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12Z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <p class="field-error" id="passwordError" hidden></p>
+        </div>
+
+        <p class="login-form-error" id="formError" role="alert" hidden></p>
+
+        <button class="login-submit" type="submit" id="btnLogin">Đăng nhập</button>
+
+        <p class="login-hint">Tài khoản demo: <code>chuyengia</code> · Mật khẩu: <code>123456</code></p>
+      </form>
+
+      <a class="login-back" href="index.html" id="btnBack">Quay lại</a>
+
+      <!-- Trang trí góc phải dưới -->
+      <div class="login-decor" aria-hidden="true">
+        <svg class="decor-tablet" viewBox="0 0 120 150">
+          <rect x="6" y="6" width="108" height="138" rx="14" fill="#e9f1de" stroke="#a3c98f" stroke-width="3"/>
+          <rect x="17" y="19" width="86" height="112" rx="7" fill="#f8fbf2"/>
+          <path d="M60 66V44m0 0c0-9 7-13 13-13 0 9-7 13-13 13Zm0 0c0-9-7-13-13-13 0 9 7 13 13 13Z" fill="none" stroke="#2e7d4f" stroke-width="2.6" stroke-linecap="round"/>
+          <rect x="28" y="98" width="10" height="22" rx="2" fill="#8cc47c"/>
+          <rect x="44" y="86" width="10" height="34" rx="2" fill="#5aa869"/>
+          <rect x="60" y="74" width="10" height="46" rx="2" fill="#2e7d4f"/>
+          <circle cx="88" cy="96" r="15" fill="none" stroke="#2e7d4f" stroke-width="3"/>
+          <path d="M88 96V81a15 15 0 0 1 13 8Z" fill="#8cc47c"/>
+        </svg>
+        <span class="login-decor__avatar">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8.4" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 19.5c0-3.8 3.2-6 7-6s7 2.2 7 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M9 14.5l3 2.4 3-2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        </span>
+      </div>
+    </main>
+  </div>
+
+  <!-- ============ SÓNG XANH ĐÁY TRANG ============ -->
+  <svg class="login-wave" viewBox="0 0 1440 190" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="waveGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#1d6b41"></stop>
+        <stop offset="1" stop-color="#0e4a2a"></stop>
+      </linearGradient>
+    </defs>
+    <path d="M0 118 C170 58 330 148 520 108 C710 68 860 148 1060 108 C1240 74 1350 118 1440 94 L1440 190 L0 190 Z" fill="url(#waveGrad)"></path>
+    <g fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M300 176v-22m0 0c0-9 7-13 13-13 0 9-7 13-13 13Zm0 0c0-9-7-13-13-13 0 9 7 13 13 13Z"></path>
+      <path d="M420 176v-26l16-12 16 12v26Zm10 0v-14h12v14"></path>
+      <path d="M560 176c0-14 10-22 24-22-2 14-10 22-24 22Z"></path>
+    </g>
+  </svg>
+
+  <script src="js/login.js"></script>
+</body>
+</html>
