@@ -209,17 +209,199 @@
   color: var(--muted);
 }
 
-.aicard__preview {
+/* ---------- AI đang quét ảnh ---------- */
+.ai-scan {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 10px 2px 0;
-  font-size: 13px;
-  font-weight: 600;
-  color: #2c6b41;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid #cfe6c4;
+  border-radius: 14px;
+  background: #f7fbf3;
 }
 
-.aicard__preview .icon { width: 16px; height: 16px; }
+.ai-scan__thumb {
+  width: 66px;
+  height: 66px;
+  flex: none;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.ai-scan__meta { flex: 1; min-width: 0; }
+
+.ai-scan__name {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--green-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ai-scan__step {
+  margin: 3px 0 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.ai-scan__bar {
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: #e2f0da;
+  overflow: hidden;
+}
+
+.ai-scan__fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--green), #6bbf7f);
+  transition: width 0.26s ease;
+}
+
+/* ---------- Kết quả phân tích ---------- */
+.ai-result {
+  margin-top: 12px;
+  padding: 14px;
+  border: 1px solid #cfe6c4;
+  border-radius: 14px;
+  background: #fbfdf8;
+}
+
+.ai-result__head { display: flex; align-items: flex-start; gap: 12px; }
+
+.ai-result__thumb {
+  width: 74px;
+  height: 74px;
+  flex: none;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.ai-result__info { min-width: 0; }
+
+.ai-result__badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  background: #e2f0da;
+  color: var(--green-dark);
+}
+
+.ai-result__badge--ok { background: #e2f0da; color: var(--green-dark); }
+.ai-result__badge--soft { background: var(--amber-soft); color: var(--amber); }
+.ai-result__badge--warn { background: #f9dcc4; color: #a85b12; }
+.ai-result__badge--danger { background: var(--red-soft); color: var(--red); }
+.ai-result__badge--muted { background: #eceae2; color: var(--muted); }
+
+.ai-result__name {
+  display: block;
+  margin-top: 6px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green-dark);
+}
+
+.ai-result__sci { display: block; font-size: 12.5px; color: var(--muted); }
+
+.ai-result__metrics {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.ai-metric__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.ai-metric__head b { color: #34473a; font-size: 13px; }
+
+.ai-metric__bar {
+  display: block;
+  height: 7px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background: #eee7da;
+  overflow: hidden;
+}
+
+.ai-metric__fill { display: block; height: 100%; border-radius: 999px; }
+.ai-metric__fill--green { background: var(--green); }
+.ai-metric__fill--amber { background: #d79a2f; }
+.ai-metric__fill--red { background: var(--red); }
+.ai-metric__fill--blue { background: var(--blue); }
+
+.ai-block { margin-top: 12px; }
+
+.ai-block__title {
+  margin: 0 0 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #34473a;
+}
+
+.ai-list { margin: 0; padding-left: 18px; }
+
+.ai-list li {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #4a5a4e;
+  margin-bottom: 4px;
+}
+
+.ai-result__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ai-result__actions .btn { font-size: 13px; padding: 9px 13px; }
+
+.ai-result__note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.ai-result__note .icon { width: 15px; height: 15px; flex: none; margin-top: 1px; color: var(--green); }
+
+/* ---------- Hộp báo cáo đầy đủ ---------- */
+.ai-desc { margin: 0 0 12px; font-size: 13.5px; color: var(--muted); }
+
+.ai-report__facts {
+  display: grid;
+  grid-template-columns: minmax(140px, 40%) 1fr;
+  gap: 6px 12px;
+  margin: 0 0 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fffdf8;
+  font-size: 13px;
+}
+
+.ai-report__facts dt { color: var(--muted); }
+.ai-report__facts dd { margin: 0; font-weight: 600; color: #34473a; }
 
 .aicard__secure {
   display: flex;
