@@ -62,10 +62,13 @@ const SA_NAV = [
   { key: 'settings', href: 'settings.html', icon: 'i-gear', label: 'Cài đặt hệ thống' }
 ];
 
+/* Mỗi thông báo trỏ thẳng tới mục cần xử lý (trang + neo). */
 const SA_NOTIFS = [
-  { title: 'Cảnh báo mới từ AI', body: 'Nguy cơ đạo ôn ở lô B2 tăng lên mức Cao.' },
-  { title: 'Yêu cầu #1182 chờ phản hồi', body: 'Nông hộ Trần Văn Bình đã gửi ảnh hiện trường.' },
-  { title: 'Hoàn tất báo cáo tuần', body: 'Bảng tổng hợp hoạt động 05/10 – 12/10 đã sẵn sàng.' }
+  { title: 'Cảnh báo đạo ôn cấp khẩn cấp — lô B2', body: 'AI phát hiện vết bệnh trên 3/10 ảnh ngày 12/10, ẩm độ 82%.', to: 'Mở cảnh báo để xử lý', href: 'alerts.html#alert-1' },
+  { title: 'Yêu cầu #1182 chờ phản hồi', body: 'Nông hộ Trần Văn Bình đã gửi ảnh hiện trường lô A1.', to: 'Viết tư vấn cho nông hộ', href: 'index.html#advice-1182' },
+  { title: 'Nhắc ghi nhật ký canh đồng', body: 'Hôm nay chưa có hoạt động nào được ghi lại.', to: 'Thêm hoạt động vào nhật ký', href: 'journal.html#journalForm' },
+  { title: 'Hồ sơ nông hộ chờ duyệt', body: 'Lê Văn Tuấn — 2.4 ha lúa tại Tháp Mười, gửi ngày 10/10.', to: 'Xem đơn chờ duyệt', href: 'households.html#pending-1' },
+  { title: 'Báo cáo tuần đã hoàn tất', body: 'Bảng tổng hợp hoạt động 05/10 – 12/10 đã sẵn sàng.', to: 'Xuất báo cáo tuần', href: 'reports.html#rep-export' }
 ];
 
 (function buildShell() {
@@ -114,12 +117,28 @@ const SA_NOTIFS = [
               '<svg class="icon"><use href="#i-bell"></use></svg>' +
               '<span class="notif__count" id="notifCount">' + SA_NOTIFS.length + '</span></button>' +
             '<section class="notif__panel" id="notifPanel" hidden aria-label="Danh sách thông báo">' +
-              '<h2 class="notif__title">Thông báo</h2><ul class="notif__list" id="notifList"></ul></section>' +
+              '<h2 class="notif__title">Thông báo</h2>' +
+              '<p class="notif__hint">Bấm vào một thông báo để mở đúng mục cần xử lý.</p>' +
+              '<ul class="notif__list" id="notifList"></ul></section>' +
           '</div>' +
-          '<div class="account"><span class="avatar" aria-hidden="true">NN</span>' +
+          '<div class="account-wrap"><button class="account" type="button" id="btnAccount" aria-expanded="false" aria-haspopup="true">' +
+            '<span class="avatar" aria-hidden="true">NN</span>' +
             '<span class="account__text"><strong>Nguyễn Văn Nam</strong>' +
             '<small>Chuyên gia nông nghiệp</small></span>' +
-            '<svg class="icon account__chevron"><use href="#i-chevron"></use></svg></div>' +
+            '<svg class="icon account__chevron"><use href="#i-chevron"></use></svg></button>' +
+            '<section class="account__panel" id="accountPanel" hidden aria-label="Tài khoản chuyên gia">' +
+              '<header class="account__head"><span class="avatar avatar--lg" id="accAvatar" aria-hidden="true">NN</span>' +
+                '<span class="account__who"><strong id="accName">Nguyễn Văn Nam</strong>' +
+                '<small id="accMail">chuyengia@smartagri.vn</small></span></header>' +
+              '<ul class="account__menu">' +
+                '<li><a href="experts.html"><svg class="icon"><use href="#i-user"></use></svg> Hồ sơ chuyên gia</a></li>' +
+                '<li><a href="index.html"><svg class="icon"><use href="#i-chat"></use></svg> Yêu cầu đang phụ trách</a></li>' +
+                '<li><a href="journal.html"><svg class="icon"><use href="#i-sprout"></use></svg> Nhật ký canh đồng</a></li>' +
+                '<li><a href="settings.html"><svg class="icon"><use href="#i-gear"></use></svg> Cài đặt hệ thống</a></li>' +
+              '</ul>' +
+              '<button class="account__logout" type="button" id="accLogout">' +
+                '<svg class="icon"><use href="#i-logout"></use></svg> Đăng xuất</button>' +
+            '</section></div>' +
           '</div>' +
         '</header>' +
         '<footer class="footer"><p>SmartAgri — Nền tảng hỗ trợ nông hộ và HTX · Học phần CSE122</p></footer>' +
@@ -148,18 +167,40 @@ const SA_NOTIFS = [
   const modal = $('#modal');
   let toastTimer, lastFocused = null;
 
+  /* Desktop: bấm ☰ để thu gọn/ mở lại sidebar. Mobile (≤1024px): drawer + scrim. */
+  const btnMenu = $('#btnMenu');
+  const isDesktopNav = () => window.matchMedia('(min-width: 1025px)').matches;
+
   function setNav(open) {
-    layout.classList.toggle('nav-open', open);
-    scrim.hidden = !open;
+    if (isDesktopNav()) {
+      layout.classList.toggle('nav-closed', !open);
+      layout.classList.remove('nav-open');
+      scrim.hidden = true;
+      sessionStorage.setItem('smartagri_nav', open ? 'open' : 'closed');
+    } else {
+      layout.classList.toggle('nav-open', open);
+      scrim.hidden = !open;
+    }
+    btnMenu.setAttribute('aria-expanded', String(open));
   }
-  $('#btnMenu').addEventListener('click', () => setNav(!layout.classList.contains('nav-open')));
+
+  btnMenu.setAttribute('aria-expanded', String(isDesktopNav()));
+  if (isDesktopNav() && sessionStorage.getItem('smartagri_nav') === 'closed') setNav(false);
+
+  btnMenu.addEventListener('click', () => {
+    const open = isDesktopNav()
+      ? layout.classList.contains('nav-closed')
+      : !layout.classList.contains('nav-open');
+    setNav(open);
+  });
   scrim.addEventListener('click', () => setNav(false));
 
-  $('#btnLogout').addEventListener('click', () => {
+  function doLogout() {
     sessionStorage.removeItem('smartagri_auth');
     sessionStorage.removeItem('smartagri_user');
     location.replace('login.html');
-  });
+  }
+  $('#btnLogout').addEventListener('click', doLogout);
 
   function showToast(message, kind) {
     toast.textContent = message;
@@ -170,23 +211,78 @@ const SA_NOTIFS = [
 
   SA_NOTIFS.forEach((item) => {
     const li = document.createElement('li');
+    const link = document.createElement('a');
+    link.className = 'notif__item';
+    link.href = item.href;
     const strong = document.createElement('strong');
     const span = document.createElement('span');
+    const go = document.createElement('em');
     strong.textContent = item.title;
     span.textContent = item.body;
-    li.append(strong, span);
+    go.className = 'notif__go';
+    go.textContent = item.to + ' →';
+    link.append(strong, span, go);
+    li.appendChild(link);
     notifList.appendChild(li);
   });
+
+  /* Deep link: cuộn tới và báo sáng đúng mục cần xử lý */
+  function revealTarget() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('is-target');
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const field = ['[contenteditable="true"]', 'textarea', 'input:not([type=hidden]), select']
+      .map((sel) => el.querySelector(sel)).find(Boolean);
+    if (field) field.focus({ preventScroll: true });
+    setTimeout(() => el.classList.remove('is-target'), 2400);
+  }
+  window.addEventListener('load', revealTarget);
+  window.addEventListener('hashchange', revealTarget);
 
   btnBell.addEventListener('click', () => {
     const open = notifPanel.hidden;
     notifPanel.hidden = !open;
     btnBell.setAttribute('aria-expanded', String(open));
   });
+  /* Menu tài khoản chuyên gia */
+  const btnAccount = $('#btnAccount');
+  const accountPanel = $('#accountPanel');
+  const userName = sessionStorage.getItem('smartagri_user') || 'Nguyễn Văn Nam';
+  const nameParts = userName.trim().split(/\s+/);
+  const initials = (nameParts[0][0] + (nameParts[nameParts.length - 1][0] || '')).toUpperCase();
+
+  btnAccount.querySelector('.account__text strong').textContent = userName;
+  btnAccount.querySelector('.avatar').textContent = initials;
+  $('#accName').textContent = userName;
+  $('#accAvatar').textContent = initials;
+
+  btnAccount.addEventListener('click', () => {
+    const open = accountPanel.hidden;
+    accountPanel.hidden = !open;
+    notifPanel.hidden = true;
+    btnBell.setAttribute('aria-expanded', 'false');
+    btnAccount.setAttribute('aria-expanded', String(open));
+  });
+  $('#accLogout').addEventListener('click', doLogout);
+
   document.addEventListener('click', (e) => {
     if (!notifPanel.hidden && !e.target.closest('.notif')) {
       notifPanel.hidden = true;
       btnBell.setAttribute('aria-expanded', 'false');
+    }
+    if (!accountPanel.hidden && !e.target.closest('.account-wrap')) {
+      accountPanel.hidden = true;
+      btnAccount.setAttribute('aria-expanded', 'false');
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !accountPanel.hidden) {
+      accountPanel.hidden = true;
+      btnAccount.setAttribute('aria-expanded', 'false');
+      btnAccount.focus();
     }
   });
 

@@ -118,21 +118,42 @@
           <div class="notif">
             <button class="icon-btn" id="btnBell" type="button" aria-label="Thông báo" aria-expanded="false">
               <svg class="icon"><use href="#i-bell"></use></svg>
-              <span class="notif__count" id="notifCount">3</span>
+              <span class="notif__count" id="notifCount">5</span>
             </button>
             <section class="notif__panel" id="notifPanel" hidden aria-label="Danh sách thông báo">
               <h2 class="notif__title">Thông báo</h2>
+              <p class="notif__hint">Bấm vào một thông báo để mở đúng mục cần xử lý.</p>
               <ul class="notif__list" id="notifList"></ul>
             </section>
           </div>
 
-          <div class="account">
-            <span class="avatar" aria-hidden="true">NN</span>
-            <span class="account__text">
-              <strong>Nguyễn Văn Nam</strong>
-              <small>Chuyên gia nông nghiệp</small>
-            </span>
-            <svg class="icon account__chevron"><use href="#i-chevron"></use></svg>
+          <div class="account-wrap">
+            <button class="account" type="button" id="btnAccount" aria-expanded="false" aria-haspopup="true">
+              <span class="avatar" aria-hidden="true">NN</span>
+              <span class="account__text">
+                <strong>Nguyễn Văn Nam</strong>
+                <small>Chuyên gia nông nghiệp</small>
+              </span>
+              <svg class="icon account__chevron"><use href="#i-chevron"></use></svg>
+            </button>
+            <section class="account__panel" id="accountPanel" hidden aria-label="Tài khoản chuyên gia">
+              <header class="account__head">
+                <span class="avatar avatar--lg" id="accAvatar" aria-hidden="true">NN</span>
+                <span class="account__who">
+                  <strong id="accName">Nguyễn Văn Nam</strong>
+                  <small id="accMail">chuyengia@smartagri.vn</small>
+                </span>
+              </header>
+              <ul class="account__menu">
+                <li><a href="experts.html"><svg class="icon"><use href="#i-user"></use></svg> Hồ sơ chuyên gia</a></li>
+                <li><a href="index.html"><svg class="icon"><use href="#i-chat"></use></svg> Yêu cầu đang phụ trách</a></li>
+                <li><a href="journal.html"><svg class="icon"><use href="#i-sprout"></use></svg> Nhật ký canh đồng</a></li>
+                <li><a href="settings.html"><svg class="icon"><use href="#i-gear"></use></svg> Cài đặt hệ thống</a></li>
+              </ul>
+              <button class="account__logout" type="button" id="accLogout">
+                <svg class="icon"><use href="#i-logout"></use></svg> Đăng xuất
+              </button>
+            </section>
           </div>
         </div>
       </header>

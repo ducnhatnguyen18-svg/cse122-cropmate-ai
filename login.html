@@ -16,7 +16,7 @@
     <!-- ============ NỬA TRÁI: ẢNH ============ -->
     <div class="login-hero" aria-hidden="true">
       <svg class="hero-curve" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <path d="M56 0 C80 14 40 34 60 52 C76 66 46 82 58 100 L103 100 L103 0 Z" fill="#f6f1e6"></path>
+        <path d="M96 0 C84 6 80 12 81 20 C82 30 91 40 96 50 C100 58 90 66 87 74 C85 81 91 88 95 94 L96 100 L104 100 L104 0 Z" fill="#f6f1e6"></path>
       </svg>
     </div>
 
@@ -25,9 +25,14 @@
       <h1 class="login-title">Đăng nhập cho chuyên gia</h1>
 
       <div class="login-divider" aria-hidden="true">
-        <span></span>
-        <svg viewBox="0 0 24 24"><path d="M5 19C5 10 11 5 20 4.5 19.5 13 14 19 5 19Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 19c3-4 6.5-6.5 10-8.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
-        <span></span>
+        <svg viewBox="0 0 260 26" width="260" height="26">
+          <path d="M6 14h96M254 14h-96" stroke="#2e7d4f" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <circle cx="108" cy="14" r="3.4" fill="#2e7d4f"/>
+          <circle cx="152" cy="14" r="3.4" fill="#2e7d4f"/>
+          <path d="M130 25c-11-3-16-10-16-20 11 0 16 8 16 20Z" fill="#1d6b41"/>
+          <path d="M130 25c11-3 16-10 16-20-11 0-16 8-16 20Z" fill="#8cc47c"/>
+          <path d="M130 26v-8" stroke="#1d6b41" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
       </div>
 
       <form class="login-card" id="loginForm" novalidate>
@@ -35,7 +40,7 @@
           <label for="username">Tên đăng nhập</label>
           <div class="control">
             <svg class="control__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6" fill="currentColor"/><path d="M4.5 20c0-4 3.4-6.4 7.5-6.4s7.5 2.4 7.5 6.4Z" fill="currentColor"/></svg>
-            <input id="username" name="username" type="text" autocomplete="username" placeholder="Nhập tên đăng nhập">
+            <input id="username" name="username" type="text" autocomplete="username">
           </div>
           <p class="field-error" id="usernameError" hidden></p>
         </div>
@@ -44,7 +49,7 @@
           <label for="password">Mật khẩu</label>
           <div class="control">
             <svg class="control__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2.5" fill="currentColor"/><path d="M8 10V8a4 4 0 0 1 8 0v2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu">
+            <input id="password" name="password" type="password" autocomplete="current-password">
             <button class="control__eye" type="button" id="btnEye" aria-label="Hiện mật khẩu" aria-pressed="false">
               <svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12Z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
               <svg class="eye-closed" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12Z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
@@ -56,26 +61,45 @@
         <p class="login-form-error" id="formError" role="alert" hidden></p>
 
         <button class="login-submit" type="submit" id="btnLogin">Đăng nhập</button>
-
-        <p class="login-hint">Tài khoản demo: <code>chuyengia</code> · Mật khẩu: <code>123456</code></p>
       </form>
 
       <a class="login-back" href="index.html" id="btnBack">Quay lại</a>
 
       <!-- Trang trí góc phải dưới -->
       <div class="login-decor" aria-hidden="true">
-        <svg class="decor-tablet" viewBox="0 0 120 150">
-          <rect x="6" y="6" width="108" height="138" rx="14" fill="#e9f1de" stroke="#a3c98f" stroke-width="3"/>
-          <rect x="17" y="19" width="86" height="112" rx="7" fill="#f8fbf2"/>
-          <path d="M60 66V44m0 0c0-9 7-13 13-13 0 9-7 13-13 13Zm0 0c0-9-7-13-13-13 0 9 7 13 13 13Z" fill="none" stroke="#2e7d4f" stroke-width="2.6" stroke-linecap="round"/>
-          <rect x="28" y="98" width="10" height="22" rx="2" fill="#8cc47c"/>
-          <rect x="44" y="86" width="10" height="34" rx="2" fill="#5aa869"/>
-          <rect x="60" y="74" width="10" height="46" rx="2" fill="#2e7d4f"/>
-          <circle cx="88" cy="96" r="15" fill="none" stroke="#2e7d4f" stroke-width="3"/>
-          <path d="M88 96V81a15 15 0 0 1 13 8Z" fill="#8cc47c"/>
+        <svg class="decor-leaves" viewBox="0 0 110 150">
+          <path d="M78 6c14 10 18 26 12 42-14-6-22-20-12-42Z" fill="#a9d59a"/>
+          <path d="M96 34c12 12 12 28 2 42-10-10-14-26-2-42Z" fill="#8cc47c"/>
+          <path d="M60 26c14 8 20 24 16 40-14-6-22-22-16-40Z" fill="#cfe6c4"/>
+          <path d="M84 78c12 10 14 26 6 40-12-8-16-24-6-40Z" fill="#a9d59a"/>
+          <path d="M40 96c12 8 16 22 12 36-12-6-18-20-12-36Z" fill="#cfe6c4"/>
         </svg>
+
+        <svg class="decor-tablet" viewBox="0 0 150 176">
+          <rect x="6" y="4" width="138" height="168" rx="18" fill="#a9cc92"/>
+          <rect x="16" y="16" width="118" height="144" rx="8" fill="#f3f8ec"/>
+          <path d="M44 62V42m0 0c0-9 7-13 14-13 0 9-6 13-14 13Zm0 0c0-9-7-13-14-13 0 9 6 13 14 13Z" fill="none" stroke="#2e7d4f" stroke-width="3" stroke-linecap="round"/>
+          <path d="M78 36h44M78 46h44M78 56h28" stroke="#bcd9ab" stroke-width="5" stroke-linecap="round"/>
+          <rect x="30" y="96" width="9" height="24" rx="2" fill="#8cc47c"/>
+          <rect x="44" y="84" width="9" height="36" rx="2" fill="#5aa869"/>
+          <rect x="58" y="72" width="9" height="48" rx="2" fill="#2e7d4f"/>
+          <circle cx="104" cy="98" r="19" fill="#cfe6c4"/>
+          <path d="M104 98V79a19 19 0 0 1 17 11Z" fill="#2e7d4f"/>
+          <path d="M30 136h88M30 146h62" stroke="#bcd9ab" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+
         <span class="login-decor__avatar">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="8.4" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 19.5c0-3.8 3.2-6 7-6s7 2.2 7 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M9 14.5l3 2.4 3-2.4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <svg viewBox="0 0 64 64">
+            <path d="M14 58c0-10 8-16 18-16s18 6 18 16Z" fill="#fdfaf1" stroke="#1d6b41" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M32 42l-7 4 3 12 4-7 4 7 3-12-7-4Z" fill="none" stroke="#1d6b41" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="32" cy="24" r="11" fill="#fdfaf1" stroke="#1d6b41" stroke-width="2"/>
+            <path d="M21.4 22c.6-7 5-11 10.6-11s10 4 10.6 11c-2-4-5-5.6-10.6-5.6S23.4 18 21.4 22Z" fill="#1d6b41"/>
+            <g fill="none" stroke="#1d6b41" stroke-width="1.8">
+              <circle cx="27.2" cy="25.4" r="3.8"/><circle cx="36.8" cy="25.4" r="3.8"/>
+              <path d="M31 25.4h2M23.4 24.6 20 23.2M40.6 24.6 44 23.2"/>
+            </g>
+            <path d="M42 50l3-4 3 4-3 4Z" fill="#8cc47c"/>
+          </svg>
         </span>
       </div>
     </main>
@@ -89,11 +113,16 @@
         <stop offset="1" stop-color="#0e4a2a"></stop>
       </linearGradient>
     </defs>
-    <path d="M0 118 C170 58 330 148 520 108 C710 68 860 148 1060 108 C1240 74 1350 118 1440 94 L1440 190 L0 190 Z" fill="url(#waveGrad)"></path>
-    <g fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M300 176v-22m0 0c0-9 7-13 13-13 0 9-7 13-13 13Zm0 0c0-9-7-13-13-13 0 9 7 13 13 13Z"></path>
-      <path d="M420 176v-26l16-12 16 12v26Zm10 0v-14h12v14"></path>
-      <path d="M560 176c0-14 10-22 24-22-2 14-10 22-24 22Z"></path>
+    <path d="M0 112 C130 82 250 58 370 56 C480 54 545 86 645 98 C745 110 805 72 925 64 C1055 56 1185 112 1310 168 C1362 192 1402 204 1440 208 L1440 214 L0 214 Z" fill="url(#waveGrad)"></path>
+    <g fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="3" stroke-linecap="round">
+      <path d="M60 190c40-46 96-74 170-88M20 190c34-34 78-56 138-68"></path>
+    </g>
+    <g fill="none" stroke="#ffffff" stroke-opacity="0.24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M440 178c-16 0-28-12-28-28s12-28 28-28 28 12 28 28-12 28-28 28Z"></path>
+      <path d="M440 150v-16m0 0c0-8 6-12 13-12 0 8-5 12-13 12Zm0 0c0-8-6-12-13-12 0 8 5 12 13 12Z"></path>
+      <path d="M424 160l16 14 16-14M412 180h56"></path>
+      <path d="M600 180v-30l18-14 18 14v30Zm11 0v-16h13v16M586 180h62"></path>
+      <path d="M596 150c0-10 7-16 16-16-1 10-7 16-16 16Z"></path>
     </g>
   </svg>
 

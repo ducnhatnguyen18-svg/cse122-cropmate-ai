@@ -31,10 +31,13 @@ const entries = [
   { id: 1, date: '2024-05-10', time: '09:20', type: 'Thu hoạch', stage: 'Chín – Thu hoạch', status: 'done', thumb: 'assets/thumb-thu-hoach.svg', note: 'Thu hoạch lúa lô A1, năng suất ước đạt 6.2 tấn/ha, hạt chắc vàng, phơi khô đạt ẩm 14%.' }
 ];
 
+/* Mỗi thông báo trỏ thẳng tới mục cần xử lý (trang + neo). */
 const notifications = [
-  { title: 'AI chẩn đoán xong', body: 'Ảnh lá lô A1: đốm nâu Cercospora, cần phun đặc trị.' },
-  { title: 'Nhắc ghi nhật ký', body: 'Hôm nay chưa có hoạt động nào được ghi lại.' },
-  { title: 'Yêu cầu mới #1182', body: 'Nông hộ Trần Văn Bình gửi ảnh hiện trường lô A1.' }
+  { title: 'Cảnh báo đạo ôn cấp khẩn cấp — lô B2', body: 'AI phát hiện vết bệnh trên 3/10 ảnh ngày 12/10, ẩm độ 82%.', to: 'Mở cảnh báo để xử lý', href: 'alerts.html#alert-1' },
+  { title: 'Yêu cầu #1182 chờ phản hồi', body: 'Nông hộ Trần Văn Bình đã gửi ảnh hiện trường lô A1.', to: 'Viết tư vấn cho nông hộ', href: 'index.html#advice-1182' },
+  { title: 'Nhắc ghi nhật ký canh đồng', body: 'Hôm nay chưa có hoạt động nào được ghi lại.', to: 'Thêm hoạt động vào nhật ký', href: 'journal.html#journalForm' },
+  { title: 'Hồ sơ nông hộ chờ duyệt', body: 'Lê Văn Tuấn — 2.4 ha lúa tại Tháp Mười, gửi ngày 10/10.', to: 'Xem đơn chờ duyệt', href: 'households.html#pending-1' },
+  { title: 'Báo cáo tuần đã hoàn tất', body: 'Bảng tổng hợp hoạt động 05/10 – 12/10 đã sẵn sàng.', to: 'Xuất báo cáo tuần', href: 'reports.html#rep-export' }
 ];
 
 /* ---------- Ảnh đang chọn trong form ---------- */
@@ -75,19 +78,40 @@ const aiDiag = $('#aiDiag');
 const aiNote = $('#aiNote');
 
 /* ---------- 1. Toggle sidebar ---------- */
+const btnMenu = $('#btnMenu');
+const isDesktopNav = () => window.matchMedia('(min-width: 1025px)').matches;
+
 function setNav(open) {
-  layout.classList.toggle('nav-open', open);
-  scrim.hidden = !open;
+  if (isDesktopNav()) {
+    layout.classList.toggle('nav-closed', !open);
+    layout.classList.remove('nav-open');
+    scrim.hidden = true;
+    sessionStorage.setItem('smartagri_nav', open ? 'open' : 'closed');
+  } else {
+    layout.classList.toggle('nav-open', open);
+    scrim.hidden = !open;
+  }
+  btnMenu.setAttribute('aria-expanded', String(open));
 }
-$('#btnMenu').addEventListener('click', () => setNav(!layout.classList.contains('nav-open')));
+
+btnMenu.setAttribute('aria-expanded', String(isDesktopNav()));
+if (isDesktopNav() && sessionStorage.getItem('smartagri_nav') === 'closed') setNav(false);
+
+btnMenu.addEventListener('click', () => {
+  const open = isDesktopNav()
+    ? layout.classList.contains('nav-closed')
+    : !layout.classList.contains('nav-open');
+  setNav(open);
+});
 scrim.addEventListener('click', () => setNav(false));
 
 /* ---------- 2. Đăng xuất ---------- */
-$('#btnLogout').addEventListener('click', () => {
+function doLogout() {
   sessionStorage.removeItem(AUTH_KEY);
   sessionStorage.removeItem(USER_KEY);
   location.replace('login.html');
-});
+}
+$('#btnLogout').addEventListener('click', doLogout);
 
 /* ---------- 3. Toast ---------- */
 let toastTimer;
@@ -108,26 +132,81 @@ function renderNotifications() {
   notifList.innerHTML = '';
   notifications.forEach((item) => {
     const li = document.createElement('li');
+    const link = document.createElement('a');
+    link.className = 'notif__item';
+    link.href = item.href;
     const strong = document.createElement('strong');
     const body = document.createElement('span');
+    const go = document.createElement('em');
     strong.textContent = item.title;
     body.textContent = item.body;
-    li.append(strong, body);
+    go.className = 'notif__go';
+    go.textContent = item.to + ' →';
+    link.append(strong, body, go);
+    li.appendChild(link);
     notifList.appendChild(li);
   });
   notifCount.textContent = notifications.length;
   notifCount.hidden = notifications.length === 0;
 }
 
+/* Deep link: cuộn tới và báo sáng đúng mục cần xử lý */
+function revealTarget() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.add('is-target');
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const field = ['[contenteditable="true"]', 'textarea', 'input:not([type=hidden]), select']
+    .map((sel) => el.querySelector(sel)).find(Boolean);
+  if (field) field.focus({ preventScroll: true });
+  setTimeout(() => el.classList.remove('is-target'), 2400);
+}
+window.addEventListener('load', revealTarget);
+window.addEventListener('hashchange', revealTarget);
+
 btnBell.addEventListener('click', () => {
   const open = notifPanel.hidden;
   notifPanel.hidden = !open;
   btnBell.setAttribute('aria-expanded', String(open));
 });
+/* ---------- 4b. Menu tài khoản chuyên gia ---------- */
+const btnAccount = $('#btnAccount');
+const accountPanel = $('#accountPanel');
+const userName = sessionStorage.getItem(USER_KEY) || 'Nguyễn Văn Nam';
+const nameParts = userName.trim().split(/\s+/);
+const initials = (nameParts[0][0] + (nameParts[nameParts.length - 1][0] || '')).toUpperCase();
+
+btnAccount.querySelector('.account__text strong').textContent = userName;
+btnAccount.querySelector('.avatar').textContent = initials;
+$('#accName').textContent = userName;
+$('#accAvatar').textContent = initials;
+
+btnAccount.addEventListener('click', () => {
+  const open = accountPanel.hidden;
+  accountPanel.hidden = !open;
+  notifPanel.hidden = true;
+  btnBell.setAttribute('aria-expanded', 'false');
+  btnAccount.setAttribute('aria-expanded', String(open));
+});
+$('#accLogout').addEventListener('click', doLogout);
+
 document.addEventListener('click', (e) => {
   if (!notifPanel.hidden && !e.target.closest('.notif')) {
     notifPanel.hidden = true;
     btnBell.setAttribute('aria-expanded', 'false');
+  }
+  if (!accountPanel.hidden && !e.target.closest('.account-wrap')) {
+    accountPanel.hidden = true;
+    btnAccount.setAttribute('aria-expanded', 'false');
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !accountPanel.hidden) {
+    accountPanel.hidden = true;
+    btnAccount.setAttribute('aria-expanded', 'false');
+    btnAccount.focus();
   }
 });
 

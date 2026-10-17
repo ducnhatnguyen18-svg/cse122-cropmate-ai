@@ -152,7 +152,7 @@
       listEl.innerHTML = '';
       const shown = alerts.filter((a) => !filterSev || a.sev === filterSev);
       shown.forEach((a) => {
-        listRow(listEl, {
+        const row = listRow(listEl, {
           icon: a.icon,
           iconKind: a.iconKind,
           title: a.title,
@@ -178,6 +178,7 @@
             })
           ]
         });
+        row.id = 'alert-' + a.id;
       });
       emptyEl.hidden = shown.length !== 0;
       const urgent = alerts.filter((a) => a.sev === 'urgent' || a.sev === 'high').length;
@@ -328,7 +329,7 @@
       const host = $('#pendingList');
       host.innerHTML = '';
       pending.forEach((p) => {
-        listRow(host, {
+        const row = listRow(host, {
           icon: 'i-clock',
           iconKind: 'amber',
           title: p.name,
@@ -348,6 +349,7 @@
             })
           ]
         });
+        row.id = 'pending-' + p.id;
       });
       $('#pendingEmpty').hidden = pending.length !== 0;
     }
