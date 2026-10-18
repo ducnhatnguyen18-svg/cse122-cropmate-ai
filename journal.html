@@ -168,43 +168,49 @@
               Form thêm/sửa Nhật ký
             </h2>
 
+            <p class="jform__required">Những trường có dấu <span class="req">*</span> là bắt buộc. Ngày phải theo định dạng DD/MM/YYYY.</p>
             <form class="jform" id="journalForm" novalidate>
               <input type="hidden" id="editId" value="">
 
               <div class="jform__row">
                 <div class="field">
-                  <label for="fDate">Ngày thực hiện</label>
-                  <input type="date" id="fDate" required>
+                  <label for="fDate">Ngày thực hiện <span class="req">*</span></label>
+                  <input type="date" id="fDate" required aria-describedby="dateError">
+                  <p class="field-error" id="dateError" hidden></p>
                 </div>
                 <div class="field">
-                  <label for="fType">Loại hoạt động</label>
-                  <select id="fType" required>
+                  <label for="fType">Loại hoạt động <span class="req">*</span></label>
+                  <select id="fType" required aria-describedby="typeError">
+                    <option value="">— Chọn loại hoạt động —</option>
                     <option value="Bón phân">Bón phân</option>
                     <option value="Phun thuốc">Phun thuốc</option>
                     <option value="Tưới nước">Tưới nước</option>
                     <option value="Làm cỏ">Làm cỏ</option>
                     <option value="Thu hoạch">Thu hoạch</option>
                   </select>
+                  <p class="field-error" id="typeError" hidden></p>
                 </div>
               </div>
 
               <div class="field">
-                <label for="fStage">Giai đoạn</label>
-                <select id="fStage">
+                <label for="fStage">Giai đoạn <span class="req">*</span></label>
+                <select id="fStage" required aria-describedby="stageError">
+                  <option value="">— Chọn giai đoạn sinh trưởng —</option>
                   <option value="Làm đất">Làm đất</option>
                   <option value="Gieo sạ">Gieo sạ</option>
-                  <option value="Đẻ nhánh" selected>Đẻ nhánh</option>
+                  <option value="Đẻ nhánh">Đẻ nhánh</option>
                   <option value="Làm đòng">Làm đòng</option>
                   <option value="Trổ bông">Trổ bông</option>
                   <option value="Chín – Thu hoạch">Chín – Thu hoạch</option>
                 </select>
+                <p class="field-error" id="stageError" hidden></p>
               </div>
 
               <div class="field">
-                <label for="fNote">Mô tả chi tiết / Ghi chú hiện trường</label>
-                <textarea id="fNote" placeholder="Ví dụ: Phun Actara 25WG liều 0.3kg/ha, trời nắng nhẹ, đã kiểm tra mép ruộng phía đông."></textarea>
+                <label for="fNote">Mô tả chi tiết / Ghi chú hiện trường <span class="req">*</span></label>
+                <textarea id="fNote" maxlength="600" required aria-describedby="noteError" placeholder="Ví dụ: Phun Actara 25WG liều 0.3kg/ha, trời nắng nhẹ, đã kiểm tra mép ruộng phía đông."></textarea>
                 <p class="field-error" id="noteError" hidden></p>
-                <small class="jform__hint">Ghi rõ liều lượng, thời tiết và khu vực để tiện theo dõi về sau.</small>
+                <small class="jform__hint">Tối thiểu 5 và tối đa 600 ký tự · <span id="noteCount">0</span>/600</small>
               </div>
 
               <div class="field">
@@ -229,32 +235,45 @@
                 <span class="chip-icon chip-icon--blue"><svg class="icon"><use href="#i-ai"></use></svg></span>
                 Field Issue Classifier – Trợ lý AI
               </h2>
-              <span class="badge badge--ok" id="aiBadge">Đã sẵn sàng</span>
+              <span class="badge badge--idle" id="aiBadge">Chưa có kết quả</span>
             </div>
 
             <div class="aiclassify__body">
               <figure class="aiclassify__thumb">
-                <img src="assets/thumb-la-benh.svg" alt="Ảnh lá lúa được AI phân tích">
+                <img src="assets/thumb-la-benh.svg" alt="Ảnh lá lúa được AI phân tích" id="aiThumb">
               </figure>
               <div class="aiclassify__result">
                 <p class="aiclassify__label">Kết quả chẩn đoán sơ bộ</p>
-                <p class="aiclassify__diag">Vấn đề/Bệnh: <b id="aiDiag">Đốm nâu trên lá (Bệnh Cercospora)</b></p>
-                <p class="aiclassify__note" id="aiNote">
-                  AI phát hiện các đốm nâu hình bầu dục rải rác trên lá lúa, độ ẩm cao thuận lợi cho nấm phát triển.
-                  Khuyến nghị phun thuốc đặc trị và điều chỉnh lượng nước tưới.
-                </p>
+                <p class="ai-empty" id="aiEmpty">Chưa có kết quả. Bấm <b>Chẩn đoán bằng AI</b> để phân tích ảnh đang đính kèm trong form.</p>
+                <div id="aiResult" hidden>
+                  <p class="aiclassify__diag">Vấn đề/Bệnh: <b id="aiDiag"></b></p>
+                  <p class="aiclassify__note" id="aiNote"></p>
+                  <p class="ai-conf"><span id="aiConfLabel">Độ tin cậy</span>
+                    <span class="meter"><i id="aiMeter"></i></span>
+                    <b id="aiConf">0%</b>
+                  </p>
+                  <p class="ai-source" id="aiSource"></p>
+                </div>
               </div>
             </div>
+
+            <p class="ai-review" id="aiReview" hidden>
+              <svg class="icon"><use href="#i-clock"></use></svg>
+              <span>Kết quả chỉ là chẩn đoán sơ bộ. <b>Xác nhận</b> hoặc <b>Chỉnh sửa</b> trước khi lưu vào nhật ký.</span>
+            </p>
 
             <div class="aiclassify__actions">
               <button class="btn btn--blue" type="button" id="btnDiagnose">
                 <svg class="icon"><use href="#i-ai"></use></svg> Chẩn đoán bằng AI
               </button>
-              <button class="btn btn--outline" type="button" id="btnConfirmAi">
+              <button class="btn btn--outline" type="button" id="btnConfirmAi" disabled>
                 <svg class="icon"><use href="#i-check"></use></svg> Xác nhận
               </button>
-              <button class="btn btn--ghost" type="button" id="btnEditAi">
+              <button class="btn btn--ghost" type="button" id="btnEditAi" disabled>
                 <svg class="icon"><use href="#i-pencil"></use></svg> Chỉnh sửa
+              </button>
+              <button class="btn btn--ghost" type="button" id="btnRejectAi" disabled>
+                <svg class="icon"><use href="#i-close"></use></svg> Bỏ kết quả
               </button>
             </div>
           </section>
@@ -264,6 +283,8 @@
             <svg class="icon"><use href="#i-check"></use></svg>
             <span id="saveLabel">Lưu nhật ký</span>
           </button>
+          <p class="store-note" id="storeNote"></p>
+          <button class="link-btn" type="button" id="btnSeed">Khôi phục dữ liệu mẫu</button>
         </div>
 
         <!-- ============ CỘT PHẢI: TÌM KIẾM + DANH SÁCH ============ -->

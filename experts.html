@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SmartAgri — Quản lý chuyên gia</title>
-  <meta name="description" content="Danh bạ chuyên gia nông nghiệp, duyệt đơn đăng ký, phân công trực và theo dõi hiệu quả tư vấn.">
+  <meta name="description" content="Hồ sơ chuyên gia nông nghiệp, duyệt đơn đăng ký, phân công chuyên gia cho từng yêu cầu tư vấn và nhật ký thao tác.">
   <script>
     if (sessionStorage.getItem('smartagri_auth') !== '1') { location.replace('login.html'); }
   </script>
@@ -15,24 +15,24 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/parts.css">
 </head>
-<body data-page="experts" data-title="Quản lý chuyên gia" data-sub="Hồ sơ chuyên gia nông nghiệp, đơn đăng ký và lịch trực tư vấn">
-  <main class="board">
+<body data-page="experts" data-title="Quản lý chuyên gia" data-sub="Hồ sơ chuyên gia nông nghiệp, đơn đăng ký và phân công tư vấn">
+  <main class="board board--wide">
     <div class="stats">
       <article class="stat">
         <span class="stat__icon"><svg class="icon"><use href="#i-user"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">24</span><span class="stat__label">Chuyên gia trong mạng lưới</span><span class="stat__delta">+2 tháng này</span></span>
+        <span class="stat__text"><span class="stat__value" id="statEx">—</span><span class="stat__label">Chuyên gia trong mạng lưới</span><span class="stat__delta" id="statExDelta"></span></span>
       </article>
       <article class="stat">
         <span class="stat__icon stat__icon--blue"><svg class="icon"><use href="#i-clock"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">06</span><span class="stat__label">Đang trực tư vấn</span><span class="stat__delta">Khung giờ 7:00 – 19:00</span></span>
+        <span class="stat__text"><span class="stat__value" id="statOn">—</span><span class="stat__label">Đang trực tư vấn</span><span class="stat__delta" id="statOnDelta"></span></span>
       </article>
       <article class="stat">
-        <span class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-star"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">4.8</span><span class="stat__label">Điểm đánh giá trung bình</span><span class="stat__delta">Từ 1.204 lượt phản hồi</span></span>
+        <span class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-chat"></use></svg></span>
+        <span class="stat__text"><span class="stat__value" id="statOpen">—</span><span class="stat__label">Yêu cầu chờ phân công</span><span class="stat__delta" id="statOpenDelta"></span></span>
       </article>
       <article class="stat">
         <span class="stat__icon stat__icon--red"><svg class="icon"><use href="#i-alert"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">05</span><span class="stat__label">Đơn chờ duyệt</span><span class="stat__delta is-down">2 đơn quá 3 ngày</span></span>
+        <span class="stat__text"><span class="stat__value" id="statApps">—</span><span class="stat__label">Đơn đăng ký chờ duyệt</span><span class="stat__delta" id="statAppsDelta"></span></span>
       </article>
     </div>
 
@@ -45,6 +45,7 @@
             <p id="exSummary">Đang tải hồ sơ chuyên gia…</p>
           </div>
           <div class="card__acts">
+            <button class="btn btn--sm btn--ghost" type="button" id="btnExSeed"><svg class="icon"><use href="#i-refresh"></use></svg> Khôi phục dữ liệu mẫu</button>
             <button class="btn btn--sm btn--primary" type="button" id="btnAddExpert"><svg class="icon"><use href="#i-plus"></use></svg> Thêm chuyên gia</button>
           </div>
         </div>
@@ -52,21 +53,19 @@
         <div class="toolbar">
           <div class="search">
             <svg class="icon"><use href="#i-search"></use></svg>
-            <input type="search" id="exSearch" placeholder="Tìm theo tên, chuyên môn…" aria-label="Tìm chuyên gia">
+            <input type="search" id="exSearch" placeholder="Tìm theo tên, chuyên môn, đơn vị…" aria-label="Tìm chuyên gia">
           </div>
           <select id="exField" aria-label="Lọc theo chuyên môn">
             <option value="">Mọi chuyên môn</option>
-            <option>Bảo vệ thực vật</option>
-            <option>Thổ nhưỡng &amp; phân bón</option>
-            <option>Thủy nông</option>
-            <option>Cây ăn trái</option>
           </select>
-          <select id="exDuty" aria-label="Lọc theo ca trực">
+          <select id="exDuty" aria-label="Lọc theo trạng thái">
             <option value="">Mọi trạng thái</option>
             <option value="on">Đang trực</option>
             <option value="off">Ngoài giờ</option>
+            <option value="probation">Đang thử việc</option>
           </select>
         </div>
+        <p class="filters__info" id="exInfo"></p>
 
         <div class="rows rows--divided" id="exList"></div>
         <p class="empty" id="exEmpty" hidden>Không có chuyên gia nào khớp bộ lọc.</p>
@@ -74,9 +73,22 @@
 
       <section class="card">
         <div class="card__head">
-          <div><h2><svg class="icon"><use href="#i-chart"></use></svg> Hiệu quả tư vấn</h2><p>Thống kê 30 ngày gần nhất</p></div>
+          <div>
+            <h2><svg class="icon"><use href="#i-chat"></use></svg> Yêu cầu tư vấn &amp; phân công</h2>
+            <p id="reqCaption">Mỗi yêu cầu gán cho một chuyên gia và chỉ đóng khi hoàn thành</p>
+          </div>
         </div>
-        <div class="meters" id="exMeters"></div>
+
+        <div class="pills" id="reqFilters" role="group" aria-label="Lọc yêu cầu theo trạng thái">
+          <button class="pill is-on" type="button" data-rs="">Tất cả</button>
+          <button class="pill" type="button" data-rs="open">Chờ phân công</button>
+          <button class="pill" type="button" data-rs="assigned">Đã phân công</button>
+          <button class="pill" type="button" data-rs="done">Hoàn thành</button>
+        </div>
+        <p class="filters__info" id="reqInfo"></p>
+
+        <div class="rows rows--divided" id="reqList"></div>
+        <p class="empty" id="reqEmpty" hidden>Không có yêu cầu nào ở trạng thái này.</p>
       </section>
     </div>
 
@@ -84,8 +96,17 @@
     <div class="board__col">
       <section class="card">
         <div class="card__head">
-          <div><h2><svg class="icon"><use href="#i-alert"></use></svg> Đơn đăng ký chờ duyệt</h2></div>
+          <div>
+            <h2><svg class="icon"><use href="#i-alert"></use></svg> Đơn đăng ký</h2>
+            <p id="appCaption">Duyệt hoặc từ chối, kết quả được lưu lại</p>
+          </div>
           <div class="card__acts"><button class="btn btn--sm btn--outline-green" type="button" id="btnApproveAll"><svg class="icon"><use href="#i-check"></use></svg> Duyệt tất cả</button></div>
+        </div>
+        <div class="pills" id="appFilters" role="group" aria-label="Lọc đơn theo trạng thái">
+          <button class="pill is-on" type="button" data-as="pending">Chờ duyệt</button>
+          <button class="pill" type="button" data-as="approved">Đã duyệt</button>
+          <button class="pill" type="button" data-as="rejected">Từ chối</button>
+          <button class="pill" type="button" data-as="">Tất cả</button>
         </div>
         <div class="rows rows--divided" id="exPending"></div>
         <p class="empty" id="exPendingEmpty" hidden>Không còn đơn nào chờ duyệt.</p>
@@ -93,22 +114,25 @@
 
       <section class="card">
         <div class="card__head">
-          <div><h2><svg class="icon"><use href="#i-calendar"></use></svg> Phân công trực tuần này</h2></div>
+          <div><h2><svg class="icon"><use href="#i-chart"></use></svg> Hiệu quả mạng lưới</h2><p id="perfCaption">Tính trực tiếp từ hồ sơ và yêu cầu tư vấn</p></div>
         </div>
-        <div class="table__wrap">
-          <table class="table">
-            <thead><tr><th>Ngày</th><th>Ca sáng</th><th>Ca chiều</th><th>Trực khẩn</th></tr></thead>
-            <tbody id="dutyBody"></tbody>
-          </table>
-        </div>
+        <div class="meters" id="exMeters"></div>
       </section>
 
       <section class="card">
         <div class="card__head">
-          <div><h2><svg class="icon"><use href="#i-shield"></use></svg> Tiêu chí đánh giá chuyên gia</h2></div>
+          <div><h2><svg class="icon"><use href="#i-shield"></use></svg> Yêu cầu theo chuyên môn</h2><p>Thanh đo tỉ lệ yêu cầu thuộc chuyên môn đó trên tổng số yêu cầu tư vấn</p></div>
         </div>
-        <div class="note"><svg class="icon"><use href="#i-check"></use></svg><span>Hồ sơ được duyệt khi có bằng cấp chuyên môn phù hợp, tối thiểu 3 năm kinh nghiệm thực địa và hoàn thành khóa tập huấn sử dụng nền tảng SmartAgri.</span></div>
-        <div class="meters" id="criteriaMeters" style="margin-top:14px"></div>
+        <div class="meters" id="criteriaMeters"></div>
+        <div class="note" style="margin-top:14px"><svg class="icon"><use href="#i-check"></use></svg><span>Hồ sơ được duyệt khi có bằng cấp chuyên môn phù hợp, tối thiểu 3 năm kinh nghiệm thực địa và hoàn thành tập huấn sử dụng SmartAgri.</span></div>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div><h2><svg class="icon"><use href="#i-clock"></use></svg> Nhật ký thao tác</h2><p id="logCaption">Mỗi lần duyệt, phân công hay đổi trạng thái đều được ghi lại</p></div>
+        </div>
+        <div class="rows rows--divided" id="exLog"></div>
+        <p class="empty" id="logEmpty" hidden>Chưa có thao tác nào trong phiên dữ liệu này.</p>
       </section>
     </div>
   </main>

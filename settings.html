@@ -17,6 +17,7 @@
 </head>
 <body data-page="settings" data-title="Cài đặt hệ thống" data-sub="Cấu hình danh mục canh tác, cảnh báo, mô hình AI và phân quyền người dùng">
   <main class="board">
+    <div class="note note--ok settings-saved"><svg class="icon"><use href="#i-clock"></use></svg><span id="settingsSavedAt">Chưa có thay đổi nào được lưu trên máy này.</span></div>
     <!-- ============ CỘT TRÁI ============ -->
     <div class="board__col">
       <section class="card">
@@ -120,7 +121,8 @@
           </div>
           <div class="field">
             <label for="aiKey">Khóa API</label>
-            <input type="password" id="aiKey" value="demo-key-smartagri-cse122">
+            <input type="password" id="aiKey" value="" placeholder="demo — không nhập khóa thật" autocomplete="off">
+            <p class="field-hint">Bản demo chạy hoàn toàn trong trình duyệt, mọi phân tích AI đều là mô phỏng phía máy khách. Khóa nhập vào đây <b>không bao giờ được lưu hay gửi đi</b>. Khi triển khai thật, khóa API phải nằm ở máy chủ — không bao giờ xuất hiện trong mã nguồn trình duyệt.</p>
           </div>
           <div class="field">
             <label for="aiThreshold">Ngưỡng tin cậy tối thiểu: <b id="aiThresholdOut">75%</b></label>
@@ -139,6 +141,7 @@
           <div><h2><svg class="icon"><use href="#i-users"></use></svg> Tài khoản &amp; phân quyền</h2></div>
           <div class="card__acts"><button class="btn btn--sm btn--ghost" type="button" id="btnAddUser"><svg class="icon"><use href="#i-plus"></use></svg> Thêm tài khoản</button></div>
         </div>
+        <div class="note note--warn" style="margin-bottom:14px"><svg class="icon"><use href="#i-shield"></use></svg><span>Bản demo <b>không xác thực quyền thật</b>: danh sách bên dưới chỉ minh họa và lưu ngay trong trình duyệt (localStorage). Khi triển khai thật, máy chủ phải kiểm tra quyền của từng yêu cầu — không được chỉ ẩn nút trên giao diện.</span></div>
         <div class="table__wrap">
           <table class="table">
             <thead><tr><th>Tài khoản</th><th>Vai trò</th><th>Phạm vi</th><th></th></tr></thead>

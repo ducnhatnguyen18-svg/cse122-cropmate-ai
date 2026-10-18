@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SmartAgri — Thư viện tài nguyên</title>
-  <meta name="description" content="Kho quy trình kỹ thuật, sổ tay canh tác, tài liệu AI, video hướng dẫn và biểu mẫu cho nông hộ.">
+  <meta name="description" content="Kho quy trình kỹ thuật, sổ tay canh tác, tài liệu AI, video hướng dẫn và biểu mẫu cho nông hộ, kèm hàng đợi kiểm duyệt.">
   <script>
     if (sessionStorage.getItem('smartagri_auth') !== '1') { location.replace('login.html'); }
   </script>
@@ -20,19 +20,19 @@
     <div class="stats">
       <article class="stat">
         <span class="stat__icon"><svg class="icon"><use href="#i-book"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">216</span><span class="stat__label">Tài nguyên trong thư viện</span><span class="stat__delta">+9 tuần này</span></span>
+        <span class="stat__text"><span class="stat__value" id="statDocs">—</span><span class="stat__label">Tài nguyên trong thư viện</span><span class="stat__delta" id="statDocsDelta"></span></span>
       </article>
       <article class="stat">
-        <span class="stat__icon stat__icon--blue"><svg class="icon"><use href="#i-file"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">18</span><span class="stat__label">Quy trình kỹ thuật chuẩn</span><span class="stat__delta">Đã kiểm duyệt</span></span>
+        <span class="stat__icon stat__icon--blue"><svg class="icon"><use href="#i-check"></use></svg></span>
+        <span class="stat__text"><span class="stat__value" id="statApproved">—</span><span class="stat__label">Tài liệu đã được duyệt</span><span class="stat__delta" id="statApprovedDelta"></span></span>
       </article>
       <article class="stat">
-        <span class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-download"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">5.4k</span><span class="stat__label">Lượt tải về</span><span class="stat__delta">+312 trong 7 ngày</span></span>
+        <span class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-clock"></use></svg></span>
+        <span class="stat__text"><span class="stat__value" id="statPending">—</span><span class="stat__label">Đang chờ kiểm duyệt</span><span class="stat__delta" id="statPendingDelta"></span></span>
       </article>
       <article class="stat">
-        <span class="stat__icon stat__icon--red"><svg class="icon"><use href="#i-play"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">12</span><span class="stat__label">Video hướng dẫn</span><span class="stat__delta is-down">3 video đang dựng</span></span>
+        <span class="stat__icon stat__icon--red"><svg class="icon"><use href="#i-download"></use></svg></span>
+        <span class="stat__text"><span class="stat__value" id="statDownloads">—</span><span class="stat__label">Tổng lượt tải về</span><span class="stat__delta" id="statDownloadsDelta"></span></span>
       </article>
     </div>
 
@@ -45,10 +45,20 @@
             <p id="libSummary">Đang tải danh sách tài nguyên…</p>
           </div>
           <div class="card__acts">
+            <button class="btn btn--sm btn--ghost" type="button" id="btnLibSeed"><svg class="icon"><use href="#i-refresh"></use></svg> Khôi phục dữ liệu mẫu</button>
             <button class="btn btn--sm btn--primary" type="button" id="btnNewDoc"><svg class="icon"><use href="#i-plus"></use></svg> Thêm tài liệu</button>
           </div>
         </div>
 
+        <p class="filters__label">Trạng thái kiểm duyệt</p>
+        <div class="pills" id="libStatus" role="group" aria-label="Lọc theo trạng thái kiểm duyệt">
+          <button class="pill" type="button" data-st="approved">Được duyệt</button>
+          <button class="pill" type="button" data-st="pending">Chờ duyệt</button>
+          <button class="pill" type="button" data-st="rejected">Từ chối</button>
+          <button class="pill is-on" type="button" data-st="">Tất cả</button>
+        </div>
+
+        <p class="filters__label">Loại tài liệu</p>
         <div class="pills" id="libCats" role="group" aria-label="Lọc theo chuyên mục">
           <button class="pill is-on" type="button" data-cat="">Tất cả</button>
           <button class="pill" type="button" data-cat="Quy trình">Quy trình kỹ thuật</button>
@@ -61,7 +71,7 @@
         <div class="toolbar">
           <div class="search">
             <svg class="icon"><use href="#i-search"></use></svg>
-            <input type="search" id="libSearch" placeholder="Tìm theo tên tài nguyên, từ khóa…" aria-label="Tìm tài nguyên">
+            <input type="search" id="libSearch" placeholder="Tìm theo tên, mô tả, nguồn, từ khóa…" aria-label="Tìm tài nguyên">
           </div>
           <select id="libSort" aria-label="Sắp xếp">
             <option value="new">Mới cập nhật</option>
@@ -69,6 +79,7 @@
             <option value="az">Tên A → Z</option>
           </select>
         </div>
+        <p class="filters__info" id="libInfo"></p>
 
         <div class="resgrid" id="libGrid"></div>
         <p class="empty" id="libEmpty" hidden>Chưa có tài nguyên nào khớp bộ lọc.</p>
@@ -81,26 +92,46 @@
         <div class="card__head">
           <div>
             <h2><svg class="icon"><use href="#i-download"></use></svg> Đóng góp tài liệu</h2>
-            <p>Chuyên gia gửi tài liệu lên để ban quản trị kiểm duyệt</p>
+            <p>Mỗi tài liệu gửi kèm một tệp, vào hàng đợi kiểm duyệt ngay khi gửi</p>
           </div>
         </div>
-        <form id="uploadForm" class="form">
+        <form id="uploadForm" class="form" novalidate>
           <div class="dropzone" id="libDrop" tabindex="0" role="button" aria-label="Chọn tệp tài liệu để tải lên">
             <svg class="icon dropzone__icon"><use href="#i-file"></use></svg>
             <p class="dropzone__main">Kéo thả tệp vào đây <span>hoặc bấm để chọn</span></p>
-            <p class="dropzone__hint">PDF, DOCX, PPTX hoặc MP4 · tối đa 25MB</p>
-            <input type="file" id="libFile" accept=".pdf,.docx,.pptx,.mp4,image/png,image/jpeg" hidden multiple>
+            <p class="dropzone__hint" id="libRules"></p>
+            <input type="file" id="libFile" accept=".pdf,.docx,.pptx,.mp4,.png,.jpg,.jpeg" hidden>
+          </div>
+          <div class="files" id="pickedBox" hidden>
+            <div class="files__row">
+              <span class="files__icon"><svg class="icon"><use href="#i-file"></use></svg></span>
+              <div class="files__main">
+                <p class="files__name" id="pickedName"></p>
+                <p class="files__meta" id="pickedMeta"></p>
+              </div>
+              <button class="btn-sm btn-sm--del" type="button" id="btnDropFile"><svg class="icon"><use href="#i-close"></use></svg> Bỏ tệp</button>
+            </div>
           </div>
           <p class="field-error" id="libFileError" hidden></p>
-          <p class="picked" id="libFileName" hidden></p>
 
           <div class="field">
-            <label for="upTitle">Tên tài nguyên</label>
+            <label for="upTitle">Tên tài nguyên <span class="req">*</span></label>
             <input type="text" id="upTitle" placeholder="Ví dụ: Quy trình quản lý đạo ôn giai đoạn đẻ nhánh">
+            <p class="field__err" id="errTitle" hidden></p>
+          </div>
+          <div class="field">
+            <label for="upSource">Nguồn / đơn vị ban hành <span class="req">*</span></label>
+            <input type="text" id="upSource" placeholder="Ví dụ: Chi cục Trồng trọt &amp; BVTV An Giang">
+            <p class="field__err" id="errSource" hidden></p>
+          </div>
+          <div class="field">
+            <label for="upDesc">Mô tả <span class="req">*</span></label>
+            <textarea id="upDesc" rows="3" placeholder="Tóm tắt nội dung, phạm vi áp dụng của tài liệu (tối thiểu 20 ký tự)"></textarea>
+            <p class="field__err" id="errDesc" hidden></p>
           </div>
           <div class="form__row">
             <div class="field">
-              <label for="upCat">Chuyên mục</label>
+              <label for="upCat">Loại tài liệu</label>
               <select id="upCat">
                 <option>Quy trình</option>
                 <option>Sổ tay</option>
@@ -121,7 +152,19 @@
             </div>
           </div>
           <button class="btn btn--primary" type="submit"><svg class="icon"><use href="#i-send"></use></svg> Gửi kiểm duyệt</button>
+          <p class="note"><svg class="icon"><use href="#i-shield"></use></svg><span id="uploadNote">Tài liệu vừa gửi ở trạng thái <b>Chờ duyệt</b> và chỉ hiện trong kho sau khi được duyệt.</span></p>
         </form>
+      </section>
+
+      <section class="card">
+        <div class="card__head">
+          <div>
+            <h2><svg class="icon"><use href="#i-shield"></use></svg> Hàng đợi kiểm duyệt</h2>
+            <p id="queueCaption">Tài liệu chờ duyệt, duyệt hoặc từ chối</p>
+          </div>
+        </div>
+        <div class="rows rows--divided" id="queueList"></div>
+        <p class="empty" id="queueEmpty" hidden>Không còn tài liệu nào chờ kiểm duyệt.</p>
       </section>
 
       <section class="card">
@@ -131,9 +174,10 @@
 
       <section class="card">
         <div class="card__head">
-          <div><h2><svg class="icon"><use href="#i-clock"></use></svg> Tài liệu tôi đã gửi</h2></div>
+          <div><h2><svg class="icon"><use href="#i-user"></use></svg> Tài liệu tôi đã gửi</h2></div>
         </div>
         <div class="rows rows--divided" id="myDocs"></div>
+        <p class="empty" id="myEmpty" hidden>Bạn chưa gửi tài liệu nào trong phiên dữ liệu này.</p>
       </section>
     </div>
   </main>

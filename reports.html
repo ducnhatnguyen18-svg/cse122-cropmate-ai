@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SmartAgri — Báo cáo &amp; Thống kê</title>
-  <meta name="description" content="Tổng hợp hoạt động canh tác, sản lượng theo lô, yêu cầu tư vấn và xuất báo cáo định kỳ.">
+  <meta name="description" content="Thống kê thật từ nhật ký canh tác và yêu cầu tư vấn, lọc theo thời gian và phạm vi, xuất báo cáo CSV, Excel hoặc PDF.">
   <script>
     if (sessionStorage.getItem('smartagri_auth') !== '1') { location.replace('login.html'); }
   </script>
@@ -15,24 +15,52 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/parts.css">
 </head>
-<body data-page="reports" data-title="Báo cáo &amp; Thống kê" data-sub="Theo dõi hoạt động canh tác, sản lượng và chất lượng tư vấn theo kỳ">
+<body data-page="reports" data-title="Báo cáo &amp; Thống kê" data-sub="Thống kê từ nhật ký canh tác và yêu cầu tư vấn, lọc theo thời gian và phạm vi dữ liệu">
   <main class="board">
+    <section class="card report-filter">
+      <div class="report-filter__top">
+        <div class="field">
+          <label for="rfFrom">Từ ngày</label>
+          <input type="date" id="rfFrom">
+        </div>
+        <div class="field">
+          <label for="rfTo">Đến ngày</label>
+          <input type="date" id="rfTo">
+        </div>
+        <div class="field report-filter__scope">
+          <label for="rfScope">Phạm vi dữ liệu</label>
+          <select id="rfScope">
+            <option value="all">Toàn bộ dữ liệu (nhật ký + yêu cầu)</option>
+            <option value="journal">Chỉ nhật ký canh tác</option>
+            <option value="requests">Chỉ yêu cầu tư vấn</option>
+          </select>
+        </div>
+        <div class="pills report-filter__pills" role="group" aria-label="Khoảng thời gian nhanh">
+          <button class="pill is-on" type="button" data-days="all">Toàn bộ</button>
+          <button class="pill" type="button" data-days="7">7 ngày</button>
+          <button class="pill" type="button" data-days="30">30 ngày</button>
+          <button class="pill" type="button" data-days="90">90 ngày</button>
+        </div>
+      </div>
+      <p class="report-filter__caption" id="rfCaption">Đang tổng hợp dữ liệu…</p>
+    </section>
+
     <div class="stats">
       <article class="stat">
         <span class="stat__icon"><svg class="icon"><use href="#i-sprout"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">486</span><span class="stat__label">Nhật ký canh đồng đã ghi</span><span class="stat__delta">+57 trong 7 ngày</span></span>
+        <span class="stat__text"><span class="stat__value" id="statJournal">—</span><span class="stat__label">Nhật ký canh tác trong kỳ</span><span class="stat__delta" id="statJournalSub">Đang tính…</span></span>
       </article>
       <article class="stat">
         <span class="stat__icon stat__icon--blue"><svg class="icon"><use href="#i-chat"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">173</span><span class="stat__label">Yêu cầu tư vấn</span><span class="stat__delta">92% phản hồi trong 24 giờ</span></span>
+        <span class="stat__text"><span class="stat__value" id="statReq">—</span><span class="stat__label">Yêu cầu tư vấn trong kỳ</span><span class="stat__delta" id="statReqSub">Đang tính…</span></span>
       </article>
       <article class="stat">
         <span class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-trend"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">6.4</span><span class="stat__label">Tấn/ha năng suất bình quân</span><span class="stat__delta">+0.3 so với vụ trước</span></span>
+        <span class="stat__text"><span class="stat__value" id="statYield">—</span><span class="stat__label">Năng suất bình quân (tấn/ha)</span><span class="stat__delta" id="statYieldSub">Đang tính…</span></span>
       </article>
       <article class="stat">
-        <span class="stat__icon stat__icon--red"><svg class="icon"><use href="#i-alert"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">21</span><span class="stat__label">Vườn/cánh đồng có cảnh báo</span><span class="stat__delta is-down">6 chưa xử lý</span></span>
+        <span class="stat__icon"><svg class="icon"><use href="#i-users"></use></svg></span>
+        <span class="stat__text"><span class="stat__value" id="statHH">—</span><span class="stat__label">Nông hộ được tư vấn</span><span class="stat__delta" id="statHHSub">Đang tính…</span></span>
       </article>
     </div>
 
@@ -41,63 +69,49 @@
       <section class="card">
         <div class="card__head">
           <div>
-            <h2><svg class="icon"><use href="#i-chart"></use></svg> Sản lượng thu hoạch theo tháng</h2>
-            <p>Đơn vị: tấn · toàn bộ nông hộ trên nền tảng</p>
+            <h2><svg class="icon"><use href="#i-chart"></use></svg> Nhật ký canh tác theo tháng</h2>
+            <p id="yieldCaption">Đang tổng hợp dữ liệu…</p>
           </div>
           <div class="card__acts">
-            <select id="chartYear" aria-label="Chọn năm">
-              <option>2026</option>
-              <option>2025</option>
-            </select>
+            <select id="chartYear" aria-label="Chọn năm"></select>
           </div>
         </div>
         <div class="bars" id="yieldBars"></div>
+        <p class="empty" id="yieldEmpty" hidden></p>
       </section>
 
       <section class="card">
         <div class="card__head">
-          <div><h2><svg class="icon"><use href="#i-flask"></use></svg> Phân bố loại hoạt động canh tác</h2><p>Theo 486 nhật ký của vụ hiện tại</p></div>
+          <div>
+            <h2><svg class="icon"><use href="#i-flask"></use></svg> Phân bố loại hoạt động canh tác</h2>
+            <p id="jobCaption">Đang tổng hợp dữ liệu…</p>
+          </div>
         </div>
         <div class="donut">
-          <div class="donut__pie"><span class="donut__center"><b>486</b><small>hoạt động</small></span></div>
+          <div class="donut__pie"><span class="donut__center"><b id="jobTotal">—</b><small>lượt ghi</small></span></div>
           <ul class="legend" id="jobLegend"></ul>
         </div>
       </section>
 
       <section class="card" id="rep-export">
         <div class="card__head">
-          <div><h2><svg class="icon"><use href="#i-download"></use></svg> Xuất báo cáo</h2><p>Chọn kỳ và phạm vi dữ liệu cần tổng hợp</p></div>
+          <div>
+            <h2><svg class="icon"><use href="#i-download"></use></svg> Xuất báo cáo</h2>
+            <p>Báo cáo dùng đúng số liệu đang hiển thị theo bộ lọc phía trên</p>
+          </div>
         </div>
         <form id="exportForm" class="form">
-          <div class="form__row">
-            <div class="field">
-              <label for="exPeriod">Kỳ báo cáo</label>
-              <select id="exPeriod">
-                <option>Tuần hiện tại</option>
-                <option>Tháng hiện tại</option>
-                <option>Vụ lúa Mùa 2026</option>
-                <option>Năm 2026</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="exScope">Phạm vi</label>
-              <select id="exScope">
-                <option>Toàn bộ nông hộ được tư vấn</option>
-                <option>Chỉ trang trại của tôi (3 lô)</option>
-                <option>Theo hợp tác xã</option>
-              </select>
-            </div>
-          </div>
+          <div class="report-scope" id="exSummary">Đang tổng hợp dữ liệu…</div>
           <div class="field">
             <label for="exFormat">Định dạng tệp</label>
             <select id="exFormat">
-              <option>PDF (bản trình bày)</option>
-              <option>XLSX (bảng dữ liệu)</option>
+              <option>PDF (bản in / lưu PDF)</option>
+              <option>Excel (.xls — bảng dữ liệu)</option>
               <option>CSV (dữ liệu thô)</option>
             </select>
           </div>
           <label class="switch"><input type="checkbox" id="exCharts" checked><span class="switch__track"></span>
-            <span class="switch__text"><strong>Kèm biểu đồ minh họa</strong><small>Sản lượng, hoạt động và cảnh báo</small></span></label>
+            <span class="switch__text"><strong>Kèm bảng thống kê chi tiết</strong><small>Nhật ký theo tháng, phân bố hoạt động và chi tiết từng bản ghi</small></span></label>
           <button class="btn btn--primary" type="submit"><svg class="icon"><use href="#i-download"></use></svg> Tạo và tải báo cáo</button>
         </form>
       </section>
@@ -107,12 +121,15 @@
     <div class="board__col">
       <section class="card">
         <div class="card__head">
-          <div><h2><svg class="icon"><use href="#i-pin"></use></svg> Tổng hợp theo lô canh tác</h2></div>
+          <div>
+            <h2><svg class="icon"><use href="#i-pin"></use></svg> Tổng hợp theo lô canh tác</h2>
+            <p id="plotCaption">Đang tổng hợp dữ liệu…</p>
+          </div>
           <div class="card__acts"><button class="btn btn--sm btn--ghost" type="button" id="btnRecalc"><svg class="icon"><use href="#i-refresh"></use></svg> Tính lại</button></div>
         </div>
         <div class="table__wrap">
           <table class="table">
-            <thead><tr><th>Lô</th><th class="num">Nhật ký</th><th class="num">Cảnh báo</th><th class="num">Năng suất</th><th>Xu hướng</th></tr></thead>
+            <thead><tr><th>Lô</th><th class="num">Nhật ký</th><th class="num">Thu hoạch</th><th class="num">Năng suất TB</th><th>Xu hướng</th></tr></thead>
             <tbody id="plotBody"></tbody>
           </table>
         </div>
@@ -120,14 +137,20 @@
 
       <section class="card">
         <div class="card__head">
-          <div><h2><svg class="icon"><use href="#i-chat"></use></svg> Yêu cầu tư vấn theo chuyên đề</h2></div>
+          <div>
+            <h2><svg class="icon"><use href="#i-chat"></use></svg> Yêu cầu tư vấn theo chuyên đề</h2>
+            <p id="topicCaption">Đang tổng hợp dữ liệu…</p>
+          </div>
         </div>
         <div class="meters" id="topicMeters"></div>
       </section>
 
       <section class="card">
         <div class="card__head">
-          <div><h2><svg class="icon"><use href="#i-clock"></use></svg> Nhật ký 7 ngày gần nhất</h2></div>
+          <div>
+            <h2><svg class="icon"><use href="#i-clock"></use></svg> Nhật ký theo ngày gần nhất</h2>
+            <p id="weekCaption">Đang tổng hợp dữ liệu…</p>
+          </div>
           <div class="card__acts"><a class="btn btn--sm btn--outline-green" href="journal.html">Xem nhật ký</a></div>
         </div>
         <div class="table__wrap">

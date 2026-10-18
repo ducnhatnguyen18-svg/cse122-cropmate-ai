@@ -20,19 +20,19 @@
     <div class="stats">
       <article class="stat">
         <span class="stat__icon stat__icon--red"><svg class="icon"><use href="#i-alert"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">07</span><span class="stat__label">Cảnh báo đang mở</span><span class="stat__delta is-down">+2 so với tuần trước</span></span>
+        <span class="stat__text"><span class="stat__value" id="statOpen">—</span><span class="stat__label">Cảnh báo đang mở</span><span class="stat__delta" id="statOpenDelta">Đang đối chiếu dữ liệu…</span></span>
       </article>
       <article class="stat">
         <span class="stat__icon stat__icon--amber"><svg class="icon"><use href="#i-flask"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">02</span><span class="stat__label">Nguy cơ cao / khẩn cấp</span><span class="stat__delta">Cần xử lý trong 48 giờ</span></span>
+        <span class="stat__text"><span class="stat__value" id="statSevere">—</span><span class="stat__label">Nguy cơ cao / khẩn cấp</span><span class="stat__delta" id="statSevereDelta">Đang đối chiếu dữ liệu…</span></span>
       </article>
       <article class="stat">
         <span class="stat__icon"><svg class="icon"><use href="#i-check"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">38</span><span class="stat__label">Đã ghi nhận &amp; xử lý</span><span class="stat__delta">+11 trong 7 ngày</span></span>
+        <span class="stat__text"><span class="stat__value" id="statHandled">—</span><span class="stat__label">Đã ghi nhận &amp; xử lý</span><span class="stat__delta" id="statHandledDelta">Đang đối chiếu dữ liệu…</span></span>
       </article>
       <article class="stat">
         <span class="stat__icon stat__icon--blue"><svg class="icon"><use href="#i-ai"></use></svg></span>
-        <span class="stat__text"><span class="stat__value">91%</span><span class="stat__label">Độ chính xác mô hình</span><span class="stat__delta">AI-3 · cập nhật 12/10</span></span>
+        <span class="stat__text"><span class="stat__value" id="statConf">—</span><span class="stat__label">Độ tin cậy trung bình</span><span class="stat__delta" id="statConfDelta">Đang đối chiếu dữ liệu…</span></span>
       </article>
     </div>
 
@@ -45,28 +45,46 @@
             <p id="alertSummary">Đang tải danh sách cảnh báo…</p>
           </div>
           <div class="card__acts">
-            <button class="btn btn--sm btn--outline-green" type="button" id="btnAckAll"><svg class="icon"><use href="#i-check"></use></svg> Ghi nhận tất cả</button>
+            <button class="btn btn--sm btn--outline-green" type="button" id="btnAckAll"><svg class="icon"><use href="#i-check"></use></svg> Đánh dấu tất cả đã xử lý</button>
           </div>
         </div>
 
-        <div class="pills" id="alertFilters" role="group" aria-label="Lọc theo mức độ">
-          <button class="pill is-on" type="button" data-sev="">Tất cả</button>
-          <button class="pill" type="button" data-sev="urgent">Khẩn cấp</button>
-          <button class="pill" type="button" data-sev="high">Cao</button>
-          <button class="pill" type="button" data-sev="mid">Trung bình</button>
-          <button class="pill" type="button" data-sev="low">Theo dõi</button>
+        <div class="srcbar" id="srcBar">
+          <span class="srcbar__label">Nguồn dữ liệu:</span>
+          <span class="src src--demo"><svg class="icon"><use href="#i-file"></use></svg> Dữ liệu mẫu</span>
+          <span class="srcbar__text">do nhóm dựng sẵn để chạy demo, không lấy từ thiết bị hay API nào.</span>
+          <span class="src src--real"><svg class="icon"><use href="#i-sprout"></use></svg> Dữ liệu thật</span>
+          <span class="srcbar__text">suy ra từ bản ghi Nhật ký canh đồng bạn đã lưu trên máy này.</span>
         </div>
 
+        <div class="filters">
+          <div class="pills" id="alertFilters" role="group" aria-label="Lọc theo mức độ">
+            <button class="pill is-on" type="button" data-sev="">Tất cả mức độ</button>
+            <button class="pill" type="button" data-sev="urgent">Khẩn cấp</button>
+            <button class="pill" type="button" data-sev="high">Cao</button>
+            <button class="pill" type="button" data-sev="mid">Trung bình</button>
+            <button class="pill" type="button" data-sev="low">Theo dõi</button>
+          </div>
+          <div class="filters__zone">
+            <label for="regionFilter">Khu vực</label>
+            <select id="regionFilter">
+              <option value="">Tất cả khu vực</option>
+            </select>
+          </div>
+        </div>
+        <p class="filters__info" id="filterInfo"></p>
+
         <div class="rows rows--divided" id="alertList"></div>
-        <p class="empty" id="alertEmpty" hidden>Không còn cảnh báo nào ở mức độ này.</p>
+        <p class="empty" id="alertEmpty" hidden>Không có cảnh báo nào khớp bộ lọc hiện tại.</p>
       </section>
 
       <section class="card">
         <div class="card__head">
           <div>
             <h2><svg class="icon"><use href="#i-shield"></use></svg> Nguy cơ dịch bệnh theo khu vực</h2>
-            <p>Tính từ nhật ký canh đồng và ảnh hiện trường 14 ngày gần nhất</p>
+            <p id="riskCaption">Tính từ danh sách cảnh báo đang mở, cập nhật theo bộ lọc khu vực</p>
           </div>
+          <span class="src src--demo"><svg class="icon"><use href="#i-file"></use></svg> Dữ liệu mẫu</span>
         </div>
         <div class="meters" id="riskMeters"></div>
       </section>
@@ -78,8 +96,9 @@
         <div class="card__head">
           <div>
             <h2><svg class="icon"><use href="#i-rain"></use></svg> Dự báo lượng mưa 7 ngày tới</h2>
-            <p>Nguồn: mô-đun thời tiết nông nghiệp · khu vực Chợ Mới, An Giang</p>
+            <p id="forecastSource">Số liệu minh họa trong bản demo, chưa kết nối API thời tiết thật · khu vực Chợ Mới, An Giang</p>
           </div>
+          <span class="src src--demo"><svg class="icon"><use href="#i-file"></use></svg> Dữ liệu mẫu</span>
         </div>
         <div class="bars" id="forecastBars"></div>
         <div class="note note--warn"><svg class="icon"><use href="#i-alert"></use></svg><span id="forecastNote">Đang tính toán…</span></div>
@@ -133,11 +152,14 @@
 
       <section class="card">
         <div class="card__head">
-          <div><h2><svg class="icon"><use href="#i-clock"></use></svg> Lịch sử xử lý cảnh báo</h2></div>
+          <div>
+            <h2><svg class="icon"><use href="#i-clock"></use></svg> Lịch sử xử lý cảnh báo</h2>
+            <p id="historyCaption">Bản ghi demo + các cảnh báo bạn đánh dấu đã xử lý trên máy này</p>
+          </div>
         </div>
         <div class="table__wrap">
           <table class="table">
-            <thead><tr><th>Ngày</th><th>Cảnh báo</th><th>Người xử lý</th><th>Kết quả</th></tr></thead>
+            <thead><tr><th>Ngày</th><th>Cảnh báo</th><th>Người xử lý</th><th>Kết quả</th><th>Nguồn</th><th></th></tr></thead>
             <tbody id="historyBody"></tbody>
           </table>
         </div>
