@@ -62,14 +62,7 @@ const SA_NAV = [
   { key: 'settings', href: 'settings.html', icon: 'i-gear', label: 'Cài đặt hệ thống' }
 ];
 
-/* Mỗi thông báo trỏ thẳng tới mục cần xử lý (trang + neo). */
-const SA_NOTIFS = [
-  { title: 'Cảnh báo đạo ôn cấp khẩn cấp — lô B2', body: 'AI phát hiện vết bệnh trên 3/10 ảnh ngày 12/10, ẩm độ 82%.', to: 'Mở cảnh báo để xử lý', href: 'alerts.html#alert-1' },
-  { title: 'Yêu cầu #1182 chờ phản hồi', body: 'Nông hộ Trần Văn Bình đã gửi ảnh hiện trường lô A1.', to: 'Viết tư vấn cho nông hộ', href: 'index.html#advice-1182' },
-  { title: 'Nhắc ghi nhật ký canh đồng', body: 'Hôm nay chưa có hoạt động nào được ghi lại.', to: 'Thêm hoạt động vào nhật ký', href: 'journal.html#journalForm' },
-  { title: 'Hồ sơ nông hộ chờ duyệt', body: 'Lê Văn Tuấn — 2.4 ha lúa tại Tháp Mười, gửi ngày 10/10.', to: 'Xem đơn chờ duyệt', href: 'households.html#pending-1' },
-  { title: 'Báo cáo tuần đã hoàn tất', body: 'Bảng tổng hợp hoạt động 05/10 – 12/10 đã sẵn sàng.', to: 'Xuất báo cáo tuần', href: 'reports.html#rep-export' }
-];
+/* Danh sách thông báo do Trợ lý AI AgrBrain sinh từ dữ liệu 6 trang. */
 
 (function buildShell() {
   const body = document.body;
@@ -115,7 +108,7 @@ const SA_NOTIFS = [
           '<div class="topbar__actions"><div class="notif">' +
             '<button class="icon-btn" id="btnBell" type="button" aria-label="Thông báo" aria-expanded="false">' +
               '<svg class="icon"><use href="#i-bell"></use></svg>' +
-              '<span class="notif__count" id="notifCount">' + SA_NOTIFS.length + '</span></button>' +
+              '<span class="notif__count" id="notifCount" hidden></span></button>' +
             '<section class="notif__panel" id="notifPanel" hidden aria-label="Danh sách thông báo">' +
               '<h2 class="notif__title">Thông báo</h2>' +
               '<p class="notif__hint">Bấm vào một thông báo để mở đúng mục cần xử lý.</p>' +
@@ -209,22 +202,7 @@ const SA_NOTIFS = [
     toastTimer = setTimeout(() => { toast.className = 'toast'; }, 2800);
   }
 
-  SA_NOTIFS.forEach((item) => {
-    const li = document.createElement('li');
-    const link = document.createElement('a');
-    link.className = 'notif__item';
-    link.href = item.href;
-    const strong = document.createElement('strong');
-    const span = document.createElement('span');
-    const go = document.createElement('em');
-    strong.textContent = item.title;
-    span.textContent = item.body;
-    go.className = 'notif__go';
-    go.textContent = item.to + ' →';
-    link.append(strong, span, go);
-    li.appendChild(link);
-    notifList.appendChild(li);
-  });
+  if (window.AgrBrain) window.AgrBrain.renderNotifications(notifList, $('#notifCount'));
 
   /* Deep link: cuộn tới và báo sáng đúng mục cần xử lý */
   function revealTarget() {
@@ -244,6 +222,7 @@ const SA_NOTIFS = [
 
   btnBell.addEventListener('click', () => {
     const open = notifPanel.hidden;
+    if (open && window.AgrBrain) window.AgrBrain.renderNotifications(notifList, $('#notifCount'));
     notifPanel.hidden = !open;
     btnBell.setAttribute('aria-expanded', String(open));
   });
@@ -314,23 +293,8 @@ const SA_NOTIFS = [
   modal.addEventListener('click', (e) => { if (e.target.hasAttribute('data-close')) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
 
-  $('#btnAssistant').addEventListener('click', () => {
-    const wrap = document.createElement('div');
-    wrap.className = 'lib';
-    [
-      'Lô B2 nên phun phòng đạo ôn trong 48 giờ tới.',
-      'Tuần này có 3 yêu cầu tư vấn chưa được phản hồi.',
-      'Dữ liệu nhật ký đã đủ để xuất báo cáo tháng 10.'
-    ].forEach((text) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.innerHTML = '<strong>Gợi ý</strong><span></span>';
-      btn.querySelector('span').textContent = text;
-      btn.addEventListener('click', () => { closeModal(); showToast('Gợi ý: ' + text, 'ok'); });
-      wrap.appendChild(btn);
-    });
-    openModal('Trợ lý AI AgrBrain', wrap, [{ label: 'Đóng', onClick: closeModal }]);
-  });
+  /* Nút Trợ lý AI do js/agrbrain.js đảm nhiệm (click + số việc ưu tiên). */
+  if (window.AgrBrain) window.AgrBrain.bind();
 
   /* API cho js/pages.js */
   window.SA = {

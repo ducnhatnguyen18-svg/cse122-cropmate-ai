@@ -12,14 +12,7 @@ const timelineData = [
   { date: '16/05', icon: 'i-leaf', label: 'Lúa có dấu hiệu vàng lá', value: 'Quan sát' }
 ];
 
-/* Mỗi thông báo trỏ thẳng tới mục cần xử lý (trang + neo). */
-const notifications = [
-  { title: 'Cảnh báo đạo ôn cấp khẩn cấp — lô B2', body: 'AI phát hiện vết bệnh trên 3/10 ảnh ngày 12/10, ẩm độ 82%.', to: 'Mở cảnh báo để xử lý', href: 'alerts.html#alert-1' },
-  { title: 'Yêu cầu #1182 chờ phản hồi', body: 'Nông hộ Trần Văn Bình đã gửi ảnh hiện trường lô A1.', to: 'Viết tư vấn cho nông hộ', href: 'index.html#advice-1182' },
-  { title: 'Nhắc ghi nhật ký canh đồng', body: 'Hôm nay chưa có hoạt động nào được ghi lại.', to: 'Thêm hoạt động vào nhật ký', href: 'journal.html#journalForm' },
-  { title: 'Hồ sơ nông hộ chờ duyệt', body: 'Lê Văn Tuấn — 2.4 ha lúa tại Tháp Mười, gửi ngày 10/10.', to: 'Xem đơn chờ duyệt', href: 'households.html#pending-1' },
-  { title: 'Báo cáo tuần đã hoàn tất', body: 'Bảng tổng hợp hoạt động 05/10 – 12/10 đã sẵn sàng.', to: 'Xuất báo cáo tuần', href: 'reports.html#rep-export' }
-];
+/* Danh sách thông báo do Trợ lý AI AgrBrain sinh từ dữ liệu các trang. */
 
 const libraryItems = [
   { title: 'Quy trình bón phân lót cho lúa ST25', body: 'Hướng dẫn 6 bước chuẩn kỹ thuật.' },
@@ -91,27 +84,11 @@ const notifCount = $('#notifCount');
 const notifPanel = $('#notifPanel');
 
 function renderNotifications() {
-  notifList.innerHTML = '';
-
-  notifications.forEach((item) => {
-    const li = document.createElement('li');
-    const link = document.createElement('a');
-    link.className = 'notif__item';
-    link.href = item.href;
-    const strong = document.createElement('strong');
-    const p = document.createElement('span');
-    const go = document.createElement('em');
-    strong.textContent = item.title;
-    p.textContent = item.body;
-    go.className = 'notif__go';
-    go.textContent = item.to + ' →';
-    link.append(strong, p, go);
-    li.appendChild(link);
-    notifList.appendChild(li);
-  });
-
-  notifCount.textContent = notifications.length;
-  notifCount.hidden = notifications.length === 0;
+  if (window.AgrBrain) {
+    window.AgrBrain.renderNotifications(notifList, notifCount);
+    return;
+  }
+  notifCount.hidden = true;
 }
 
 /* Deep link: cuộn tới và báo sáng đúng mục cần xử lý */
@@ -132,6 +109,7 @@ window.addEventListener('hashchange', revealTarget);
 
 $('#btnBell').addEventListener('click', () => {
   const open = notifPanel.hidden;
+  if (open && window.AgrBrain) window.AgrBrain.renderNotifications(notifList, notifCount);
   notifPanel.hidden = !open;
   $('#btnBell').setAttribute('aria-expanded', String(open));
 });
@@ -564,34 +542,7 @@ $('#btnLibrary').addEventListener('click', () => {
   ]);
 });
 
-/* ---------- 14. Trợ lý AI AgrBrain ---------- */
-$('#btnAssistant').addEventListener('click', () => {
-  const wrap = document.createElement('div');
-  wrap.className = 'lib';
-
-  const suggestions = [
-    'Kiểm tra thoát nước và phơi ruộng 2–3 ngày, tránh để độ ẩm vượt 90%.',
-    'Lấy mẫu đất kiểm tra pH và sắt trước khi bón phân đợt tiếp theo.',
-    'Tạm dừng bón đạm, theo dõi triệu chứng vàng lá trong 5 ngày.'
-  ];
-
-  suggestions.forEach((text) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.innerHTML = '<strong>Gợi ý</strong><span></span>';
-    btn.querySelector('span').textContent = text;
-    btn.addEventListener('click', () => {
-      editor.focus();
-      document.execCommand('insertText', false, text + '\n');
-      updateCounter();
-      closeModal();
-      showToast('Đã chèn gợi ý của AI vào nội dung.', 'ok');
-    });
-    wrap.appendChild(btn);
-  });
-
-  openModal('Trợ lý AI AgrBrain', wrap, [{ label: 'Đóng', onClick: closeModal }]);
-});
+/* ---------- 14. Nút Trợ lý AI AgrBrain do js/agrbrain.js đảm nhiệm ---------- */
 
 /* ---------- Khởi động ---------- */
 renderNotifications();

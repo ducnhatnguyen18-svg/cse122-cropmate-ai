@@ -8,14 +8,7 @@ const USER_KEY = 'smartagri_user';
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
 
-/* Mỗi thông báo trỏ thẳng tới mục cần xử lý (trang + neo). */
-const notifications = [
-  { title: 'Cảnh báo đạo ôn cấp khẩn cấp — lô B2', body: 'AI phát hiện vết bệnh trên 3/10 ảnh ngày 12/10, ẩm độ 82%.', to: 'Mở cảnh báo để xử lý', href: 'alerts.html#alert-1' },
-  { title: 'Yêu cầu #1182 chờ phản hồi', body: 'Nông hộ Trần Văn Bình đã gửi ảnh hiện trường lô A1.', to: 'Viết tư vấn cho nông hộ', href: 'index.html#advice-1182' },
-  { title: 'Nhắc ghi nhật ký canh đồng', body: 'Hôm nay chưa có hoạt động nào được ghi lại.', to: 'Thêm hoạt động vào nhật ký', href: 'journal.html#journalForm' },
-  { title: 'Hồ sơ nông hộ chờ duyệt', body: 'Lê Văn Tuấn — 2.4 ha lúa tại Tháp Mười, gửi ngày 10/10.', to: 'Xem đơn chờ duyệt', href: 'households.html#pending-1' },
-  { title: 'Báo cáo tuần đã hoàn tất', body: 'Bảng tổng hợp hoạt động 05/10 – 12/10 đã sẵn sàng.', to: 'Xuất báo cáo tuần', href: 'reports.html#rep-export' }
-];
+/* Danh sách thông báo do Trợ lý AI AgrBrain sinh từ dữ liệu các trang. */
 
 const activities = [
   { icon: 'i-sprout', time: '16/05/2026 07:30', kind: 'Ghi nhật ký', text: 'Bón phân đợt 2 cho lúa', status: 'done' },
@@ -85,27 +78,11 @@ const notifCount = $('#notifCount');
 const notifPanel = $('#notifPanel');
 
 function renderNotifications() {
-  notifList.innerHTML = '';
-
-  notifications.forEach((item) => {
-    const li = document.createElement('li');
-    const link = document.createElement('a');
-    link.className = 'notif__item';
-    link.href = item.href;
-    const strong = document.createElement('strong');
-    const body = document.createElement('span');
-    const go = document.createElement('em');
-    strong.textContent = item.title;
-    body.textContent = item.body;
-    go.className = 'notif__go';
-    go.textContent = item.to + ' →';
-    link.append(strong, body, go);
-    li.appendChild(link);
-    notifList.appendChild(li);
-  });
-
-  notifCount.textContent = notifications.length;
-  notifCount.hidden = notifications.length === 0;
+  if (window.AgrBrain) {
+    window.AgrBrain.renderNotifications(notifList, notifCount);
+    return;
+  }
+  notifCount.hidden = true;
 }
 
 /* Deep link: cuộn tới và báo sáng đúng mục cần xử lý */
@@ -126,6 +103,7 @@ window.addEventListener('hashchange', revealTarget);
 
 $('#btnBell').addEventListener('click', () => {
   const open = notifPanel.hidden;
+  if (open && window.AgrBrain) window.AgrBrain.renderNotifications(notifList, notifCount);
   notifPanel.hidden = !open;
   $('#btnBell').setAttribute('aria-expanded', String(open));
 });
@@ -824,31 +802,7 @@ aiFile.addEventListener('change', () => {
 });
 aiDrop.addEventListener('drop', (e) => acceptAiFile(e.dataTransfer.files[0]));
 
-/* ---------- 9. Trợ lý AI AgrBrain ---------- */
-$('#btnAssistant').addEventListener('click', () => {
-  const wrap = document.createElement('div');
-  wrap.className = 'lib';
-
-  const suggestions = [
-    'Độ ẩm đất đang cao, hạn chế tưới thêm trong 2 ngày tới.',
-    'Theo dõi sâu cuốn lá ở mép ruộng phía đông lô A1.',
-    'Chuẩn bị lịch bón đón đòng cho ngày 20/05.'
-  ];
-
-  suggestions.forEach((text) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.innerHTML = '<strong>Gợi ý</strong><span></span>';
-    btn.querySelector('span').textContent = text;
-    btn.addEventListener('click', () => {
-      closeModal();
-      showToast('Gợi ý: ' + text, 'ok');
-    });
-    wrap.appendChild(btn);
-  });
-
-  openModal('Trợ lý AI AgrBrain', wrap, [{ label: 'Đóng', onClick: closeModal }]);
-});
+/* ---------- 9. Nút Trợ lý AI AgrBrain do js/agrbrain.js đảm nhiệm ---------- */
 
 /* ---------- Khởi động ---------- */
 renderNotifications();
