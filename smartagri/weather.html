@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartAgri — Thời tiết: dự báo, chỉ số nông nghiệp và khuyến nghị canh tác theo thời tiết">
+  <title>SmartAgri — Thời tiết</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script src="js/display.js"></script>
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/weather.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/logo.svg" alt="" width="40" height="40">
+        <span class="brand-text">
+          <span class="brand-name">SmartAgri</span>
+          <span class="brand-tag">Trí tuệ cho mùa vàng</span>
+        </span>
+      </a>
+
+      <nav class="side-nav" aria-label="Điều hướng chính">
+        <ul class="side-list">
+          <li><a class="side-link" href="index.html"><span class="side-icon" aria-hidden="true">🏠</span>Tổng quan</a></li>
+          <li><a class="side-link" href="season.html"><span class="side-icon" aria-hidden="true">📅</span>Mùa vụ</a></li>
+          <li><a class="side-link" href="diary.html"><span class="side-icon" aria-hidden="true">📝</span>Nhật ký</a></li>
+          <li><a class="side-link is-active" href="weather.html" aria-current="page"><span class="side-icon" aria-hidden="true">🌦️</span>Thời tiết</a></li>
+          <li><a class="side-link" href="ai.html"><span class="side-icon" aria-hidden="true">🤖</span>Trợ lý AI</a></li>
+          <li><a class="side-link" href="support.html"><span class="side-icon" aria-hidden="true">🎧</span>Hỗ trợ kỹ thuật</a></li>
+          <li><a class="side-link" href="settings.html"><span class="side-icon" aria-hidden="true">⚙️</span>Cài đặt</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn-logout" href="login.html"><span aria-hidden="true">⏻</span> Đăng xuất</a>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <button class="btn-icon btn-menu" type="button" id="menuToggle" aria-label="Mở hoặc đóng menu">☰</button>
+        <span class="topbar-icon" aria-hidden="true">🌦️</span>
+        <div class="topbar-title">
+          <h1>Thời tiết nông nghiệp</h1>
+          <p class="greeting">Dự báo, chỉ số đồng ruộng và khuyến nghị canh tác theo khu vực của bạn.</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="bell-wrap">
+            <button class="btn-icon bell" type="button" id="bellBtn" aria-label="Thông báo" aria-expanded="false">
+              🔔<span class="bell-badge" id="bellBadge">2</span>
+            </button>
+            <div class="dropdown" id="bellDropdown" hidden>
+              <p class="dropdown-title">Cảnh báo mới</p>
+              <ul class="dropdown-list">
+                <li><strong>Mưa vừa đến to</strong> trong 3 ngày tới — kiểm tra thoát nước ruộng.</li>
+                <li>Độ ẩm đất lô A1 đang ở mức cao, hạn chế phun thuốc.</li>
+              </ul>
+            </div>
+          </div>
+          <a class="user-chip" href="settings.html">
+            <img class="user-avatar" src="assets/avatar-farmer.png" alt="Ảnh nông dân">
+            <span class="user-meta"><strong>Nông dân</strong><small>Nông hộ</small></span>
+          </a>
+        </div>
+      </header>
+
+      <main class="board">
+        <!-- ============ KHU VỰC ============ -->
+        <section class="card region-bar" aria-labelledby="region-title">
+          <div class="region-left">
+            <span class="head-icon blue" aria-hidden="true">📍</span>
+            <div>
+              <h2 id="region-title">Khu vực theo dõi</h2>
+              <p class="card-desc" id="regionNote">Số liệu minh hoạ cho bài tập, không dùng để ra quyết định khẩn cấp.</p>
+            </div>
+          </div>
+          <div class="region-right">
+            <label class="visually-hidden" for="regionSelect">Chọn khu vực</label>
+            <select class="input mini" id="regionSelect">
+              <option value="chau-thanh">Châu Thành — Đồng Tháp</option>
+              <option value="thap-muoi">Tháp Mười — Đồng Tháp</option>
+              <option value="long-xuyen">Long Xuyên — An Giang</option>
+              <option value="can-tho">Ninh Kiều — Cần Thơ</option>
+            </select>
+            <button class="btn btn-green-outline" type="button" id="refreshBtn">⟳ Làm mới số liệu</button>
+          </div>
+          <p class="updated">Cập nhật lúc <strong id="updatedAt">—</strong></p>
+        </section>
+
+        <!-- ============ HIỆN TẠI + CHỈ SỐ ============ -->
+        <div class="weather-grid">
+          <section class="card now" aria-labelledby="now-title">
+            <header class="card-head card-head-row">
+              <div class="card-head">
+                <span class="head-icon" aria-hidden="true">☀️</span>
+                <h2 id="now-title">Bây giờ</h2>
+              </div>
+              <span class="badge badge-blue" id="nowRegion">Châu Thành</span>
+            </header>
+
+            <div class="now-main">
+              <span class="now-icon" id="nowIcon" aria-hidden="true">🌥️</span>
+              <div>
+                <p class="now-temp"><span id="nowTemp">31</span>°C</p>
+                <p class="now-desc" id="nowDesc">Có mây, nắng gián đoạn</p>
+                <p class="now-feel">Cảm giác như <strong id="nowFeel">34</strong>°C · độ ẩm <strong id="nowHum">72</strong>%</p>
+              </div>
+            </div>
+
+            <ul class="now-list">
+              <li><span class="k">🌧️ Lượng mưa 24h</span><strong class="v" id="mRain">2.5 mm</strong></li>
+              <li><span class="k">💨 Tốc độ gió</span><strong class="v" id="mWind">8 km/h</strong></li>
+              <li><span class="k">☂️ Hướng gió</span><strong class="v" id="mDir">Tây Nam</strong></li>
+              <li><span class="k">🔆 Chỉ số UV</span><strong class="v" id="mUv">7</strong></li>
+              <li><span class="k">🌡️ Áp suất</span><strong class="v" id="mPress">1008 hPa</strong></li>
+              <li><span class="k">💧 Bay hơi</span><strong class="v" id="mEvap">4.6 mm/ngày</strong></li>
+              <li><span class="k">🌅 Bình minh</span><strong class="v" id="mSunrise">05:42</strong></li>
+              <li><span class="k">🌇 Hoàng hôn</span><strong class="v" id="mSunset">18:06</strong></li>
+            </ul>
+          </section>
+
+          <section class="card" aria-labelledby="idx-title">
+            <header class="card-head">
+              <span class="head-icon" aria-hidden="true">🧪</span>
+              <h2 id="idx-title">Chỉ số đồng ruộng</h2>
+            </header>
+            <ul class="index-list" id="indexList"></ul>
+            <p class="hint">Chỉ số suy ra từ độ ẩm, nhiệt độ và lượng mưa — càng cao càng cần chú ý.</p>
+          </section>
+        </div>
+
+        <!-- ============ 24 GIỜ ============ -->
+        <section class="card" aria-labelledby="hourly-title">
+          <header class="card-head card-head-row">
+            <div class="card-head">
+              <span class="head-icon" aria-hidden="true">🕐</span>
+              <h2 id="hourly-title">Dự báo 24 giờ tới</h2>
+            </div>
+            <p class="hint">Kéo ngang để xem đủ 24 khung giờ</p>
+          </header>
+          <ul class="hourly" id="hourlyBox"></ul>
+        </section>
+
+        <!-- ============ 7 NGÀY ============ -->
+        <section class="card" aria-labelledby="daily-title">
+          <header class="card-head">
+            <span class="head-icon" aria-hidden="true">📊</span>
+            <h2 id="daily-title">Dự báo 7 ngày</h2>
+          </header>
+
+          <div class="chart" id="chartBox" role="img" aria-label="Biểu đồ nhiệt độ cao nhất và thấp nhất 7 ngày"></div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <caption class="visually-hidden">Bảng dự báo thời tiết 7 ngày</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Ngày</th>
+                  <th scope="col">Thời tiết</th>
+                  <th scope="col">Nhiệt độ</th>
+                  <th scope="col">Mưa</th>
+                  <th scope="col">Độ ẩm</th>
+                  <th scope="col">Gió</th>
+                  <th scope="col">Thích hợp phun thuốc</th>
+                </tr>
+              </thead>
+              <tbody id="dailyBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============ CẢNH BÁO + KHUYẾN NGHỊ ============ -->
+        <div class="weather-grid">
+          <section class="card" aria-labelledby="alert-title">
+            <header class="card-head">
+              <span class="head-icon blue" aria-hidden="true">⚠️</span>
+              <h2 id="alert-title">Cảnh báo thời tiết</h2>
+            </header>
+            <ul class="alert-list" id="alertList"></ul>
+            <p class="empty" id="alertEmpty" hidden>Hiện không có cảnh báo nào cho khu vực của bạn.</p>
+          </section>
+
+          <section class="card" aria-labelledby="advice-title">
+            <header class="card-head">
+              <span class="head-icon" aria-hidden="true">💡</span>
+              <h2 id="advice-title">Khuyến nghị canh tác</h2>
+            </header>
+            <ol class="advice-list" id="adviceList"></ol>
+            <a class="btn btn-blue" href="support.html">Không chắc? Hỏi chuyên gia</a>
+          </section>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p>© 2026 SmartAgri — Trang chính bài kiểm tra giữa kỳ học phần Phát triển ứng dụng Web cơ bản.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/weather.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartAgri — Trang đăng ký tài khoản nông dân">
+  <title>SmartAgri — Đăng ký tài khoản</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/register.css">
+</head>
+<body class="register-body">
+
+  <main class="register-shell">
+    <section class="visual" aria-hidden="true">
+      <img class="visual-photo" src="assets/register-field.png" alt="">
+    </section>
+
+    <section class="form-side">
+      <header class="form-head">
+        <h1>Đăng Ký</h1>
+      </header>
+
+      <form class="register-card" id="registerForm" novalidate>
+        <div class="field">
+          <span class="field-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path fill="currentColor" d="M6.6 10.8c1.4 2.8 3.6 5 6.4 6.4l2.1-2.1c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V19c0 .6-.4 1-1 1C11.3 20 4 12.7 4 3.5c0-.6.4-1 1-1h3.1c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.3 0 .7-.2 1l-2.1 2.1Z"/>
+            </svg>
+          </span>
+          <div class="field-body">
+            <label for="phone">Số điện thoại</label>
+            <input class="field-input" type="text" id="phone" name="phone" placeholder="Ví dụ: 0912345678" inputmode="tel" autocomplete="tel">
+            <span class="field-error" id="phoneError" role="alert"></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path fill="currentColor" d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.1 0-7.5 2.3-7.5 5.2V21h15v-1.8C19.5 16.3 16.1 14 12 14Z"/>
+            </svg>
+          </span>
+          <div class="field-body">
+            <label for="fullname">Họ tên</label>
+            <input class="field-input" type="text" id="fullname" name="fullname" placeholder="Nguyễn Văn A" autocomplete="name">
+            <span class="field-error" id="fullnameError" role="alert"></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path fill="currentColor" d="M7 2v2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7ZM5 9h14v10H5V9Zm3 2v2h2v-2H8Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2Z"/>
+            </svg>
+          </span>
+          <div class="field-body">
+            <label for="birthYear">Năm sinh</label>
+            <input class="field-input" type="number" id="birthYear" name="birthYear" placeholder="Ví dụ: 1995" min="1930" max="2026" step="1" inputmode="numeric">
+            <span class="field-hint" id="ageHint"></span>
+            <span class="field-error" id="birthYearError" role="alert"></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/>
+            </svg>
+          </span>
+          <div class="field-body">
+            <label for="address">Địa chỉ</label>
+            <input class="field-input" type="text" id="address" name="address" placeholder="Thôn/xóm, xã, huyện, tỉnh" autocomplete="street-address">
+            <span class="field-error" id="addressError" role="alert"></span>
+          </div>
+        </div>
+      </form>
+
+      <div class="action-row">
+        <button class="btn-register" type="submit" form="registerForm" id="submitBtn">
+          <span class="btn-text">Đăng Ký</span>
+        </button>
+      </div>
+
+      <p class="back-row"><a class="back-link" href="login.html">Quay lại</a></p>
+    </section>
+  </main>
+
+  <svg class="wave" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="#1b6b38" d="M0 78c170-56 330 26 520 22s330-84 520-64 280 74 400 62v202H0V78Z"/>
+    <path fill="#14532d" d="M0 132c200-48 340 22 560 18s340-66 540-48 240 62 340 54v146H0v-10Z"/>
+  </svg>
+
+  <svg class="deco-art" viewBox="0 0 520 160" aria-hidden="true">
+    <g fill="none" stroke="#7cc489" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".75">
+      <path d="M120 132c-16-6-26-20-26-36h52c0 16-10 30-26 36Z"/>
+      <path d="M146 96c-24 0-38-14-40-34 22-2 38 10 40 34Z"/>
+      <path d="M94 96c24 0 38-14 40-34-22-2-38 10-40 34Z"/>
+      <path d="M120 96V62"/>
+      <path d="M252 132V78h30v54M252 96h30M282 78l16-14v68M312 132V92h22v40"/>
+      <rect x="240" y="120" width="112" height="12"/>
+    </g>
+  </svg>
+
+  <svg class="deco-rice" viewBox="0 0 200 220" aria-hidden="true">
+    <g stroke="#c9b23f" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M30 210C46 150 66 104 96 66"/>
+      <path d="M52 210c10-52 26-92 48-126"/>
+    </g>
+    <g fill="#d8c34e">
+      <ellipse cx="94" cy="62" rx="8" ry="15" transform="rotate(28 94 62)"/>
+      <ellipse cx="110" cy="86" rx="8" ry="15" transform="rotate(48 110 86)"/>
+      <ellipse cx="122" cy="112" rx="8" ry="15" transform="rotate(64 122 112)"/>
+      <ellipse cx="76" cy="76" rx="7" ry="14" transform="rotate(-8 76 76)"/>
+      <ellipse cx="84" cy="102" rx="7" ry="14" transform="rotate(12 84 102)"/>
+      <ellipse cx="134" cy="138" rx="7" ry="13" transform="rotate(78 134 138)"/>
+    </g>
+  </svg>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/register.js"></script>
+</body>
+</html>

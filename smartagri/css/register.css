@@ -1,0 +1,399 @@
+/* =========================================================
+   SmartAgri — Trang đăng ký tài khoản nông dân
+   ========================================================= */
+
+:root {
+  --green-900: #14532d;
+  --green-800: #1b6b38;
+  --green-500: #2e9e50;
+  --green-100: #e7f4e9;
+  --cream: #fdf7e9;
+  --surface: #ffffff;
+  --text: #1f2a24;
+  --muted: #6b7a70;
+  --line: #edf1ec;
+  --error: #c62828;
+  --radius: 18px;
+  --shadow-card: 0 14px 34px rgba(20, 60, 35, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.register-body {
+  position: relative;
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+  background-color: var(--cream);
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Layout chính ---------- */
+.register-shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(300px, 42%) 1fr;
+  align-items: center;
+  gap: 44px;
+  max-width: 1180px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 40px 32px 210px;
+}
+
+/* ---------- Ảnh bên trái + nét viền cong ---------- */
+.visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.visual-photo {
+  width: 100%;
+  max-width: 430px;
+  height: min(74vh, 640px);
+  object-fit: cover;
+  border-radius: 26px 50% 50% 26px / 26px 40% 40% 26px;
+  box-shadow: 0 22px 48px rgba(20, 60, 35, 0.22);
+}
+
+.visual::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  right: -16px;
+  border-right: 3px solid var(--green-800);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ---------- Cột phải ---------- */
+.form-side {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.form-head h1 {
+  margin: 0 0 22px;
+  text-align: center;
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  color: var(--green-900);
+}
+
+/* ---------- Thẻ form ---------- */
+.register-card {
+  padding: 6px 26px;
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.field:last-child {
+  border-bottom: none;
+}
+
+.field-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background-color: var(--green-100);
+  color: var(--green-800);
+}
+
+.field-body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.field-body label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--green-900);
+}
+
+.field-input {
+  width: 100%;
+  padding: 2px 0 4px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background-color: transparent;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.field-input::placeholder {
+  color: #b6c0b7;
+  font-size: 0.88rem;
+}
+
+/* bỏ mũi tên tăng/giảm của input số */
+.field-input::-webkit-outer-spin-button,
+.field-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.field-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.field-input:focus {
+  outline: none;
+  border-bottom-color: var(--green-500);
+}
+
+.field-input.is-invalid {
+  border-bottom-color: var(--error);
+}
+
+.field-error {
+  min-height: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--error);
+}
+
+.field-hint {
+  min-height: 16px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ---------- Nút đăng ký ---------- */
+.action-row {
+  margin-top: 26px;
+  text-align: center;
+}
+
+.btn-register {
+  min-width: 210px;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 999px;
+  background-image: linear-gradient(135deg, var(--green-800), var(--green-900));
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(20, 80, 40, 0.26);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-register:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 14px 26px rgba(20, 80, 40, 0.32);
+  transform: translateY(-2px);
+}
+
+.btn-register:active {
+  transform: translateY(1px);
+}
+
+.btn-register[disabled] {
+  cursor: progress;
+  filter: saturate(0.6);
+  transform: none;
+}
+
+.btn-register.is-shaking {
+  animation: shake 0.42s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 9px;
+  vertical-align: -2px;
+  border: 2.5px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Link quay lại ---------- */
+.back-row {
+  margin: 16px 0 0;
+  text-align: center;
+}
+
+.back-link {
+  color: var(--green-900);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.back-link:hover {
+  color: var(--green-500);
+}
+
+/* ---------- Trang trí ---------- */
+.wave {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 190px;
+  z-index: 0;
+}
+
+.deco-art {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  width: min(520px, 60%);
+  height: 160px;
+  z-index: 1;
+}
+
+.deco-rice {
+  position: absolute;
+  left: -10px;
+  bottom: 40px;
+  width: 200px;
+  height: 220px;
+  z-index: 1;
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 210px;
+  transform: translateX(-50%);
+  max-width: min(440px, 92%);
+  padding: 12px 22px;
+  border-radius: 999px;
+  background-color: var(--green-900);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 14px 30px rgba(20, 60, 35, 0.28);
+  z-index: 5;
+}
+
+.toast.is-error {
+  background-color: #b3261e;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+  .register-shell {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding: 28px 20px 230px;
+  }
+
+  .visual-photo {
+    width: 100%;
+    max-width: 520px;
+    height: 300px;
+    border-radius: 22px;
+  }
+
+  .visual::after {
+    display: none;
+  }
+
+  .form-head h1 {
+    font-size: 2.1rem;
+  }
+
+  .deco-rice {
+    width: 140px;
+    height: 160px;
+  }
+}
+
+@media (max-width: 560px) {
+  .register-card {
+    padding: 2px 16px;
+  }
+
+  .field {
+    grid-template-columns: 40px 1fr;
+    gap: 10px;
+  }
+
+  .field-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .visual-photo {
+    height: 220px;
+  }
+
+  .btn-register {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .deco-art {
+    display: none;
+  }
+
+  .toast {
+    bottom: 200px;
+  }
+}

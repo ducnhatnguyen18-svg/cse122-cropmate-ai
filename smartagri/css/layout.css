@@ -1,0 +1,213 @@
+/* =========================================================
+   SmartAgri — Layout dùng chung (index.html, diary.html, support.html)
+   Chứa: khung trang .app + sidebar + nút Đăng xuất.
+   File này được <link> TRƯỚC file CSS riêng của từng trang
+   để 3 trang luôn có sidebar giống hệt nhau.
+   ========================================================= */
+
+:root {
+  --sidebar-w: 244px;
+}
+
+/* ---------- Khung trang ---------- */
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  min-height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px 16px;
+  background-color: var(--green-900);
+  color: #eaf3ea;
+  /* dính theo màn hình: nút Đăng xuất luôn nằm sát đáy sidebar */
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 6px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-logo {
+  background-color: #ffffff;
+  border-radius: 12px;
+}
+
+.brand-text {
+  display: grid;
+}
+
+.brand-name {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.brand-tag {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #a9d3b0;
+}
+
+/* .side-nav chiếm hết chỗ trống nên Đăng xuất bị đẩy xuống đáy */
+.side-nav {
+  flex: 1;
+}
+
+.side-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.side-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  color: #cfe4d2;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.side-link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.side-link.is-active {
+  background-color: var(--green-500);
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(46, 158, 80, 0.35);
+}
+
+.side-icon {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: #eaf3ea;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-logout:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Nút ☰ chỉ hiện trên màn hình nhỏ */
+.btn-menu {
+  display: none;
+  font-size: 1.3rem;
+}
+
+/* ---------- Sidebar trượt ra/vào trên màn hình nhỏ ---------- */
+@media (max-width: 760px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 260px;
+    z-index: 80;
+    transform: translateX(-100%);
+    transition: transform 0.28s ease;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .btn-menu {
+    display: inline-flex;
+  }
+}
+
+/* ---------- Tuỳ chọn hiển thị (lưu từ trang Cài đặt, áp dụng mọi trang) ----------
+   Các lớp này gắn lên thẻ <html>. Dùng html body / html.high-contrast .card
+   để có độ ưu tiên cao hơn rule trong CSS riêng của từng trang. */
+html {
+  font-size: var(--app-root-fs, 16px);
+}
+
+html body {
+  font-size: var(--app-body-fs, 15px);
+}
+
+html.fs-sm {
+  --app-root-fs: 15px;
+  --app-body-fs: 14px;
+}
+
+html.fs-lg {
+  --app-root-fs: 18px;
+  --app-body-fs: 17px;
+}
+
+html.fs-xl {
+  --app-root-fs: 20px;
+  --app-body-fs: 19px;
+}
+
+html.high-contrast {
+  --border: #7c8c80;
+  --muted: #3d4b41;
+}
+
+html.high-contrast body {
+  color: #000000;
+}
+
+html.high-contrast .card,
+html.high-contrast .input,
+html.high-contrast .btn,
+html.high-contrast .side-link {
+  border: 1px solid #4a5a4f;
+}
+
+html.no-motion *,
+html.no-motion *::before,
+html.no-motion *::after {
+  animation: none !important;
+  transition: none !important;
+}

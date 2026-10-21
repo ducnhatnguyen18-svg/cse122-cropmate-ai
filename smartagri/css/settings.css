@@ -1,0 +1,356 @@
+/* =========================================================
+   SmartAgri — Cài đặt (settings.html)
+   Chỉ chứa style riêng của trang này.
+   Sidebar: css/layout.css — topbar/thẻ/form/nút: css/ui.css
+   ========================================================= */
+
+/* ---------- Khung 2 cột: tab + nội dung ---------- */
+.settings-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  padding: 20px 24px 28px;
+}
+
+.tab-nav {
+  position: sticky;
+  top: 20px;
+  padding: 12px;
+}
+
+.tab-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.tab {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tab:hover {
+  background-color: var(--green-100);
+}
+
+.tab.is-active {
+  background-color: var(--green-500);
+  color: #ffffff;
+}
+
+.tab-note {
+  margin: 12px 4px 2px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.panels {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+
+.panel {
+  min-width: 0;
+}
+
+.panel h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--green-900);
+}
+
+.sub-title {
+  margin: 22px 0 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 0.92rem;
+  color: var(--green-900);
+}
+
+.note-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+/* ---------- Hồ sơ ---------- */
+.profile-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  margin-bottom: 18px;
+  border-radius: var(--radius-sm);
+  background-image: linear-gradient(120deg, #f4fbf3 0%, #eaf6ea 100%);
+}
+
+.profile-avatar {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+}
+
+.profile-name {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--green-900);
+}
+
+/* ---------- Lô ruộng ---------- */
+.plot-form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr)) auto;
+  gap: 12px;
+  align-items: end;
+  padding: 14px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: #fbfdfb;
+}
+
+.plot-form .btn-block {
+  height: 38px;
+}
+
+.plot-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.plot-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: #fbfdfb;
+}
+
+.plot-mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background-color: var(--green-100);
+  color: var(--green-800);
+  font-weight: 800;
+}
+
+.plot-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.plot-body strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.plot-body span {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.plot-del {
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.plot-del:hover {
+  color: var(--red-600);
+}
+
+/* ---------- Danh sách công tắc ---------- */
+.switch-list {
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+
+.switch-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.switch-text strong {
+  display: block;
+  font-size: 0.92rem;
+}
+
+.switch-text small {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ---------- Lựa chọn dạng thẻ ---------- */
+.radio-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.radio-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background-color: #fbfdfb;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.radio-card:hover {
+  border-color: var(--green-500);
+}
+
+.radio-card input {
+  accent-color: var(--green-500);
+}
+
+.radio-card:has(input:checked) {
+  border-color: var(--green-500);
+  background-color: var(--green-100);
+  color: var(--green-900);
+}
+
+/* ---------- Khung xem trước giao diện ---------- */
+.preview-box {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background-color: #fbfdfb;
+}
+
+.preview-label {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.preview-title {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--green-900);
+}
+
+.preview-body {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+}
+
+/* ---------- Độ mạnh mật khẩu ---------- */
+.strength {
+  height: 6px;
+  border-radius: 999px;
+  background-color: #e4ebe4;
+  overflow: hidden;
+}
+
+.strength-bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background-color: var(--red-600);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* ---------- Kho dữ liệu localStorage ---------- */
+.store-list {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.store-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: #fbfdfb;
+  font-size: 0.84rem;
+}
+
+.store-row strong {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.8rem;
+  word-break: break-all;
+}
+
+.file-label {
+  cursor: pointer;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1120px) {
+  .settings-grid {
+    grid-template-columns: 210px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tab-nav {
+    position: static;
+  }
+
+  .tab-list {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .plot-form {
+    grid-template-columns: 1fr;
+  }
+}

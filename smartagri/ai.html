@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartAgri — Trợ lý AI: chẩn đoán sơ bộ bệnh cây trồng qua ảnh và hỏi đáp kỹ thuật">
+  <title>SmartAgri — Trợ lý AI</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script src="js/display.js"></script>
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/ai.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/logo.svg" alt="" width="40" height="40">
+        <span class="brand-text">
+          <span class="brand-name">SmartAgri</span>
+          <span class="brand-tag">Trí tuệ cho mùa vàng</span>
+        </span>
+      </a>
+
+      <nav class="side-nav" aria-label="Điều hướng chính">
+        <ul class="side-list">
+          <li><a class="side-link" href="index.html"><span class="side-icon" aria-hidden="true">🏠</span>Tổng quan</a></li>
+          <li><a class="side-link" href="season.html"><span class="side-icon" aria-hidden="true">📅</span>Mùa vụ</a></li>
+          <li><a class="side-link" href="diary.html"><span class="side-icon" aria-hidden="true">📝</span>Nhật ký</a></li>
+          <li><a class="side-link" href="weather.html"><span class="side-icon" aria-hidden="true">🌦️</span>Thời tiết</a></li>
+          <li><a class="side-link is-active" href="ai.html" aria-current="page"><span class="side-icon" aria-hidden="true">🤖</span>Trợ lý AI</a></li>
+          <li><a class="side-link" href="support.html"><span class="side-icon" aria-hidden="true">🎧</span>Hỗ trợ kỹ thuật</a></li>
+          <li><a class="side-link" href="settings.html"><span class="side-icon" aria-hidden="true">⚙️</span>Cài đặt</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn-logout" href="login.html"><span aria-hidden="true">⏻</span> Đăng xuất</a>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <button class="btn-icon btn-menu" type="button" id="menuToggle" aria-label="Mở hoặc đóng menu">☰</button>
+        <span class="topbar-icon" aria-hidden="true">🤖</span>
+        <div class="topbar-title">
+          <h1>Trợ lý AI</h1>
+          <p class="greeting">Chẩn đoán sơ bộ bệnh qua ảnh và hỏi đáp kỹ thuật trồng lúa.</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="bell-wrap">
+            <button class="btn-icon bell" type="button" id="bellBtn" aria-label="Thông báo" aria-expanded="false">
+              🔔<span class="bell-badge" id="bellBadge">1</span>
+            </button>
+            <div class="dropdown" id="bellDropdown" hidden>
+              <p class="dropdown-title">Gợi ý</p>
+              <ul class="dropdown-list">
+                <li>Mô hình đang ở bản demo — kết quả chỉ mang tính tham khảo.</li>
+              </ul>
+            </div>
+          </div>
+          <a class="user-chip" href="settings.html">
+            <img class="user-avatar" src="assets/avatar-farmer.png" alt="Ảnh nông dân">
+            <span class="user-meta"><strong>Nông dân</strong><small>Nông hộ</small></span>
+          </a>
+        </div>
+      </header>
+
+      <main class="board">
+        <!-- ============ GUIDED STEPS ============ -->
+        <section class="card" aria-labelledby="steps-title">
+          <h2 id="steps-title" class="visually-hidden">Các bước chẩn đoán</h2>
+          <ol class="steps" id="steps">
+            <li class="step is-active"><span class="step-no">1</span><span class="step-text"><strong>Chụp hoặc tải ảnh</strong><small>Chụp rõ vết bệnh, nền không rối.</small></span></li>
+            <li class="step"><span class="step-no">2</span><span class="step-text"><strong>Chẩn đoán sơ bộ</strong><small>Mô hình gợi ý bệnh và độ tin cậy.</small></span></li>
+            <li class="step"><span class="step-no">3</span><span class="step-text"><strong>Xác nhận &amp; ghi nhật ký</strong><small>Lưu kết quả hoặc gửi chuyên gia.</small></span></li>
+          </ol>
+        </section>
+
+        <div class="ai-grid">
+          <!-- ============ CHẨN ĐOÁN ẢNH ============ -->
+          <section class="card" aria-labelledby="scan-title">
+            <header class="card-head card-head-row">
+              <div class="card-head">
+                <span class="head-icon" aria-hidden="true">🔬</span>
+                <h2 id="scan-title">Chẩn đoán bệnh qua ảnh</h2>
+              </div>
+              <span class="badge badge-blue" id="modelBadge">Field Issue Classifier</span>
+            </header>
+
+            <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-labelledby="dzLabel">
+              <img class="dz-preview" id="preview" alt="Ảnh lá cây đã chọn" hidden>
+              <p class="dz-title" id="dzLabel">Chụp ảnh hoặc tải ảnh lên</p>
+              <p class="dz-sub">Kéo thả ảnh vào đây, hoặc nhấp để chọn từ thư viện</p>
+              <p class="dz-file" id="fileName" hidden></p>
+            </div>
+            <input class="visually-hidden" type="file" id="fileInput" accept="image/*">
+            <p class="field-error" id="fileError"></p>
+
+            <div class="form-row">
+              <label for="cropSelect">Nhóm cây đang quan tâm</label>
+              <select class="input" id="cropSelect">
+                <option value="Lúa">Lúa</option>
+                <option value="Ngô">Ngô</option>
+                <option value="Rau màu">Rau màu</option>
+              </select>
+            </div>
+
+            <div class="scan-actions">
+              <button class="btn btn-primary" type="button" id="analyzeBtn" disabled>🔎 Chẩn đoán sơ bộ</button>
+              <button class="btn btn-ghost" type="button" id="clearBtn" disabled>🗑 Xoá ảnh</button>
+            </div>
+
+            <div class="result" id="result" hidden>
+              <div class="result-head">
+                <div>
+                  <p class="result-label">Kết quả gợi ý</p>
+                  <h3 class="result-name" id="resultName">—</h3>
+                  <p class="result-pathogen" id="resultPathogen">—</p>
+                </div>
+                <span class="badge badge-amber" id="resultLevel">—</span>
+              </div>
+
+              <div class="conf">
+                <div class="conf-row">
+                  <span class="conf-label">Độ tin cậy</span>
+                  <strong class="conf-value" id="confValue">0%</strong>
+                </div>
+                <div class="conf-track"><span class="conf-fill" id="confFill"></span></div>
+              </div>
+
+              <h4 class="result-sub">Dấu hiệu nhận biết</h4>
+              <ul class="result-list" id="resultSigns"></ul>
+
+              <h4 class="result-sub">Điều kiện phát sinh</h4>
+              <p class="result-text" id="resultCondition">—</p>
+
+              <h4 class="result-sub">Hướng xử lý gợi ý</h4>
+              <ol class="result-list numbered" id="resultSteps"></ol>
+
+              <p class="disclaimer">⚠️ Đây là kết quả hỗ trợ sơ bộ trên dữ liệu minh hoạ. Trước khi mua và phun thuốc, hãy xác nhận với cán bộ bảo vệ thực vật.</p>
+
+              <div class="scan-actions">
+                <a class="btn btn-green-outline" href="diary.html">📝 Ghi vào nhật ký</a>
+                <a class="btn btn-blue" href="support.html">🎧 Nhờ chuyên gia</a>
+                <button class="btn btn-ghost" type="button" id="againBtn">Chẩn đoán ảnh khác</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============ CHAT ============ -->
+          <section class="card" aria-labelledby="chat-title">
+            <header class="card-head card-head-row">
+              <div class="card-head">
+                <span class="head-icon blue" aria-hidden="true">💬</span>
+                <h2 id="chat-title">Hỏi đáp kỹ thuật</h2>
+              </div>
+              <button class="link-btn" type="button" id="clearChatBtn">Xoá hội thoại</button>
+            </header>
+
+            <div class="chat" id="chatBox" role="log" aria-live="polite" aria-label="Lịch sử hội thoại với trợ lý"></div>
+
+            <ul class="chips" id="chipList">
+              <li><button class="chip" type="button">Bao nhiêu phân đạm cho 1 sào?</button></li>
+              <li><button class="chip" type="button">Khi nào nên phun thuốc đạo ôn?</button></li>
+              <li><button class="chip" type="button">Ruộng bị nghẹt rễ xử lý sao?</button></li>
+              <li><button class="chip" type="button">Giữ mực nước mấy cm là đủ?</button></li>
+            </ul>
+
+            <form class="chat-form" id="chatForm">
+              <label class="visually-hidden" for="chatInput">Câu hỏi của bạn</label>
+              <input class="input" type="text" id="chatInput" placeholder="Nhập câu hỏi của bạn..." autocomplete="off" maxlength="200">
+              <button class="btn btn-primary" type="submit">Gửi</button>
+            </form>
+            <p class="hint">Trợ lý trả lời theo bộ câu hỏi mẫu dựng sẵn — không cần máy chủ.</p>
+          </section>
+        </div>
+
+        <!-- ============ LỊCH SỬ ============ -->
+        <section class="card" aria-labelledby="hist-title">
+          <header class="card-head card-head-row">
+            <div class="card-head">
+              <span class="head-icon" aria-hidden="true">🗂️</span>
+              <h2 id="hist-title">Lịch sử chẩn đoán <span class="count-pill" id="histCount">0</span></h2>
+            </div>
+            <button class="btn btn-ghost btn-sm" type="button" id="clearHistBtn">Dọn lịch sử</button>
+          </header>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <caption class="visually-hidden">Các lần chẩn đoán gần đây</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Thời gian</th>
+                  <th scope="col">Ảnh</th>
+                  <th scope="col">Kết quả</th>
+                  <th scope="col">Độ tin cậy</th>
+                  <th scope="col">Mức</th>
+                  <th scope="col">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="histBody"></tbody>
+            </table>
+          </div>
+          <p class="empty" id="histEmpty" hidden>Chưa có lần chẩn đoán nào. Hãy chọn ảnh để bắt đầu.</p>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>© 2026 SmartAgri — Trang chính bài kiểm tra giữa kỳ học phần Phát triển ứng dụng Web cơ bản.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/ai.js"></script>
+</body>
+</html>

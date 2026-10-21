@@ -1,0 +1,376 @@
+/* =========================================================
+   SmartAgri — Thời tiết (weather.html)
+   Chỉ chứa style riêng của trang này.
+   Sidebar: css/layout.css — topbar/thẻ/form/nút: css/ui.css
+   ========================================================= */
+
+/* ---------- Thanh khu vực ---------- */
+.region-bar {
+  display: grid;
+  gap: 10px;
+}
+
+.region-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.region-left h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--green-900);
+}
+
+.region-left .card-desc {
+  margin: 2px 0 0;
+}
+
+.region-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.region-right .mini {
+  flex: 0 1 240px;
+}
+
+.updated {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ---------- Lưới 2 cột ---------- */
+.weather-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.15fr) minmax(280px, 0.85fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.weather-grid > * {
+  min-width: 0;
+}
+
+/* ---------- Thẻ hiện tại ---------- */
+.now {
+  background-image: linear-gradient(160deg, #eaf3ff 0%, #f2f9f3 100%);
+}
+
+.now-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.now-icon {
+  font-size: 3.4rem;
+  line-height: 1;
+}
+
+.now-temp {
+  margin: 0;
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: var(--green-900);
+  line-height: 1.05;
+}
+
+.now-desc {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.now-feel {
+  margin: 2px 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.now-list {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.now-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  background-color: rgba(255, 255, 255, 0.78);
+}
+
+.now-list .k {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.now-list .v {
+  font-size: 0.88rem;
+  color: var(--green-900);
+}
+
+/* ---------- Chỉ số đồng ruộng ---------- */
+.index-list {
+  margin: 0 0 10px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.index-item {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: #fbfdfb;
+}
+
+.index-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.index-name {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--green-900);
+}
+
+.index-value {
+  margin: 6px 0 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.index-meter {
+  height: 8px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background-color: #e4ebe4;
+  overflow: hidden;
+}
+
+.index-meter span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.index-note {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ---------- Dải 24 giờ ---------- */
+.hourly {
+  margin: 0;
+  padding: 2px 0 8px;
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.hour {
+  flex: 0 0 auto;
+  width: 74px;
+  padding: 10px 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: #fbfdfb;
+  text-align: center;
+}
+
+.hour.is-night {
+  background-color: #f3f5fa;
+}
+
+.hour-time {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.hour-icon {
+  display: block;
+  margin: 4px 0;
+  font-size: 1.3rem;
+}
+
+.hour-temp {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--green-900);
+}
+
+.hour-rain {
+  margin: 2px 0 0;
+  font-size: 0.72rem;
+  color: var(--blue-600);
+}
+
+/* ---------- Biểu đồ nhiệt độ 7 ngày ---------- */
+.chart {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(48px, 1fr);
+  gap: 10px;
+  align-items: end;
+  height: 210px;
+  margin: 6px 0 18px;
+  padding: 0 4px 4px;
+  /* màn hẹp: cuộn ngang thay vì đẩy trang tràn */
+  overflow-x: auto;
+}
+
+.chart-col {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 6px;
+  height: 100%;
+  text-align: center;
+}
+
+.chart-track {
+  position: relative;
+  height: 100%;
+  border-radius: 8px;
+  background-color: #f4f7f4;
+}
+
+.chart-bar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  border-radius: 999px;
+  background-image: linear-gradient(180deg, #f0a92c, var(--green-500));
+}
+
+.chart-max,
+.chart-min {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.chart-day {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--green-900);
+}
+
+/* ---------- Cảnh báo ---------- */
+.alert-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.alert-item {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-left: 4px solid var(--amber);
+  border-radius: 8px;
+  background-color: var(--amber-bg);
+}
+
+.alert-item.sev-high {
+  border-left-color: var(--red-600);
+  background-color: var(--red-100);
+}
+
+.alert-item.sev-low {
+  border-left-color: var(--green-500);
+  background-color: var(--green-100);
+}
+
+.alert-icon {
+  font-size: 1.2rem;
+}
+
+.alert-item h3 {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.alert-item p {
+  margin: 2px 0 0;
+  font-size: 0.82rem;
+}
+
+.alert-time {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+/* ---------- Khuyến nghị ---------- */
+.advice-list {
+  margin: 0 0 16px;
+  padding-left: 22px;
+  display: grid;
+  gap: 10px;
+  font-size: 0.88rem;
+}
+
+.advice-list li::marker {
+  color: var(--green-500);
+  font-weight: 800;
+}
+
+.advice-why {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1120px) {
+  .weather-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .now-main {
+    flex-wrap: wrap;
+  }
+
+  .chart {
+    height: 170px;
+  }
+
+  .region-right .mini {
+    flex: 1 1 100%;
+  }
+}

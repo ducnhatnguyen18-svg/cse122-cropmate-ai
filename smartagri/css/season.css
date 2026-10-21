@@ -1,0 +1,370 @@
+/* =========================================================
+   SmartAgri — Mùa vụ (season.html)
+   Chỉ chứa style riêng của trang này.
+   Sidebar: css/layout.css — topbar/thẻ/form/nút: css/ui.css
+   ========================================================= */
+
+/* ---------- Chọn mùa vụ ---------- */
+.season-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.season-tab {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: #fbfdfb;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.season-tab:hover {
+  border-color: var(--green-500);
+  box-shadow: var(--shadow);
+}
+
+.season-tab.is-active {
+  border-color: var(--green-500);
+  background-color: var(--green-100);
+}
+
+.st-name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--green-900);
+}
+
+.st-meta {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.st-bar {
+  height: 6px;
+  border-radius: 999px;
+  background-color: #dfe8e0;
+  overflow: hidden;
+}
+
+.st-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background-image: linear-gradient(90deg, var(--green-500), var(--green-800));
+}
+
+/* ---------- Chi tiết mùa vụ ---------- */
+.detail {
+  background-image: linear-gradient(120deg, #f4fbf3 0%, #eaf6ea 100%);
+}
+
+.detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.detail-head h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--green-900);
+}
+
+.detail-sub {
+  margin: 4px 0 0;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0 6px;
+}
+
+.progress-track {
+  flex: 1;
+  height: 12px;
+  border-radius: 999px;
+  background-color: #dfe8e0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background-image: linear-gradient(90deg, var(--green-500), var(--green-800));
+  transition: width 0.7s ease;
+}
+
+.progress-value {
+  margin: 0;
+  min-width: 52px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--green-800);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 14px 0 0;
+}
+
+.fact {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.fact dt {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.fact dd {
+  margin: 2px 0 0;
+  font-size: 0.98rem;
+}
+
+.gauge-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.gauge {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
+  text-align: center;
+}
+
+.gauge-label {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.gauge-value {
+  margin: 4px 0 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--green-900);
+}
+
+/* ---------- Các giai đoạn sinh trưởng ---------- */
+.stages {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.stage {
+  position: relative;
+  padding: 14px 12px 12px 12px;
+  border: 1px solid var(--border);
+  border-top: 4px solid #dfe8e0;
+  border-radius: var(--radius-sm);
+  background-color: #fbfdfb;
+}
+
+.stage.done {
+  border-top-color: var(--green-500);
+  background-color: #f4fbf4;
+}
+
+.stage.active {
+  border-top-color: var(--blue-500);
+  background-color: var(--blue-100);
+}
+
+.stage-index {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #dfe8e0;
+  color: var(--green-900);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.stage.done .stage-index {
+  background-color: var(--green-500);
+  color: #ffffff;
+}
+
+.stage.active .stage-index {
+  background-color: var(--blue-500);
+  color: #ffffff;
+}
+
+.stage h3 {
+  margin: 8px 0 2px;
+  font-size: 0.92rem;
+  color: var(--green-900);
+}
+
+.stage-range {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.stage-note {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+}
+
+/* ---------- Lưới 2 cột dưới ---------- */
+.season-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.1fr) minmax(300px, 0.9fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.season-grid > * {
+  min-width: 0;
+}
+
+/* ---------- Form kế hoạch ---------- */
+.plan-form {
+  padding: 14px;
+  margin-bottom: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: #fbfdfb;
+}
+
+.plan-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.plan-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: #fbfdfb;
+  transition: background-color 0.2s ease;
+}
+
+.plan-item:hover {
+  background-color: #f5faf5;
+}
+
+.plan-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--green-500);
+  cursor: pointer;
+}
+
+.plan-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.plan-name {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.plan-item.is-done .plan-name {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.plan-meta {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.plan-del {
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.plan-del:hover {
+  color: var(--red-600);
+}
+
+/* ---------- Lô ruộng + ghi chú ---------- */
+.sub-title {
+  margin: 18px 0 8px;
+  font-size: 0.86rem;
+  color: var(--green-900);
+}
+
+.note-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 0.86rem;
+}
+
+.note-list li::marker {
+  color: var(--green-500);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1120px) {
+  .season-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .detail-head {
+    flex-direction: column;
+  }
+
+  .progress-row {
+    flex-wrap: wrap;
+  }
+
+  .progress-track {
+    flex-basis: 100%;
+  }
+}

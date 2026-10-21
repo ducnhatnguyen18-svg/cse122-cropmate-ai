@@ -1,0 +1,452 @@
+/* =========================================================
+   SmartAgri — Trang quên mật khẩu
+   Cùng bộ màu và kiểu dáng với login.css / register.css.
+   ========================================================= */
+
+:root {
+  --green-900: #14532d;
+  --green-800: #1b6b38;
+  --green-500: #2e9e50;
+  --green-200: #bfe3c6;
+  --green-100: #e7f4e9;
+  --cream: #fdf7e9;
+  --surface: #ffffff;
+  --text: #1f2a24;
+  --muted: #6b7a70;
+  --border: #dfe6dc;
+  --error: #c62828;
+  --radius: 18px;
+  --shadow-card: 0 14px 34px rgba(20, 60, 35, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.forgot-body {
+  position: relative;
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+  background-color: var(--cream);
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- Thương hiệu góc trên trái ---------- */
+.top-brand {
+  position: relative;
+  z-index: 2;
+  padding: 22px clamp(20px, 5vw, 56px) 0;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--green-900);
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 34px;
+  height: 34px;
+}
+
+.brand-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+/* ---------- Layout chính: thẻ trái, ảnh phải ---------- */
+.forgot-shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(320px, 46%) 1fr;
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+  max-width: 1180px;
+  min-height: calc(100vh - 70px);
+  margin: 0 auto;
+  padding: 24px clamp(20px, 5vw, 56px) 72px;
+}
+
+/* ---------- Thẻ trắng ---------- */
+.forgot-card {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  padding: 34px 34px 30px;
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.round-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  background-color: var(--green-100);
+  color: var(--green-800);
+}
+
+.round-badge.is-blue {
+  background-color: #e6f0fb;
+  color: #1d6fb8;
+}
+
+.forgot-card h1,
+.forgot-card h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: var(--green-900);
+}
+
+.forgot-card h2 {
+  font-size: 1.4rem;
+}
+
+.forgot-card h1:focus,
+.forgot-card h2:focus {
+  outline: 2px solid var(--green-500);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.lead {
+  margin: 12px 0 24px;
+  font-size: 0.94rem;
+  color: var(--muted);
+}
+
+.lead strong {
+  color: var(--green-800);
+  font-family: "Consolas", "Courier New", monospace;
+  word-break: break-all;
+}
+
+/* ---------- Ô nhập ---------- */
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  display: inline-flex;
+  color: var(--green-800);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px 12px 40px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background-color: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  box-shadow: inset 0 1px 2px rgba(20, 60, 35, 0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input::placeholder {
+  color: #b3bdb5;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--green-500);
+  box-shadow: 0 0 0 3px rgba(46, 158, 80, 0.18);
+}
+
+.input.is-invalid {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.12);
+}
+
+.field-error {
+  min-height: 17px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--error);
+}
+
+/* ---------- Nút gửi ---------- */
+.btn-send {
+  width: 100%;
+  padding: 13px 18px;
+  border: none;
+  border-radius: 10px;
+  background-image: linear-gradient(135deg, var(--green-800), var(--green-900));
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.99rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(20, 80, 40, 0.24);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-send:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 12px 24px rgba(20, 80, 40, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-send:active {
+  transform: translateY(1px);
+}
+
+.btn-send[disabled] {
+  cursor: not-allowed;
+  filter: saturate(0.45) brightness(0.97);
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-send.is-shaking {
+  animation: shake 0.42s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+
+.spinner {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 9px;
+  vertical-align: -2px;
+  border: 2.5px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Link + ghi chú ---------- */
+.back-row {
+  margin: 18px 0 0;
+}
+
+.back-link {
+  color: var(--green-900);
+  font-size: 0.93rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.back-link:hover {
+  color: var(--green-500);
+}
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 22px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background-color: var(--green-100);
+  color: #35543d;
+  font-size: 0.83rem;
+  text-align: left;
+}
+
+.note-icon {
+  flex: none;
+  display: inline-flex;
+  margin-top: 1px;
+  color: var(--green-800);
+}
+
+/* ---------- Trạng thái "đã gửi" ---------- */
+.tiny {
+  margin: -8px 0 22px;
+  font-size: 0.83rem;
+  color: var(--muted);
+}
+
+.sent-actions {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+
+.text-link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--green-800);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.text-link:hover {
+  color: var(--green-500);
+}
+
+/* ---------- Ảnh bên phải ---------- */
+.visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.visual-circle {
+  width: min(100%, 470px);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 50% 50% 46% 54% / 52% 48% 52% 48%;
+  box-shadow: 0 22px 48px rgba(20, 60, 35, 0.22);
+}
+
+.visual-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hex {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 64px;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 1.25rem;
+}
+
+.hex-1 { top: 26%; left: 6%; }
+.hex-2 { top: 20%; right: 16%; }
+.hex-3 { bottom: 34%; left: 16%; }
+.hex-4 { bottom: 26%; right: 6%; }
+
+.leaf-deco {
+  position: absolute;
+  left: 2%;
+  bottom: -18px;
+  width: 190px;
+  height: 143px;
+  pointer-events: none;
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 34px;
+  transform: translateX(-50%);
+  max-width: min(420px, 92%);
+  padding: 12px 22px;
+  border-radius: 999px;
+  background-color: var(--green-900);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 14px 30px rgba(20, 60, 35, 0.28);
+  z-index: 5;
+}
+
+.toast.is-error {
+  background-color: #b3261e;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+  .forgot-shell {
+    grid-template-columns: 1fr;
+    gap: 34px;
+    min-height: 0;
+    padding-bottom: 56px;
+  }
+
+  .visual-circle {
+    width: min(100%, 520px);
+    aspect-ratio: 16 / 10;
+    border-radius: 22px;
+  }
+
+  .hex {
+    width: 46px;
+    height: 52px;
+    font-size: 1rem;
+  }
+
+  .hex-1 { top: 14%; left: 4%; }
+  .hex-2 { top: 10%; right: 8%; }
+  .hex-3 { bottom: 16%; left: 12%; }
+  .hex-4 { bottom: 10%; right: 4%; }
+
+  .leaf-deco {
+    width: 140px;
+    height: 105px;
+    bottom: -10px;
+  }
+}
+
+@media (max-width: 520px) {
+  .forgot-card {
+    padding: 24px 18px 24px;
+  }
+
+  .forgot-card h1 {
+    font-size: 1.45rem;
+  }
+
+  .round-badge {
+    width: 48px;
+    height: 48px;
+  }
+
+  .hex-3,
+  .hex-4 {
+    display: none;
+  }
+}

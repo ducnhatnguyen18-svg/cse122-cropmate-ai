@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartAgri — Cài đặt: hồ sơ nông hộ, lô ruộng, thông báo, giao diện, bảo mật và dữ liệu">
+  <title>SmartAgri — Cài đặt</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script src="js/display.js"></script>
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/logo.svg" alt="" width="40" height="40">
+        <span class="brand-text">
+          <span class="brand-name">SmartAgri</span>
+          <span class="brand-tag">Trí tuệ cho mùa vàng</span>
+        </span>
+      </a>
+
+      <nav class="side-nav" aria-label="Điều hướng chính">
+        <ul class="side-list">
+          <li><a class="side-link" href="index.html"><span class="side-icon" aria-hidden="true">🏠</span>Tổng quan</a></li>
+          <li><a class="side-link" href="season.html"><span class="side-icon" aria-hidden="true">📅</span>Mùa vụ</a></li>
+          <li><a class="side-link" href="diary.html"><span class="side-icon" aria-hidden="true">📝</span>Nhật ký</a></li>
+          <li><a class="side-link" href="weather.html"><span class="side-icon" aria-hidden="true">🌦️</span>Thời tiết</a></li>
+          <li><a class="side-link" href="ai.html"><span class="side-icon" aria-hidden="true">🤖</span>Trợ lý AI</a></li>
+          <li><a class="side-link" href="support.html"><span class="side-icon" aria-hidden="true">🎧</span>Hỗ trợ kỹ thuật</a></li>
+          <li><a class="side-link is-active" href="settings.html" aria-current="page"><span class="side-icon" aria-hidden="true">⚙️</span>Cài đặt</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn-logout" href="login.html"><span aria-hidden="true">⏻</span> Đăng xuất</a>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <button class="btn-icon btn-menu" type="button" id="menuToggle" aria-label="Mở hoặc đóng menu">☰</button>
+        <span class="topbar-icon" aria-hidden="true">⚙️</span>
+        <div class="topbar-title">
+          <h1>Cài đặt</h1>
+          <p class="greeting">Quản lý hồ sơ, lô ruộng, thông báo, giao diện và dữ liệu của bạn.</p>
+        </div>
+        <div class="topbar-actions">
+          <a class="user-chip" href="settings.html">
+            <img class="user-avatar" src="assets/avatar-farmer.png" alt="Ảnh nông dân">
+            <span class="user-meta"><strong id="chipName">Nông dân</strong><small>Nông hộ</small></span>
+          </a>
+        </div>
+      </header>
+
+      <main class="settings-grid">
+        <!-- ============ TAB TRÁI ============ -->
+        <nav class="card tab-nav" aria-label="Mục cài đặt">
+          <ul class="tab-list" role="tablist" aria-orientation="vertical">
+            <li><button class="tab is-active" type="button" role="tab" id="tab-profile" aria-selected="true" aria-controls="panel-profile" data-panel="profile">👤 Hồ sơ nông hộ</button></li>
+            <li><button class="tab" type="button" role="tab" id="tab-plots" aria-selected="false" aria-controls="panel-plots" data-panel="plots">🗺️ Lô ruộng</button></li>
+            <li><button class="tab" type="button" role="tab" id="tab-notify" aria-selected="false" aria-controls="panel-notify" data-panel="notify">🔔 Thông báo</button></li>
+            <li><button class="tab" type="button" role="tab" id="tab-display" aria-selected="false" aria-controls="panel-display" data-panel="display">🎨 Giao diện</button></li>
+            <li><button class="tab" type="button" role="tab" id="tab-security" aria-selected="false" aria-controls="panel-security" data-panel="security">🔒 Bảo mật</button></li>
+            <li><button class="tab" type="button" role="tab" id="tab-data" aria-selected="false" aria-controls="panel-data" data-panel="data">💾 Dữ liệu</button></li>
+          </ul>
+          <p class="tab-note">Mọi thay đổi được lưu ngay trên máy bạn (localStorage), không gửi đi đâu cả.</p>
+        </nav>
+
+        <!-- ============ CÁC PANEL ============ -->
+        <div class="panels">
+          <!-- Hồ sơ -->
+          <section class="card panel" id="panel-profile" role="tabpanel" aria-labelledby="tab-profile">
+            <header class="card-head">
+              <span class="head-icon" aria-hidden="true">👤</span>
+              <h2>Hồ sơ nông hộ</h2>
+            </header>
+
+            <div class="profile-top">
+              <img class="profile-avatar" src="assets/avatar-farmer.png" alt="Ảnh đại diện">
+              <div>
+                <p class="profile-name" id="previewName">Nông dân</p>
+                <p class="hint" id="previewMeta">Nông hộ · chưa cập nhật địa chỉ</p>
+              </div>
+            </div>
+
+            <form id="profileForm" novalidate>
+              <div class="form-2col">
+                <div class="form-row">
+                  <label for="pfName">Họ và tên <span class="req">*</span></label>
+                  <input class="input" type="text" id="pfName" placeholder="Nguyễn Văn An" maxlength="60">
+                  <span class="field-error" id="pfNameError"></span>
+                </div>
+                <div class="form-row">
+                  <label for="pfPhone">Số điện thoại</label>
+                  <input class="input" type="tel" id="pfPhone" placeholder="09xx xxx xxx" maxlength="15">
+                  <span class="field-error" id="pfPhoneError"></span>
+                </div>
+              </div>
+
+              <div class="form-2col">
+                <div class="form-row">
+                  <label for="pfEmail">Email</label>
+                  <input class="input" type="email" id="pfEmail" placeholder="vi-du@example.com" maxlength="60">
+                  <span class="field-error" id="pfEmailError"></span>
+                </div>
+                <div class="form-row">
+                  <label for="pfBorn">Năm sinh</label>
+                  <input class="input" type="number" id="pfBorn" min="1930" max="2010" placeholder="1985">
+                  <span class="field-error" id="pfBornError"></span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <label for="pfAddress">Địa chỉ canh tác</label>
+                <input class="input" type="text" id="pfAddress" placeholder="Ấp 3, xã Tân Nghĩa, huyện Cao Lãnh, Đồng Tháp" maxlength="120">
+              </div>
+
+              <div class="form-2col">
+                <div class="form-row">
+                  <label for="pfCrop">Cây trồng chính</label>
+                  <select class="input" id="pfCrop">
+                    <option value="Lúa">Lúa</option>
+                    <option value="Ngô">Ngô</option>
+                    <option value="Rau màu">Rau màu</option>
+                    <option value="Cây ăn trái">Cây ăn trái</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <label for="pfExp">Thâm niên canh tác</label>
+                  <select class="input" id="pfExp">
+                    <option value="Duoi3">Dưới 3 năm</option>
+                    <option value="3den10">3–10 năm</option>
+                    <option value="Tren10">Trên 10 năm</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <label for="pfUnit">Đơn vị diện tích hiển thị</label>
+                <select class="input" id="pfUnit">
+                  <option value="ha">Hecta (ha)</option>
+                  <option value="sao">Sào / công (1.000 m²)</option>
+                </select>
+              </div>
+
+              <label class="check-row">
+                <input type="checkbox" id="pfPublic">
+                <span>Cho phép chuyên gia nhìn thấy thông tin liên hệ khi xử lý yêu cầu</span>
+              </label>
+
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Lưu hồ sơ</button>
+                <button class="btn btn-ghost" type="button" id="pfResetBtn">Khôi phục mặc định</button>
+              </div>
+            </form>
+          </section>
+
+          <!-- Lô ruộng -->
+          <section class="card panel" id="panel-plots" role="tabpanel" aria-labelledby="tab-plots" hidden>
+            <header class="card-head">
+              <span class="head-icon" aria-hidden="true">🗺️</span>
+              <h2>Lô ruộng của tôi</h2>
+            </header>
+            <p class="card-desc">Danh sách lô dùng chung với trang Mùa vụ và Nhật ký.</p>
+
+            <form class="plot-form" id="plotForm" novalidate>
+              <div class="form-row">
+                <label for="plotName">Tên lô <span class="req">*</span></label>
+                <input class="input" type="text" id="plotName" placeholder="A3" maxlength="20">
+                <span class="field-error" id="plotNameError"></span>
+              </div>
+              <div class="form-row">
+                <label for="plotArea">Diện tích (ha)</label>
+                <input class="input" type="number" id="plotArea" min="0.1" max="50" step="0.1" value="0.5">
+                <span class="field-error" id="plotAreaError"></span>
+              </div>
+              <div class="form-row">
+                <label for="plotSoil">Loại đất</label>
+                <select class="input" id="plotSoil">
+                  <option value="Đất phù sa">Đất phù sa</option>
+                  <option value="Đất phèn">Đất phèn</option>
+                  <option value="Đất cát">Đất cát</option>
+                </select>
+              </div>
+              <button class="btn btn-primary btn-block" type="submit">＋ Thêm lô</button>
+            </form>
+
+            <ul class="plot-list" id="plotList"></ul>
+            <p class="empty" id="plotEmpty" hidden>Chưa có lô nào. Hãy thêm lô đầu tiên.</p>
+          </section>
+
+          <!-- Thông báo -->
+          <section class="card panel" id="panel-notify" role="tabpanel" aria-labelledby="tab-notify" hidden>
+            <header class="card-head">
+              <span class="head-icon" aria-hidden="true">🔔</span>
+              <h2>Thông báo</h2>
+            </header>
+
+            <ul class="switch-list">
+              <li>
+                <div class="switch-text">
+                  <strong>Cảnh báo sâu bệnh</strong>
+                  <small>Khi chỉ số đồng ruộng vượt ngưỡng hoặc chuyên gia khuyến cáo.</small>
+                </div>
+                <label class="switch"><input type="checkbox" id="ntPest"><span class="switch-track"></span></label>
+              </li>
+              <li>
+                <div class="switch-text">
+                  <strong>Cảnh báo thời tiết</strong>
+                  <small>Dông, gió mạnh, mưa lớn và hạn mặn tại khu vực của bạn.</small>
+                </div>
+                <label class="switch"><input type="checkbox" id="ntWeather"><span class="switch-track"></span></label>
+              </li>
+              <li>
+                <div class="switch-text">
+                  <strong>Chuyên gia trả lời</strong>
+                  <small>Khi yêu cầu hỗ trợ kỹ thuật có phản hồi mới.</small>
+                </div>
+                <label class="switch"><input type="checkbox" id="ntExpert"><span class="switch-track"></span></label>
+              </li>
+              <li>
+                <div class="switch-text">
+                  <strong>Nhắc lịch canh tác</strong>
+                  <small>Nhắc trước 1 ngày với các công việc trong trang Mùa vụ.</small>
+                </div>
+                <label class="switch"><input type="checkbox" id="ntPlan"><span class="switch-track"></span></label>
+              </li>
+              <li>
+                <div class="switch-text">
+                  <strong>Bản tin khuyến nông</strong>
+                  <small>Tóm tắt giá vật tư và thị trường nông sản mỗi tuần.</small>
+                </div>
+                <label class="switch"><input type="checkbox" id="ntNews"><span class="switch-track"></span></label>
+              </li>
+            </ul>
+
+            <div class="form-2col">
+              <div class="form-row">
+                <label for="ntChannel">Kênh nhận chính</label>
+                <select class="input" id="ntChannel">
+                  <option value="app">Trong ứng dụng</option>
+                  <option value="sms">Tin nhắn SMS</option>
+                  <option value="email">Email</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="ntQuiet">Không làm phiền sau</label>
+                <select class="input" id="ntQuiet">
+                  <option value="20:00">20:00</option>
+                  <option value="21:00">21:00</option>
+                  <option value="22:00">22:00</option>
+                  <option value="off">Tắt</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" type="button" id="ntSaveBtn">Lưu cài đặt thông báo</button>
+              <button class="btn btn-ghost" type="button" id="ntTestBtn">Gửi thử một thông báo</button>
+            </div>
+          </section>
+
+          <!-- Giao diện -->
+          <section class="card panel" id="panel-display" role="tabpanel" aria-labelledby="tab-display" hidden>
+            <header class="card-head">
+              <span class="head-icon" aria-hidden="true">🎨</span>
+              <h2>Giao diện</h2>
+            </header>
+            <p class="card-desc">Cài đặt này áp dụng ngay để bạn xem thử, và được nhớ cho lần sau.</p>
+
+            <fieldset class="form-row">
+              <legend>Cỡ chữ</legend>
+              <div class="radio-row">
+                <label class="radio-card"><input type="radio" name="fs" value="14"> Nhỏ</label>
+                <label class="radio-card"><input type="radio" name="fs" value="15"> Vừa</label>
+                <label class="radio-card"><input type="radio" name="fs" value="17"> Lớn</label>
+                <label class="radio-card"><input type="radio" name="fs" value="19"> Rất lớn</label>
+              </div>
+            </fieldset>
+
+            <ul class="switch-list">
+              <li>
+                <div class="switch-text">
+                  <strong>Tương phản cao</strong>
+                  <small>Làm đậm đường viền và chữ — dễ đọc ngoài nắng.</small>
+                </div>
+                <label class="switch"><input type="checkbox" id="dpContrast"><span class="switch-track"></span></label>
+              </li>
+              <li>
+                <div class="switch-text">
+                  <strong>Giảm hiệu ứng chuyển động</strong>
+                  <small>Tắt animation và hover — hợp với máy yếu hoặc hay say màn hình.</small>
+                </div>
+                <label class="switch"><input type="checkbox" id="dpMotion"><span class="switch-track"></span></label>
+              </li>
+            </ul>
+
+            <div class="preview-box">
+              <p class="preview-label">Xem trước</p>
+              <p class="preview-title">Vụ Lúa Mùa 2026 — Lô A1</p>
+              <p class="preview-body">Ngày 35/90 — Giai đoạn đẻ nhánh. Độ ẩm đất 68%, nguy cơ đạo ôn trung bình.</p>
+            </div>
+          </section>
+
+          <!-- Bảo mật -->
+          <section class="card panel" id="panel-security" role="tabpanel" aria-labelledby="tab-security" hidden>
+            <header class="card-head">
+              <span class="head-icon" aria-hidden="true">🔒</span>
+              <h2>Bảo mật</h2>
+            </header>
+
+            <form id="passwordForm" novalidate>
+              <div class="form-row">
+                <label for="pwOld">Mật khẩu hiện tại</label>
+                <input class="input" type="password" id="pwOld" autocomplete="current-password" placeholder="••••••••">
+                <span class="field-error" id="pwOldError"></span>
+              </div>
+              <div class="form-row">
+                <label for="pwNew">Mật khẩu mới</label>
+                <input class="input" type="password" id="pwNew" autocomplete="new-password" placeholder="Tối thiểu 8 ký tự">
+                <div class="strength"><span class="strength-bar" id="strengthBar"></span></div>
+                <p class="hint" id="strengthText">Độ mạnh: chưa nhập</p>
+                <span class="field-error" id="pwNewError"></span>
+              </div>
+              <div class="form-row">
+                <label for="pwConfirm">Nhập lại mật khẩu mới</label>
+                <input class="input" type="password" id="pwConfirm" autocomplete="new-password" placeholder="••••••••">
+                <span class="field-error" id="pwConfirmError"></span>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Đổi mật khẩu</button>
+              </div>
+            </form>
+
+            <h3 class="sub-title">Phiên đang đăng nhập</h3>
+            <div class="table-wrap">
+              <table class="data-table">
+                <caption class="visually-hidden">Các thiết bị đang đăng nhập vào tài khoản</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Thiết bị</th>
+                    <th scope="col">Vị trí</th>
+                    <th scope="col">Lần cuối</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody id="sessionBody"></tbody>
+              </table>
+            </div>
+            <button class="btn btn-ghost" type="button" id="logoutOthersBtn">Đăng xuất các thiết bị khác</button>
+          </section>
+
+          <!-- Dữ liệu -->
+          <section class="card panel" id="panel-data" role="tabpanel" aria-labelledby="tab-data" hidden>
+            <header class="card-head">
+              <span class="head-icon" aria-hidden="true">💾</span>
+              <h2>Dữ liệu của tôi</h2>
+            </header>
+            <p class="card-desc">Toàn bộ dữ liệu demo nằm trong trình duyệt của bạn. Bạn có thể xuất ra tệp để lưu trữ.</p>
+
+            <div class="store-list" id="storeList"></div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" type="button" id="exportBtn">⬇ Xuất dữ liệu (JSON)</button>
+              <label class="btn btn-green-outline file-label">
+                ⬆ Nhập từ tệp
+                <input class="visually-hidden" type="file" id="importInput" accept="application/json">
+              </label>
+              <button class="btn btn-danger" type="button" id="wipeBtn">🗑 Xoá toàn bộ dữ liệu</button>
+            </div>
+
+            <h3 class="sub-title">Ghi chú kỹ thuật</h3>
+            <ul class="note-list">
+              <li>Trang dùng HTML, CSS và JavaScript thuần — không có máy chủ nên dữ liệu không đồng bộ giữa các thiết bị.</li>
+              <li>Nút "Xoá toàn bộ" chỉ ảnh hưởng trình duyệt đang dùng, không thể hoàn tác.</li>
+            </ul>
+          </section>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p>© 2026 SmartAgri — Trang chính bài kiểm tra giữa kỳ học phần Phát triển ứng dụng Web cơ bản.</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal xác nhận xoá dữ liệu -->
+  <div class="modal" id="wipeModal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <section class="modal-box" role="dialog" aria-modal="true" aria-labelledby="wipeTitle">
+      <header class="modal-head">
+        <h2 id="wipeTitle">Xoá toàn bộ dữ liệu?</h2>
+        <button class="btn-icon" type="button" data-close-modal aria-label="Đóng">✕</button>
+      </header>
+      <div class="modal-body">
+        <p>Hồ sơ, lô ruộng, lịch sử chẩn đoán và hội thoại trợ lý AI trên trình duyệt này sẽ bị xoá. Hành động không thể hoàn tác.</p>
+        <label class="check-row">
+          <input type="checkbox" id="wipeConfirmCheck">
+          <span>Tôi hiểu và muốn xoá dữ liệu</span>
+        </label>
+      </div>
+      <div class="form-actions modal-actions">
+        <button class="btn btn-ghost" type="button" data-close-modal>Hủy</button>
+        <button class="btn btn-danger" type="button" id="wipeConfirmBtn" disabled>Xoá dữ liệu</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/settings.js"></script>
+</body>
+</html>

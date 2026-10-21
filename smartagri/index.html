@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartAgri - Season Dashboard: bảng điều khiển mùa vụ cho nông dân">
+  <title>SmartAgri — Bảng điều khiển mùa vụ</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script src="js/display.js"></script>
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/logo.svg" alt="" width="40" height="40">
+        <span class="brand-text">
+          <span class="brand-name">SmartAgri</span>
+          <span class="brand-tag">Trí tuệ cho mùa vàng</span>
+        </span>
+      </a>
+
+      <nav class="side-nav" aria-label="Điều hướng chính">
+        <ul class="side-list">
+          <li><a class="side-link is-active" href="index.html" aria-current="page"><span class="side-icon" aria-hidden="true">🏠</span>Tổng quan</a></li>
+          <li><a class="side-link" href="season.html"><span class="side-icon" aria-hidden="true">📅</span>Mùa vụ</a></li>
+          <li><a class="side-link" href="diary.html"><span class="side-icon" aria-hidden="true">📝</span>Nhật ký</a></li>
+          <li><a class="side-link" href="weather.html"><span class="side-icon" aria-hidden="true">🌦️</span>Thời tiết</a></li>
+          <li><a class="side-link" href="ai.html"><span class="side-icon" aria-hidden="true">🤖</span>Trợ lý AI</a></li>
+          <li><a class="side-link" href="support.html"><span class="side-icon" aria-hidden="true">🎧</span>Hỗ trợ kỹ thuật</a></li>
+          <li><a class="side-link" href="settings.html"><span class="side-icon" aria-hidden="true">⚙️</span>Cài đặt</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn-logout" href="login.html"><span aria-hidden="true">⏻</span> Đăng xuất</a>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <button class="btn-icon btn-menu" type="button" id="menuToggle" aria-label="Mở hoặc đóng menu">☰</button>
+        <div class="topbar-title">
+          <h1>Season Dashboard — Bảng điều khiển mùa vụ</h1>
+          <p class="greeting">🌱 Xin chào, <strong>Nông dân</strong>! Chúc bạn có một ngày làm việc hiệu quả.</p>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="bell-wrap">
+            <button class="btn-icon" type="button" id="bellBtn" aria-label="Thông báo" aria-expanded="false">
+              🔔<span class="bell-badge" id="bellBadge">2</span>
+            </button>
+            <div class="dropdown" id="bellDropdown" hidden>
+              <p class="dropdown-title">Thông báo mới</p>
+              <ul class="dropdown-list" id="dropdownList"></ul>
+            </div>
+          </div>
+
+          <div class="user-chip-wrap">
+            <button class="user-chip" type="button" id="userBtn" aria-expanded="false">
+              <img class="user-avatar" src="assets/avatar-farmer.png" alt="Ảnh nông dân">
+              <span>Nông dân</span>
+              <span class="caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="dropdown" id="userDropdown" hidden>
+              <a class="dropdown-link" href="settings.html">Hồ sơ của tôi</a>
+              <a class="dropdown-link" href="settings.html">Cài đặt tài khoản</a>
+              <button class="dropdown-link dropdown-danger" type="button" id="logoutBtn2">Đăng xuất</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="board">
+        <section class="hero card" id="section-season" aria-labelledby="season-title">
+          <div class="hero-body">
+            <header class="hero-head">
+              <img class="hero-icon" src="assets/logo.svg" alt="" width="36" height="36">
+              <div>
+                <h2 id="season-title">Vụ Lúa Mùa 2026 — Lô A1</h2>
+                <p class="hero-meta">Ngày <strong id="dayCount">35</strong>/<span id="totalDays">90</span> — Giai đoạn <strong>Đẻ nhánh</strong></p>
+              </div>
+            </header>
+
+            <div class="progress-row">
+              <p class="progress-value" id="progressValue">0%</p>
+              <div class="progress-track" id="progressTrack" role="progressbar" aria-label="Tiến độ mùa vụ" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <span class="progress-fill" id="progressFill"></span>
+              </div>
+              <p class="progress-note">Đang phát triển tốt ✅</p>
+            </div>
+
+            <article class="schedule-chip">
+              <p class="chip-label">📆 Lịch thu hoạch dự kiến</p>
+              <p class="chip-date">13/08/2026</p>
+            </article>
+
+            <a class="card-more" href="season.html">Xem chi tiết mùa vụ &amp; kế hoạch canh tác →</a>
+          </div>
+
+          <figure class="hero-photo">
+            <img src="assets/hero-rice.png" alt="Cánh đồng lúa đang giai đoạn đẻ nhánh">
+          </figure>
+        </section>
+
+        <aside class="weather card" id="section-weather" aria-labelledby="weather-title">
+          <header class="card-head">
+            <h2 id="weather-title">⛅ Thời tiết nông nghiệp</h2>
+            <p class="card-tag">📍 Khu vực của bạn</p>
+          </header>
+          <div class="weather-body">
+            <div class="weather-main">
+              <p class="weather-temp">31°C</p>
+              <p class="weather-desc">Có mây, nắng gián đoạn</p>
+            </div>
+            <ul class="weather-list">
+              <li><span class="w-key">💧 Độ ẩm</span><strong class="w-val">72%</strong></li>
+              <li><span class="w-key">🌧️ Lượng mưa</span><strong class="w-val">2.5 mm</strong></li>
+              <li><span class="w-key">💨 Gió</span><strong class="w-val">8 km/h</strong></li>
+            </ul>
+          </div>
+          <a class="card-more" href="weather.html">Xem dự báo 7 ngày &amp; cảnh báo →</a>
+        </aside>
+
+        <div class="lower">
+          <section class="ai card" id="section-ai" aria-labelledby="ai-title">
+            <header class="card-head">
+              <h2 id="ai-title">🤖 Trải nghiệm AI — Trợ lý phân loại</h2>
+            </header>
+            <p class="card-desc">Chụp hoặc tải ảnh lá/cây bị bệnh để AI quét và chẩn đoán sơ bộ.</p>
+
+            <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Chọn ảnh để chẩn đoán">
+              <img class="preview" alt="Ảnh lá cây được chọn" hidden>
+              <div class="drop-hint" id="dropHint">
+                <span class="drop-icon" aria-hidden="true">📷</span>
+                <p class="drop-title">Chụp ảnh hoặc tải ảnh lên</p>
+                <p class="drop-sub">Kéo thả ảnh vào đây hoặc chọn từ thư viện</p>
+              </div>
+            </div>
+            <input class="visually-hidden" type="file" id="fileInput" accept="image/*">
+
+            <button class="btn btn-primary btn-block" type="button" id="analyzeBtn" disabled>Chẩn đoán sơ bộ</button>
+            <div class="ai-result" id="aiResult" hidden></div>
+            <p class="ai-privacy">🔒 Dữ liệu của bạn được bảo mật và chỉ dùng để hỗ trợ chẩn đoán.</p>
+            <a class="card-more" href="ai.html">Mở trợ lý AI: hỏi đáp &amp; lịch sử →</a>
+          </section>
+
+          <div class="right-col">
+            <div class="cta-row">
+              <button class="cta cta-green" type="button" id="openLogBtn">
+                <span class="cta-plus" aria-hidden="true">＋</span>
+                <span class="cta-text">
+                  <strong>Ghi nhật ký nhanh</strong>
+                  <small>Ghi lại công việc, tình trạng cây trồng</small>
+                </span>
+              </button>
+
+              <button class="cta cta-blue" type="button" id="openAskBtn">
+                <span class="cta-plus" aria-hidden="true">＋</span>
+                <span class="cta-text">
+                  <strong>Nhờ chuyên gia hỗ trợ</strong>
+                  <small>Đặt câu hỏi, nhận tư vấn nhanh</small>
+                </span>
+              </button>
+            </div>
+
+            <section class="activity card" id="section-activity" aria-labelledby="activity-title">
+              <header class="card-head card-head-row">
+                <h2 id="activity-title">📋 Hoạt động gần đây</h2>
+                <button class="link-btn" type="button" id="toggleLimit">Xem tất cả →</button>
+              </header>
+
+              <div class="filter-bar">
+                <label class="visually-hidden" for="activitySearch">Tìm kiếm hoạt động</label>
+                <input class="input" type="search" id="activitySearch" placeholder="Tìm nội dung nhật ký..." autocomplete="off">
+                <label class="visually-hidden" for="activityType">Lọc theo loại</label>
+                <select class="input input-select" id="activityType">
+                  <option value="all">Tất cả loại</option>
+                  <option value="Ghi nhật ký">Ghi nhật ký</option>
+                  <option value="Báo cáo sự cố">Báo cáo sự cố</option>
+                  <option value="Hỏi chuyên gia">Hỏi chuyên gia</option>
+                </select>
+              </div>
+
+              <div class="table-wrap">
+                <table class="log-table">
+                  <caption class="visually-hidden">Danh sách hoạt động gần đây của nông dân</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Thời gian</th>
+                      <th scope="col">Loại</th>
+                      <th scope="col">Nội dung</th>
+                      <th scope="col">Trạng thái</th>
+                    </tr>
+                  </thead>
+                  <tbody id="activityBody"></tbody>
+                </table>
+              </div>
+              <p class="empty" id="activityEmpty" hidden>Không có hoạt động nào khớp với bộ lọc.</p>
+            </section>
+          </div>
+        </div>
+
+        <section class="support card" id="section-support" aria-labelledby="support-title">
+          <h2 id="support-title">🎧 Hỗ trợ kỹ thuật</h2>
+          <p class="card-desc">Đường dây nóng phòng nông nghiệp huyện: <strong>1800 1234</strong> (7:00 – 17:00 hằng ngày).</p>
+          <a class="btn btn-primary" href="support.html">Gửi yêu cầu hỗ trợ kỹ thuật</a>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>© 2026 SmartAgri — Trang chính bài kiểm tra giữa kỳ học phần Phát triển ứng dụng Web cơ bản.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="modal" id="logModal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <section class="modal-box" role="dialog" aria-modal="true" aria-labelledby="logModalTitle">
+      <header class="modal-head">
+        <h2 id="logModalTitle">Ghi nhật ký nhanh</h2>
+        <button class="btn-icon" type="button" data-close-modal aria-label="Đóng">✕</button>
+      </header>
+      <form class="form" id="logForm" novalidate>
+        <div class="form-row">
+          <label for="logType">Loại hoạt động</label>
+          <select class="input" id="logType">
+            <option value="Ghi nhật ký">Ghi nhật ký</option>
+            <option value="Báo cáo sự cố">Báo cáo sự cố</option>
+            <option value="Hỏi chuyên gia">Hỏi chuyên gia</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="logContent">Nội dung</label>
+          <textarea class="input" id="logContent" rows="3" placeholder="Ví dụ: Bón phân đợt 2 cho lúa lô A1"></textarea>
+          <span class="field-error" id="logContentError"></span>
+        </div>
+        <div class="form-actions">
+          <button class="btn" type="button" data-close-modal>Hủy</button>
+          <button class="btn btn-primary" type="submit">Lưu nhật ký</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal" id="askModal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <section class="modal-box" role="dialog" aria-modal="true" aria-labelledby="askModalTitle">
+      <header class="modal-head">
+        <h2 id="askModalTitle">Nhờ chuyên gia hỗ trợ</h2>
+        <button class="btn-icon" type="button" data-close-modal aria-label="Đóng">✕</button>
+      </header>
+      <form class="form" id="askForm" novalidate>
+        <div class="form-row">
+          <label for="askTopic">Chủ đề</label>
+          <select class="input" id="askTopic">
+            <option value="">— Chọn chủ đề —</option>
+            <option value="Sâu bệnh">Sâu bệnh</option>
+            <option value="Dinh dưỡng cây trồng">Dinh dưỡng cây trồng</option>
+            <option value="Tưới tiêu">Tưới tiêu</option>
+          </select>
+          <span class="field-error" id="askTopicError"></span>
+        </div>
+        <div class="form-row">
+          <label for="askContent">Câu hỏi</label>
+          <textarea class="input" id="askContent" rows="3" placeholder="Mô tả tình trạng ruộng và câu hỏi của bạn"></textarea>
+          <span class="field-error" id="askContentError"></span>
+        </div>
+        <div class="form-actions">
+          <button class="btn" type="button" data-close-modal>Hủy</button>
+          <button class="btn btn-primary btn-blue" type="submit">Gửi câu hỏi</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

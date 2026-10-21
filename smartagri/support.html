@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartAgri — Yêu cầu hỗ trợ kỹ thuật và phản hồi từ chuyên gia">
+  <title>SmartAgri — Yêu cầu hỗ trợ kỹ thuật</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script src="js/display.js"></script>
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/support.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/logo.svg" alt="" width="40" height="40">
+        <span class="brand-text">
+          <span class="brand-name">SmartAgri</span>
+          <span class="brand-tag">Trí tuệ cho mùa vàng</span>
+        </span>
+      </a>
+
+      <nav class="side-nav" aria-label="Điều hướng chính">
+        <ul class="side-list">
+          <li><a class="side-link" href="index.html"><span class="side-icon" aria-hidden="true">🏠</span>Tổng quan</a></li>
+          <li><a class="side-link" href="season.html"><span class="side-icon" aria-hidden="true">📅</span>Mùa vụ</a></li>
+          <li><a class="side-link" href="diary.html"><span class="side-icon" aria-hidden="true">📝</span>Nhật ký</a></li>
+          <li><a class="side-link" href="weather.html"><span class="side-icon" aria-hidden="true">🌦️</span>Thời tiết</a></li>
+          <li><a class="side-link" href="ai.html"><span class="side-icon" aria-hidden="true">🤖</span>Trợ lý AI</a></li>
+          <li><a class="side-link is-active" href="support.html" aria-current="page"><span class="side-icon" aria-hidden="true">🎧</span>Hỗ trợ kỹ thuật</a></li>
+          <li><a class="side-link" href="settings.html"><span class="side-icon" aria-hidden="true">⚙️</span>Cài đặt</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn-logout" href="login.html"><span aria-hidden="true">⏻</span> Đăng xuất</a>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <button class="btn-icon btn-menu" type="button" id="menuToggle" aria-label="Mở hoặc đóng menu">☰</button>
+        <span class="topbar-icon" aria-hidden="true">🎧</span>
+        <div class="topbar-title">
+          <h1>Yêu cầu hỗ trợ kỹ thuật</h1>
+          <p class="greeting">Xin chào, Nông dân! Chúng tôi luôn sẵn sàng đồng hành cùng bạn.</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="bell-wrap">
+            <button class="btn-icon bell" type="button" id="bellBtn" aria-label="Thông báo" aria-expanded="false">
+              🔔<span class="bell-badge" id="bellBadge">2</span>
+            </button>
+            <div class="dropdown" id="bellDropdown" hidden>
+              <p class="dropdown-title">Thông báo mới</p>
+              <ul class="dropdown-list">
+                <li>Chuyên gia đã phản hồi yêu cầu <strong>#HS-2026-0054</strong>.</li>
+                <li>Yêu cầu <strong>#HS-2026-0035</strong> cần bổ sung thông tin.</li>
+              </ul>
+            </div>
+          </div>
+          <a class="user-chip" href="settings.html">
+            <img class="user-avatar" src="assets/avatar-farmer.png" alt="Ảnh nông dân">
+            <span class="user-meta"><strong>Nông dân</strong><small>Nông hộ</small></span>
+          </a>
+        </div>
+      </header>
+
+      <main class="board">
+        <div class="support-grid" id="supportGrid">
+          <!-- ============ CỘT 1: FORM ============ -->
+          <section class="card" aria-labelledby="req-title">
+            <header class="card-head">
+              <span class="head-icon" aria-hidden="true">✏️</span>
+              <h2 id="req-title">Yêu cầu hỗ trợ</h2>
+            </header>
+
+            <form id="supportForm" novalidate>
+              <div class="form-row">
+                <label for="reqTitle">1. Tiêu đề sự cố <span class="req">*</span></label>
+                <input class="input" type="text" id="reqTitle" placeholder="Lúa bị vàng lá đợt mới diện rộng">
+                <span class="field-error" id="titleError"></span>
+              </div>
+
+              <fieldset class="form-row">
+                <legend>2. Mức độ khẩn cấp <span class="req">*</span></legend>
+                <div class="urgency" id="urgencyBox">
+                  <label class="urgency-item u-normal">
+                    <input class="visually-hidden" type="radio" name="urgency" value="Thường" checked>
+                    <span class="u-icon" aria-hidden="true">🌿</span>
+                    <span class="u-label">Thường</span>
+                  </label>
+                  <label class="urgency-item u-urgent">
+                    <input class="visually-hidden" type="radio" name="urgency" value="Khẩn cấp">
+                    <span class="u-icon" aria-hidden="true">❗</span>
+                    <span class="u-label">Khẩn cấp</span>
+                  </label>
+                  <label class="urgency-item u-alarm">
+                    <input class="visually-hidden" type="radio" name="urgency" value="Báo động">
+                    <span class="u-icon" aria-hidden="true">🚨</span>
+                    <span class="u-label">Báo động</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <div class="form-row">
+                <label for="reqDesc">3. Mô tả chi tiết tình trạng / bối cảnh</label>
+                <textarea class="input" id="reqDesc" rows="5" maxlength="300" placeholder="Mô tả chi tiết cấu hiệu cây trồng vừa gặp phải, thời gian xuất hiện, điều kiện thời tiết, giống lúa, giai đoạn sinh trưởng, biện pháp đã áp dụng (nếu có)..."></textarea>
+                <p class="counter"><span id="charCount">0</span>/300 ký tự</p>
+                <span class="field-error" id="descError"></span>
+              </div>
+
+              <div class="form-row">
+                <label id="attachLabel">4. Đính kèm ảnh hiện trường / nhật ký liên quan</label>
+                <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-labelledby="attachLabel">
+                  <span class="dz-circle" aria-hidden="true">📷</span>
+                  <p class="dz-title">Chụp ảnh hoặc tải ảnh lên</p>
+                  <p class="dz-sub">Kéo thả ảnh vào đây hoặc chọn từ thư viện</p>
+                </div>
+                <input class="visually-hidden" type="file" id="fileInput" accept="image/*" multiple>
+                <div class="thumbs" id="thumbs"></div>
+              </div>
+
+              <label class="check-row">
+                <input type="checkbox" id="privacyCheck" checked>
+                <span>Dữ liệu của bạn được bảo mật và chỉ dùng để hỗ trợ kỹ thuật</span>
+              </label>
+
+              <button class="btn btn-send" type="submit">📨 Gửi yêu cầu</button>
+            </form>
+          </section>
+
+          <!-- ============ CỘT 2: DANH SÁCH ============ -->
+          <section class="card" aria-labelledby="list-title">
+            <header class="card-head">
+              <span class="head-icon" aria-hidden="true">📋</span>
+              <h2 id="list-title">Yêu cầu đã gửi</h2>
+            </header>
+
+            <ul class="req-list" id="reqList"></ul>
+            <p class="empty" id="emptyBox" hidden>Chưa có yêu cầu nào.</p>
+
+            <button class="btn btn-more" type="button" id="moreBtn" data-open="false">Xem thêm ⌄</button>
+          </section>
+
+          <!-- ============ CỘT 3: PHẢN HỒI ============ -->
+          <aside class="card panel" id="expertPanel" aria-labelledby="panel-title">
+            <header class="panel-head">
+              <span class="head-icon blue" aria-hidden="true">👨‍🔬</span>
+              <h2 id="panel-title">Phản hồi từ chuyên gia</h2>
+              <button class="btn-icon panel-close" type="button" id="closePanelBtn" aria-label="Đóng bảng phản hồi">✕</button>
+            </header>
+
+            <p class="panel-meta"><strong>Yêu cầu:</strong> <span id="panelId">#HS-2026-0054</span></p>
+            <p class="panel-meta">Ngày phát hành <span id="panelDate">16/05/2026 10:30</span></p>
+
+            <h3 class="panel-sub">💬 Nội dung phản hồi</h3>
+            <div class="reply-box" id="replyBox"></div>
+
+            <h3 class="panel-sub">Giải pháp xử lý (từng bước)</h3>
+            <ol class="steps" id="stepsBox"></ol>
+
+            <h3 class="panel-sub">📎 Tài liệu hướng dẫn</h3>
+            <div class="doc-row">
+              <span class="doc-badge">PDF</span>
+              <span class="doc-meta"><strong id="docName">Hướng dẫn phòng trừ đạo ôn và khô vằn</strong><small id="docSize">1.2 MB</small></span>
+              <button class="btn-icon doc-dl" type="button" id="docBtn" aria-label="Tải tài liệu hướng dẫn">⬇</button>
+            </div>
+
+            <div class="panel-actions">
+              <button class="btn btn-ghost" type="button" id="closePanelBtn2">Đóng</button>
+              <button class="btn btn-read" type="button" id="markReadBtn">✔ Đánh dấu đã đọc</button>
+            </div>
+          </aside>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p>© 2026 SmartAgri — Trang chính bài kiểm tra giữa kỳ học phần Phát triển ứng dụng Web cơ bản.</p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/support.js"></script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartAgri — Mùa vụ: theo dõi tiến độ, giai đoạn sinh trưởng và kế hoạch canh tác">
+  <title>SmartAgri — Mùa vụ</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script src="js/display.js"></script>
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/season.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/logo.svg" alt="" width="40" height="40">
+        <span class="brand-text">
+          <span class="brand-name">SmartAgri</span>
+          <span class="brand-tag">Trí tuệ cho mùa vàng</span>
+        </span>
+      </a>
+
+      <nav class="side-nav" aria-label="Điều hướng chính">
+        <ul class="side-list">
+          <li><a class="side-link" href="index.html"><span class="side-icon" aria-hidden="true">🏠</span>Tổng quan</a></li>
+          <li><a class="side-link is-active" href="season.html" aria-current="page"><span class="side-icon" aria-hidden="true">📅</span>Mùa vụ</a></li>
+          <li><a class="side-link" href="diary.html"><span class="side-icon" aria-hidden="true">📝</span>Nhật ký</a></li>
+          <li><a class="side-link" href="weather.html"><span class="side-icon" aria-hidden="true">🌦️</span>Thời tiết</a></li>
+          <li><a class="side-link" href="ai.html"><span class="side-icon" aria-hidden="true">🤖</span>Trợ lý AI</a></li>
+          <li><a class="side-link" href="support.html"><span class="side-icon" aria-hidden="true">🎧</span>Hỗ trợ kỹ thuật</a></li>
+          <li><a class="side-link" href="settings.html"><span class="side-icon" aria-hidden="true">⚙️</span>Cài đặt</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn-logout" href="login.html"><span aria-hidden="true">⏻</span> Đăng xuất</a>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <button class="btn-icon btn-menu" type="button" id="menuToggle" aria-label="Mở hoặc đóng menu">☰</button>
+        <span class="topbar-icon" aria-hidden="true">📅</span>
+        <div class="topbar-title">
+          <h1>Mùa vụ</h1>
+          <p class="greeting">Theo dõi tiến độ, giai đoạn sinh trưởng và kế hoạch canh tác của từng lô.</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="bell-wrap">
+            <button class="btn-icon bell" type="button" id="bellBtn" aria-label="Thông báo" aria-expanded="false">
+              🔔<span class="bell-badge" id="bellBadge">2</span>
+            </button>
+            <div class="dropdown" id="bellDropdown" hidden>
+              <p class="dropdown-title">Thông báo mới</p>
+              <ul class="dropdown-list">
+                <li>Mùa vụ <strong>Vụ Lúa Mùa 2026</strong> còn 55 ngày nữa thu hoạch.</li>
+                <li>Kế hoạch tuần này có <strong>3 việc</strong> chưa hoàn thành.</li>
+              </ul>
+            </div>
+          </div>
+          <a class="user-chip" href="settings.html">
+            <img class="user-avatar" src="assets/avatar-farmer.png" alt="Ảnh nông dân">
+            <span class="user-meta"><strong>Nông dân</strong><small>Nông hộ</small></span>
+          </a>
+        </div>
+      </header>
+
+      <main class="board">
+        <!-- ============ CHỌN MÙA VỤ ============ -->
+        <section class="card" aria-labelledby="pick-title">
+          <header class="card-head card-head-row">
+            <div class="card-head">
+              <span class="head-icon" aria-hidden="true">🌾</span>
+              <h2 id="pick-title">Chọn mùa vụ</h2>
+            </div>
+            <button class="btn btn-primary btn-sm" type="button" id="newSeasonBtn">＋ Thêm mùa vụ</button>
+          </header>
+          <div class="season-tabs" id="seasonTabs" role="group" aria-label="Danh sách mùa vụ"></div>
+        </section>
+
+        <!-- ============ TIẾN ĐỘ MÙA VỤ ============ -->
+        <section class="card detail" id="detailCard" aria-labelledby="detail-title">
+          <header class="detail-head">
+            <div>
+              <h2 id="detail-title">Vụ Lúa Mùa 2026 — Lô A1</h2>
+              <p class="detail-sub" id="detailSub">Giống OM 18 · 1,2 ha · xuống giống 05/05/2026</p>
+            </div>
+            <span class="badge badge-green" id="detailStatus">Đang thực hiện</span>
+          </header>
+
+          <div class="progress-row">
+            <div class="progress-track" id="progressTrack" role="progressbar" aria-label="Tiến độ mùa vụ"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <span class="progress-fill" id="progressFill"></span>
+            </div>
+            <p class="progress-value"><span id="progressValue">0</span>%</p>
+          </div>
+
+          <dl class="facts">
+            <div class="fact"><dt>Ngày thứ</dt><dd><strong id="factDay">35</strong> / <span id="factTotal">90</span> ngày</dd></div>
+            <div class="fact"><dt>Giai đoạn</dt><dd id="factStage">Đẻ nhánh</dd></div>
+            <div class="fact"><dt>Còn lại</dt><dd id="factLeft">55 ngày</dd></div>
+            <div class="fact"><dt>Thu hoạch dự kiến</dt><dd id="factHarvest">29/07/2026</dd></div>
+          </dl>
+
+          <div class="gauge-row">
+            <article class="gauge">
+              <p class="gauge-label">Diện tích</p>
+              <p class="gauge-value" id="gaugeArea">1,2 ha</p>
+            </article>
+            <article class="gauge">
+              <p class="gauge-label">Việc đã làm</p>
+              <p class="gauge-value" id="gaugeDone">0 / 0</p>
+            </article>
+            <article class="gauge">
+              <p class="gauge-label">Sản lượng dự kiến</p>
+              <p class="gauge-value" id="gaugeYield">7,2 tấn</p>
+            </article>
+            <article class="gauge">
+              <p class="gauge-label">Chi phí đã ghi</p>
+              <p class="gauge-value" id="gaugeCost">8,4 tr</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- ============ GIAI ĐOẠN SINH TRƯỞNG ============ -->
+        <section class="card" aria-labelledby="stage-title">
+          <header class="card-head">
+            <span class="head-icon" aria-hidden="true">🌱</span>
+            <h2 id="stage-title">Các giai đoạn sinh trưởng</h2>
+          </header>
+          <ol class="stages" id="stageList"></ol>
+        </section>
+
+        <div class="season-grid">
+          <!-- ============ KẾ HOẠCH CANH TÁC ============ -->
+          <section class="card" aria-labelledby="plan-title">
+            <header class="card-head card-head-row">
+              <div class="card-head">
+                <span class="head-icon" aria-hidden="true">🗓️</span>
+                <h2 id="plan-title">Kế hoạch canh tác <span class="count-pill" id="planCount">0</span></h2>
+              </div>
+              <button class="link-btn" type="button" id="togglePlanForm" aria-expanded="false" aria-controls="planForm">＋ Thêm việc</button>
+            </header>
+
+            <form class="plan-form" id="planForm" hidden novalidate>
+              <div class="form-row">
+                <label for="planName">Tên công việc <span class="req">*</span></label>
+                <input class="input" type="text" id="planName" placeholder="Ví dụ: Bón phân đợt 3" maxlength="80">
+                <span class="field-error" id="planNameError"></span>
+              </div>
+              <div class="form-2col">
+                <div class="form-row">
+                  <label for="planDate">Ngày dự kiến</label>
+                  <input class="input" type="date" id="planDate">
+                </div>
+                <div class="form-row">
+                  <label for="planGroup">Nhóm việc</label>
+                  <select class="input" id="planGroup">
+                    <option value="Giống">Giống &amp; gieo sạ</option>
+                    <option value="Dinh dưỡng">Dinh dưỡng</option>
+                    <option value="Bảo vệ">Bảo vệ thực vật</option>
+                    <option value="Nước">Tưới tiêu</option>
+                    <option value="Khác">Khác</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Lưu kế hoạch</button>
+                <button class="btn btn-ghost" type="button" id="cancelPlanBtn">Hủy</button>
+              </div>
+            </form>
+
+            <div class="toolbar">
+              <label class="visually-hidden" for="planSearch">Tìm trong kế hoạch</label>
+              <input class="input search" type="search" id="planSearch" placeholder="🔍  Tìm công việc..." autocomplete="off">
+              <label class="visually-hidden" for="planFilter">Lọc theo nhóm</label>
+              <select class="input mini" id="planFilter">
+                <option value="all">Tất cả nhóm</option>
+                <option value="Giống">Giống &amp; gieo sạ</option>
+                <option value="Dinh dưỡng">Dinh dưỡng</option>
+                <option value="Bảo vệ">Bảo vệ thực vật</option>
+                <option value="Nước">Tưới tiêu</option>
+                <option value="Khác">Khác</option>
+              </select>
+              <label class="visually-hidden" for="planState">Lọc theo trạng thái</label>
+              <select class="input mini" id="planState">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="todo">Chưa làm</option>
+                <option value="done">Đã xong</option>
+              </select>
+            </div>
+
+            <ul class="plan-list" id="planList"></ul>
+            <p class="empty" id="planEmpty" hidden>Không có công việc nào khớp bộ lọc.</p>
+          </section>
+
+          <!-- ============ LÔ / RUỘNG ============ -->
+          <section class="card" aria-labelledby="plot-title">
+            <header class="card-head">
+              <span class="head-icon" aria-hidden="true">🗺️</span>
+              <h2 id="plot-title">Lô ruộng trong mùa vụ</h2>
+            </header>
+            <div class="table-wrap">
+              <table class="data-table">
+                <caption class="visually-hidden">Danh sách lô ruộng và tình trạng từng lô</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Lô</th>
+                    <th scope="col">Diện tích</th>
+                    <th scope="col">Giai đoạn</th>
+                    <th scope="col">Tình trạng</th>
+                  </tr>
+                </thead>
+                <tbody id="plotBody"></tbody>
+              </table>
+            </div>
+
+            <h3 class="sub-title">Ghi chú kỹ thuật</h3>
+            <ul class="note-list" id="noteList"></ul>
+          </section>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p>© 2026 SmartAgri — Trang chính bài kiểm tra giữa kỳ học phần Phát triển ứng dụng Web cơ bản.</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal thêm mùa vụ -->
+  <div class="modal" id="seasonModal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <section class="modal-box" role="dialog" aria-modal="true" aria-labelledby="seasonModalTitle">
+      <header class="modal-head">
+        <h2 id="seasonModalTitle">Thêm mùa vụ mới</h2>
+        <button class="btn-icon" type="button" data-close-modal aria-label="Đóng">✕</button>
+      </header>
+      <form class="modal-body" id="seasonForm" novalidate>
+        <div class="form-row">
+          <label for="newName">Tên mùa vụ <span class="req">*</span></label>
+          <input class="input" type="text" id="newName" placeholder="Ví dụ: Vụ Lúa Đông Xuân 2026" maxlength="60">
+          <span class="field-error" id="newNameError"></span>
+        </div>
+        <div class="form-2col">
+          <div class="form-row">
+            <label for="newPlot">Lô / ruộng</label>
+            <input class="input" type="text" id="newPlot" placeholder="A2" maxlength="20">
+          </div>
+          <div class="form-row">
+            <label for="newVariety">Giống</label>
+            <input class="input" type="text" id="newVariety" placeholder="OM 5451" maxlength="30">
+          </div>
+        </div>
+        <div class="form-2col">
+          <div class="form-row">
+            <label for="newArea">Diện tích (ha)</label>
+            <input class="input" type="number" id="newArea" min="0.1" max="50" step="0.1" value="1">
+            <span class="field-error" id="newAreaError"></span>
+          </div>
+          <div class="form-row">
+            <label for="newDays">Tổng số ngày</label>
+            <input class="input" type="number" id="newDays" min="30" max="365" step="1" value="90">
+            <span class="field-error" id="newDaysError"></span>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="newStart">Ngày xuống giống</label>
+          <input class="input" type="date" id="newStart">
+        </div>
+        <div class="form-actions modal-actions">
+          <button class="btn btn-ghost" type="button" data-close-modal>Hủy</button>
+          <button class="btn btn-primary" type="submit">Tạo mùa vụ</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/season.js"></script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SmartAgri — Nhật ký: ghi lại và theo dõi mọi hoạt động trên ruộng">
+  <title>SmartAgri — Nhật ký</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script src="js/display.js"></script>
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/diary.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="index.html">
+        <img class="brand-logo" src="assets/logo.svg" alt="" width="40" height="40">
+        <span class="brand-text">
+          <span class="brand-name">SmartAgri</span>
+          <span class="brand-tag">Trí tuệ cho mùa vàng</span>
+        </span>
+      </a>
+
+      <nav class="side-nav" aria-label="Điều hướng chính">
+        <ul class="side-list">
+          <li><a class="side-link" href="index.html"><span class="side-icon" aria-hidden="true">🏠</span>Tổng quan</a></li>
+          <li><a class="side-link" href="season.html"><span class="side-icon" aria-hidden="true">📅</span>Mùa vụ</a></li>
+          <li><a class="side-link is-active" href="diary.html" aria-current="page"><span class="side-icon" aria-hidden="true">📝</span>Nhật ký</a></li>
+          <li><a class="side-link" href="weather.html"><span class="side-icon" aria-hidden="true">🌦️</span>Thời tiết</a></li>
+          <li><a class="side-link" href="ai.html"><span class="side-icon" aria-hidden="true">🤖</span>Trợ lý AI</a></li>
+          <li><a class="side-link" href="support.html"><span class="side-icon" aria-hidden="true">🎧</span>Hỗ trợ kỹ thuật</a></li>
+          <li><a class="side-link" href="settings.html"><span class="side-icon" aria-hidden="true">⚙️</span>Cài đặt</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn-logout" href="login.html"><span aria-hidden="true">⏻</span> Đăng xuất</a>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <button class="btn-icon btn-menu" type="button" id="menuToggle" aria-label="Mở hoặc đóng menu">☰</button>
+        <div class="topbar-title">
+          <h1>Nhật ký</h1>
+          <p class="greeting">Ghi lại và theo dõi mọi hoạt động diễn ra trên ruộng của bạn.</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="bell-wrap">
+            <button class="btn-icon bell" type="button" id="bellBtn" aria-label="Thông báo" aria-expanded="false">
+              🔔<span class="bell-badge" id="bellBadge">3</span>
+            </button>
+            <div class="dropdown" id="bellDropdown" hidden>
+              <p class="dropdown-title">Thông báo mới</p>
+              <ul class="dropdown-list">
+                <li><strong>Cercospora</strong> đang phát triển mạnh — nên phun ngừa lô A1.</li>
+                <li>Nhật ký ngày 18/05 chưa có ảnh minh hoạ.</li>
+                <li>Chuyên gia đã trả lời câu hỏi về bón phân đợt 3.</li>
+              </ul>
+            </div>
+          </div>
+          <a class="user-chip" href="settings.html">
+            <img class="user-avatar" src="assets/avatar-farmer.png" alt="Ảnh nông dân">
+            <span class="user-meta"><strong>Nông dân</strong><small>Nông hộ</small></span>
+          </a>
+        </div>
+      </header>
+
+      <main class="board">
+        <div class="diary-grid">
+          <!-- ============ CỘT TRÁI: FORM ============ -->
+          <section class="card form-card" aria-labelledby="form-title">
+            <h2 id="form-title">📝 Form thêm / sửa nhật ký</h2>
+
+            <form id="diaryForm" novalidate>
+              <div class="form-2col">
+                <div class="form-row">
+                  <label for="entryDate">Ngày thực hiện</label>
+                  <input class="input" type="date" id="entryDate">
+                  <span class="field-error" id="dateError"></span>
+                </div>
+
+                <div class="form-row">
+                  <label for="entryType">Loại hoạt động</label>
+                  <select class="input" id="entryType">
+                    <option value="">— Chọn loại hoạt động —</option>
+                    <option value="Bón phân">🌱 Bón phân</option>
+                    <option value="Phun thuốc">💧 Phun thuốc</option>
+                    <option value="Tưới nước">🚿 Tưới nước</option>
+                    <option value="Làm cỏ">🌾 Làm cỏ</option>
+                    <option value="Thu hoạch">🚜 Thu hoạch</option>
+                  </select>
+                  <span class="field-error" id="typeError"></span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <label for="entryStage">Giai đoạn sinh trưởng</label>
+                <select class="input" id="entryStage">
+                  <option value="Đẻ nhánh">Đẻ nhánh</option>
+                  <option value="Làm đòng">Làm đòng</option>
+                  <option value="Trổ bông">Trổ bông</option>
+                  <option value="Chín">Chín</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <label for="entryDesc">Mô tả chi tiết / ghi chú hiện trường</label>
+                <textarea class="input" id="entryDesc" rows="4" placeholder="Ví dụ: Phun thuốc trừ sâu cho lúa giai đoạn đẻ nhánh, liều lượng 0.3 kg/ha"></textarea>
+                <span class="field-error" id="descError"></span>
+              </div>
+
+              <div class="form-row">
+                <label id="dropLabel">Tải ảnh cây trồng / hiệu quả sau bệnh</label>
+                <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-labelledby="dropLabel">
+                  <p class="dz-title">Kéo thả ảnh vào đây</p>
+                  <p class="dz-sub">hoặc nhấp để chọn ảnh</p>
+                </div>
+                <input class="visually-hidden" type="file" id="fileInput" accept="image/*" multiple>
+                <div class="thumbs" id="thumbs"></div>
+                <p class="dz-count" id="photoCount"></p>
+              </div>
+
+              <label class="check-row">
+                <input type="checkbox" id="entryDone" checked>
+                <span>Đã hoàn thành hoạt động này</span>
+              </label>
+
+              <!-- Trợ lý AI -->
+              <section class="ai-box" aria-labelledby="ai-title">
+                <header class="ai-box-head">
+                  <h3 id="ai-title">🤖 Field Issue Classifier — Trợ lý AI</h3>
+                  <span class="pill-ready">Đã sẵn sàng</span>
+                </header>
+                <p class="ai-lead">Kết quả chẩn đoán sơ bộ</p>
+                <p class="ai-line"><strong>Vấn đề/Bệnh:</strong> <span id="aiDisease">Chưa chạy chẩn đoán.</span></p>
+                <p class="ai-line"><strong>Giải thích:</strong> <span id="aiExplain">Bấm "Chẩn đoán bằng AI" sau khi chọn ảnh để nhận kết quả sơ bộ.</span></p>
+                <div class="ai-actions">
+                  <button class="btn btn-blue" type="button" id="aiRunBtn">Chẩn đoán bằng AI</button>
+                  <button class="btn btn-green-outline" type="button" id="aiConfirmBtn" disabled>Xác nhận</button>
+                  <button class="btn btn-blue-outline" type="button" id="aiEditBtn" disabled>Chỉnh sửa</button>
+                </div>
+              </section>
+
+              <div class="form-actions">
+                <button class="btn btn-ghost" type="button" id="resetFormBtn">Nhập lại</button>
+                <button class="btn btn-save" type="submit" id="saveBtn">Lưu nhật ký</button>
+              </div>
+            </form>
+          </section>
+
+          <!-- ============ CỘT PHẢI: DANH SÁCH ============ -->
+          <section class="card list-card" aria-labelledby="list-title">
+            <div class="toolbar">
+              <label class="visually-hidden" for="searchInput">Tìm kiếm nhật ký</label>
+              <input class="input search" type="search" id="searchInput" placeholder="🔍  Tìm kiếm nhật ký..." autocomplete="off">
+
+              <label class="visually-hidden" for="filterStage">Lọc theo giai đoạn</label>
+              <select class="input mini" id="filterStage">
+                <option value="all">Tất cả giai đoạn</option>
+                <option value="Đẻ nhánh">Đẻ nhánh</option>
+                <option value="Làm đòng">Làm đòng</option>
+                <option value="Trổ bông">Trổ bông</option>
+                <option value="Chín">Chín</option>
+              </select>
+
+              <label class="visually-hidden" for="filterType">Lọc theo loại</label>
+              <select class="input mini" id="filterType">
+                <option value="all">Tất cả loại</option>
+                <option value="Bón phân">Bón phân</option>
+                <option value="Phun thuốc">Phun thuốc</option>
+                <option value="Tưới nước">Tưới nước</option>
+                <option value="Làm cỏ">Làm cỏ</option>
+                <option value="Thu hoạch">Thu hoạch</option>
+              </select>
+
+              <label class="visually-hidden" for="filterStatus">Lọc theo trạng thái</label>
+              <select class="input mini" id="filterStatus">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="done">Hoàn thành</option>
+                <option value="wait">Đang chờ</option>
+              </select>
+
+              <button class="btn btn-refresh" type="button" id="resetFilterBtn">⟳ Làm mới</button>
+            </div>
+
+            <h2 id="list-title">Nhật ký đã ghi <span class="count-pill" id="countPill">0</span></h2>
+            <ul class="timeline" id="timeline"></ul>
+            <p class="empty" id="emptyBox" hidden>Không có nhật ký nào khớp với bộ lọc hiện tại.</p>
+          </section>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p>© 2026 SmartAgri — Trang chính bài kiểm tra giữa kỳ học phần Phát triển ứng dụng Web cơ bản.</p>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal xác nhận xoá -->
+  <div class="modal" id="confirmModal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <section class="modal-box" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <header class="modal-head">
+        <h2 id="confirmTitle">Xoá nhật ký?</h2>
+        <button class="btn-icon" type="button" data-close-modal aria-label="Đóng">✕</button>
+      </header>
+      <div class="modal-body">
+        <p id="confirmText">Bạn có chắc muốn xoá nhật ký này? Hành động không thể hoàn tác.</p>
+      </div>
+      <div class="form-actions modal-actions">
+        <button class="btn btn-ghost" type="button" data-close-modal>Hủy</button>
+        <button class="btn btn-danger" type="button" id="confirmDeleteBtn">Xóa</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/diary.js"></script>
+</body>
+</html>

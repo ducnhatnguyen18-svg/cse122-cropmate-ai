@@ -1,0 +1,22 @@
+# SmartAgri — Link video thuyết minh
+
+| Nội dung | Chi tiết |
+| --- | --- |
+| Link video | https://youtu.be/r-eW5GXDfPM |
+| Link web (online — GitHub Pages) | https://daohuychien07-dotcom.github.io/BTCKcuachien/login.html |
+| Link web (chạy local) | http://localhost:8000/login.html |
+| Kênh | YouTube |
+| Trang được giới thiệu | Season Dashboard (`index.html`) và các trang chức năng |
+| Tên file video theo yêu cầu | `CSE122-GK-SVxx-TenSinhVien-SeasonDashboard` |
+| Repo | https://github.com/daohuychien07-dotcom/BTCKcuachien |
+
+## Chạy thử để quay video
+
+```bash
+python -m http.server 8000
+# http://localhost:8000/login.html   (nongdan / 123456)
+```
+
+Luồng demo: Đăng ký → Đăng nhập → Season Dashboard → Mùa vụ → Nhật ký → Thời tiết → Trợ lý AI → Hỗ trợ kỹ thuật → Cài đặt.
+
+> Thay `SVxx-TenSinhVien` bằng mã số và họ tên thật của bạn khi đổi tên file video.
